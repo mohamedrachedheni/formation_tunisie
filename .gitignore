@@ -1,0 +1,19 @@
+# Environnement
+.venv/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Django
+staticfiles/
+media/*
+!media/.gitkeep
+*.log
+db.sqlite3
+
+# Éditeurs / OS
+.vscode/
+.idea/
+Thumbs.db
