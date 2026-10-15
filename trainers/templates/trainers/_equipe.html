@@ -1,0 +1,17 @@
+{% if formateurs %}
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+  {% for formateur in formateurs %}
+  <div class="col" data-anim="zoom-in" style="--delai: {{ forloop.counter0 }}">
+    <article class="carte-formateur text-center h-100">
+      {% if formateur.photo %}
+      <img src="{{ formateur.photo.url }}" alt="{{ formateur.nom_complet }}" class="carte-formateur-photo" loading="lazy">
+      {% else %}
+      <div class="carte-formateur-photo carte-formateur-initiales" aria-hidden="true">{{ formateur.prenom|slice:":1" }}{{ formateur.nom|slice:":1" }}</div>
+      {% endif %}
+      <h3 class="h6 mt-3 mb-1">{{ formateur.nom_complet }}</h3>
+      {% if formateur.specialite %}<p class="small text-body-secondary mb-0">{{ formateur.specialite }}</p>{% endif %}
+    </article>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block titre %}Questions fréquentes{% endblock %}
+{% block description %}Réponses aux questions fréquentes sur nos formations, sessions et inscriptions.{% endblock %}
+
+{% block contenu %}
+<div class="container py-5">
+  <div class="row g-5">
+    <div class="col-lg-8">
+      <h1 class="mb-4">Questions fréquentes</h1>
+      {% if questions %}
+        {% include "core/_faq.html" with questions=questions identifiant="faq" %}
+      {% else %}
+        <p class="text-body-secondary">Aucune question pour le moment.</p>
+      {% endif %}
+    </div>
+    <aside class="col-lg-4">
+      <div class="cadre-arguments">
+        <h2 class="h5">Une autre question ?</h2>
+        <p>Notre équipe vous répond rapidement.</p>
+        <a href="{% url 'commercial:contact' %}" class="btn btn-primary">Nous contacter</a>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

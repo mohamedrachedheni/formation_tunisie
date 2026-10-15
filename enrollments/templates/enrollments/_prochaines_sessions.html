@@ -1,0 +1,12 @@
+{% if sessions %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  {% for session in sessions %}
+  <div class="col" data-anim="fade-up" style="--delai: {{ forloop.counter0 }}">
+    {% include "enrollments/_carte_session.html" with session=session afficher_formation=True %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-body-secondary">De nouvelles sessions seront bientôt annoncées.
+  <a href="{% url 'commercial:contact' %}">Contactez-nous</a> pour être informé(e) des prochaines dates.</p>
+{% endif %}

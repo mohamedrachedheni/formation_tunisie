@@ -88,6 +88,8 @@ class Formation(SlugAutomatiqueMixin, ModeleDeBase):
     # Une formation non publiée reste visible dans l'administration mais pas sur le site.
     est_publiee = models.BooleanField('publiée', default=False)
     est_certifiante = models.BooleanField('certifiante', default=False)
+    # Mise en avant sur la page d'accueil (seulement si la formation est aussi publiée).
+    est_a_la_une = models.BooleanField('à la une', default=False, help_text='Mise en avant sur la page d’accueil.')
 
     class Meta:
         verbose_name = 'formation'

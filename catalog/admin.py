@@ -35,8 +35,9 @@ class DocumentFormationInline(admin.TabularInline):
 
 @admin.register(Formation)
 class FormationAdmin(admin.ModelAdmin):
-    list_display = ('titre', 'categorie', 'prix', 'duree_heures', 'modalite', 'est_publiee', 'est_certifiante')
-    list_filter = ('est_publiee', 'categorie', 'modalite', 'niveau', 'est_certifiante')
+    list_display = ('titre', 'categorie', 'prix', 'duree_heures', 'modalite', 'est_publiee', 'est_a_la_une', 'est_certifiante')
+    list_editable = ('est_a_la_une',)
+    list_filter = ('est_publiee', 'est_a_la_une', 'categorie', 'modalite', 'niveau', 'est_certifiante')
     list_select_related = ('categorie',)
     search_fields = ('titre', 'resume')
     prepopulated_fields = {'slug': ('titre',)}
@@ -47,7 +48,7 @@ class FormationAdmin(admin.ModelAdmin):
         (None, {'fields': ('categorie', 'titre', 'slug', 'resume', 'image')}),
         ('Contenu', {'fields': ('description', 'objectifs', 'public_vise', 'prerequis')}),
         ('Caractéristiques', {'fields': ('duree_heures', 'prix', 'niveau', 'modalite', 'est_certifiante')}),
-        ('Publication', {'fields': ('est_publiee',)}),
+        ('Publication', {'fields': ('est_publiee', 'est_a_la_une')}),
         ('Suivi', {'classes': ('collapse',), 'fields': ('uuid', 'date_creation', 'date_modification')}),
     )
 

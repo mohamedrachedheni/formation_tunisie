@@ -101,6 +101,25 @@ Pourquoi ce découpage :
 - **Règles** : rattacher un compte donne le rôle Formateur (jamais retiré automatiquement) ; le rattachement
   n'est possible que pour qui peut consulter les comptes. Le CV est une donnée personnelle, jamais affichée.
 
+### Page d'accueil
+
+- Gabarit `core/accueil.html` composé de balises fournies par chaque application :
+  `catalogue_public` (domaines, formations à la une, nombre de formations), `sessions_publiques`
+  (prochaines sessions, sessions ouvertes, stagiaires formés), `formateurs_publics` (équipe, nombre).
+  `core` n'importe aucun code de ces applications.
+- Administrable : slogan, présentation, coordonnées, réseaux et image du bandeau (`ParametresCentre.image_accueil`),
+  formations mises en avant (`Formation.est_a_la_une` ; à défaut, les dernières publiées).
+- Chiffres clés calculés depuis la base ; un chiffre nul n'est pas affiché (jamais de valeur inventée).
+- Style : bleu marine `#00205B`, jaune `#F7C800`, polices Poppins / Open Sans ; animations sans bibliothèque
+  externe (`static/js/site.js`), désactivées si le visiteur préfère réduire les animations.
+- Textes originaux : les sites de référence n'ont inspiré que la structure, la palette et les effets.
+- Contenus administrables dans `core` : `Temoignage` (publication impossible sans `consentement_obtenu`,
+  contrainte `CHECK` ; note de 1 à 5), `Partenaire` (logo obligatoire, nom unique), `QuestionFrequente`
+  (question unique). Chaque section de l'accueil est masquée s'il n'y a rien de publié.
+  Page `/faq/` (toutes les questions) ; l'accueil affiche les 5 premières.
+- Droits : Administrateur — tous les droits sur ces contenus et modification des paramètres du centre ;
+  Gestionnaire — consultation, ajout et modification des contenus, consultation seule des paramètres.
+
 ### Outils communs de `core`
 
 - `core.validators.valider_telephone` : format de téléphone commun à toutes les applications.

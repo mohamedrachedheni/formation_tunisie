@@ -1,15 +1,282 @@
 {% extends "base.html" %}
+{% comment %}
+Page d'accueil. Les blocs dynamiques sont fournis par les applications concernées sous forme de balises
+de gabarit (catalogue_public, sessions_publiques, formateurs_publics) : core n'importe aucun code
+de ces applications. Structure inspirée des sites de centres de formation tunisiens ; textes originaux.
+{% endcomment %}
+{% load catalogue_public sessions_publiques formateurs_publics %}
 
 {% block titre %}Accueil{% endblock %}
 
 {% block contenu %}
-<section class="py-5 bg-body-secondary">
-  <div class="container py-4">
-    <h1 class="display-5 fw-bold">{{ centre.nom|default:"Bienvenue" }}</h1>
-    <p class="lead col-lg-8">{{ centre.slogan|default:"Des formations professionnelles pour développer vos compétences." }}</p>
-    <div class="d-flex flex-wrap gap-2 mt-4">
-      <a href="{% url 'commercial:contact' %}" class="btn btn-primary btn-lg">Nous contacter</a>
-      <a href="{% url 'core:a_propos' %}" class="btn btn-outline-secondary btn-lg">Découvrir le centre</a>
+{% domaines_de_formation as domaines %}
+
+{# 1. Bandeau d'accueil #}
+<section class="accueil-hero{% if centre.image_accueil %} avec-image{% endif %}"
+         {% if centre.image_accueil %}style="--image-hero: url('{{ centre.image_accueil.url }}')"{% endif %}>
+  <div class="container position-relative">
+    <div class="col-lg-8" data-anim="fade-up">
+      <p class="accueil-hero-surtitre">Centre de formation professionnelle</p>
+      <h1 class="accueil-hero-titre">{{ centre.slogan|default:"Développez vos compétences, construisez votre avenir." }}</h1>
+      <p class="lead accueil-hero-texte">
+        Des formations pratiques, encadrées par des professionnels, en présentiel ou à distance —
+        pour démarrer une carrière, évoluer dans votre poste ou changer de métier.
+      </p>
+      <div class="d-flex flex-wrap gap-3 mt-4">
+        <a href="{% url 'catalog:liste' %}" class="btn btn-accent btn-lg">Découvrir nos formations</a>
+        <a href="{% url 'enrollments:liste' %}" class="btn btn-outline-light btn-lg">Prochaines sessions</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# 2. Bandeau défilant des domaines #}
+{% if domaines %}
+<div class="bandeau-defilant" aria-label="Nos domaines de formation">
+  <div class="bandeau-defilant-piste">
+    {% for repetition in "12" %}
+    <ul class="bandeau-defilant-liste"{% if not forloop.first %} aria-hidden="true"{% endif %}>
+      {% for domaine in domaines %}<li>{{ domaine.nom }}</li>{% endfor %}
+    </ul>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{# 3. Présentation #}
+<section class="section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6" data-anim="fade-up">
+        <p class="section-surtitre">Qui sommes-nous</p>
+        <h2 class="section-titre">Un centre à taille humaine, tourné vers l’emploi</h2>
+        {% if centre.presentation %}
+          <p>{{ centre.presentation|truncatewords:60 }}</p>
+        {% else %}
+          <p>Nous accompagnons les particuliers et les entreprises dans le développement de leurs compétences,
+             avec des programmes concrets et un suivi personnalisé de chaque stagiaire.</p>
+        {% endif %}
+        <ul class="liste-coches">
+          <li>Des programmes orientés vers la pratique et les besoins du marché</li>
+          <li>Des groupes réduits et un suivi individuel</li>
+          <li>Des formateurs issus du monde professionnel</li>
+        </ul>
+        <a href="{% url 'core:a_propos' %}" class="lien-fleche">En savoir plus sur le centre</a>
+      </div>
+      <div class="col-lg-6" data-anim="zoom-in">
+        <div class="cadre-arguments">
+          <div class="argument">
+            <i class="bi bi-patch-check" aria-hidden="true"></i>
+            <div><h3 class="h6">Formations certifiantes</h3><p>Validez vos acquis par une attestation ou un certificat.</p></div>
+          </div>
+          <div class="argument">
+            <i class="bi bi-laptop" aria-hidden="true"></i>
+            <div><h3 class="h6">Présentiel, distance ou hybride</h3><p>Choisissez le format compatible avec votre emploi du temps.</p></div>
+          </div>
+          <div class="argument">
+            <i class="bi bi-briefcase" aria-hidden="true"></i>
+            <div><h3 class="h6">Accompagnement vers l’emploi</h3><p>Conseils, mises en situation et préparation à l’entretien.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# 4. Chiffres clés (valeurs réelles ; un chiffre nul n'est pas affiché) #}
+{% nombre_formations_publiees as nb_formations %}{% nombre_sessions_ouvertes as nb_sessions %}
+{% nombre_formateurs_visibles as nb_formateurs %}{% nombre_stagiaires_formes as nb_stagiaires %}
+{% if nb_formations or nb_sessions or nb_formateurs or nb_stagiaires %}
+<section class="chiffres-cles">
+  <div class="container">
+    <div class="row g-4 text-center justify-content-center">
+      {% if nb_stagiaires %}<div class="col-6 col-lg-3" data-anim="fade-up"><p class="chiffre"><span data-compteur="{{ nb_stagiaires }}">{{ nb_stagiaires }}</span></p><p class="chiffre-libelle">Stagiaires formés</p></div>{% endif %}
+      {% if nb_formations %}<div class="col-6 col-lg-3" data-anim="fade-up" style="--delai: 1"><p class="chiffre"><span data-compteur="{{ nb_formations }}">{{ nb_formations }}</span></p><p class="chiffre-libelle">Formations</p></div>{% endif %}
+      {% if nb_sessions %}<div class="col-6 col-lg-3" data-anim="fade-up" style="--delai: 2"><p class="chiffre"><span data-compteur="{{ nb_sessions }}">{{ nb_sessions }}</span></p><p class="chiffre-libelle">Sessions ouvertes</p></div>{% endif %}
+      {% if nb_formateurs %}<div class="col-6 col-lg-3" data-anim="fade-up" style="--delai: 3"><p class="chiffre"><span data-compteur="{{ nb_formateurs }}">{{ nb_formateurs }}</span></p><p class="chiffre-libelle">Formateurs</p></div>{% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# 5. Domaines de formation #}
+{% if domaines %}
+<section class="section section-claire">
+  <div class="container">
+    <div class="text-center mb-5" data-anim="fade-up">
+      <p class="section-surtitre">Nos domaines</p>
+      <h2 class="section-titre">Trouvez la formation qui vous correspond</h2>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+      {% for domaine in domaines %}
+      <div class="col" data-anim="fade-up" style="--delai: {{ forloop.counter0 }}">
+        <a href="{% url 'catalog:liste' %}?categorie={{ domaine.slug }}" class="carte-domaine h-100">
+          <span class="carte-domaine-nom">{{ domaine.nom }}</span>
+          <span class="carte-domaine-nombre">{{ domaine.nb_publiees }} formation{{ domaine.nb_publiees|pluralize }}</span>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# 6. Formations à la une #}
+<section class="section">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-5" data-anim="fade-up">
+      <div>
+        <p class="section-surtitre">Catalogue</p>
+        <h2 class="section-titre mb-0">Formations à la une</h2>
+      </div>
+      <a href="{% url 'catalog:liste' %}" class="lien-fleche">Toutes les formations</a>
+    </div>
+    {% formations_a_la_une 6 %}
+  </div>
+</section>
+
+{# 7. Prochaines sessions #}
+<section class="section section-claire">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-5" data-anim="fade-up">
+      <div>
+        <p class="section-surtitre">Agenda</p>
+        <h2 class="section-titre mb-0">Prochaines sessions</h2>
+      </div>
+      <a href="{% url 'enrollments:liste' %}" class="lien-fleche">Toutes les sessions</a>
+    </div>
+    {% prochaines_sessions 3 %}
+  </div>
+</section>
+
+{# 8. Comment s'inscrire #}
+<section class="section">
+  <div class="container">
+    <div class="text-center mb-5" data-anim="fade-up">
+      <p class="section-surtitre">Inscription</p>
+      <h2 class="section-titre">S’inscrire en trois étapes</h2>
+    </div>
+    <ol class="row g-4 list-unstyled etapes">
+      <li class="col-md-4" data-anim="fade-up">
+        <span class="etape-numero">1</span>
+        <h3 class="h5">Choisissez votre formation</h3>
+        <p>Parcourez le catalogue et consultez le programme, la durée et le tarif de chaque formation.</p>
+      </li>
+      <li class="col-md-4" data-anim="fade-up" style="--delai: 1">
+        <span class="etape-numero">2</span>
+        <h3 class="h5">Envoyez votre demande</h3>
+        <p>Inscrivez-vous en ligne à la session de votre choix, ou écrivez-nous directement sur WhatsApp.</p>
+      </li>
+      <li class="col-md-4" data-anim="fade-up" style="--delai: 2">
+        <span class="etape-numero">3</span>
+        <h3 class="h5">Recevez la confirmation</h3>
+        <p>Le centre vous contacte pour valider votre place et vous communiquer les informations pratiques.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+{# 9. Équipe pédagogique (si des formateurs sont visibles) #}
+{% if nb_formateurs %}
+<section class="section section-claire">
+  <div class="container">
+    <div class="text-center mb-5" data-anim="fade-up">
+      <p class="section-surtitre">Équipe pédagogique</p>
+      <h2 class="section-titre">Nos formateurs</h2>
+    </div>
+    {% equipe_formateurs 8 %}
+  </div>
+</section>
+{% endif %}
+
+{# 10. Témoignages (publiés avec l'accord des personnes) #}
+{% if temoignages %}
+<section class="section">
+  <div class="container">
+    <div class="text-center mb-5" data-anim="fade-up">
+      <p class="section-surtitre">Témoignages</p>
+      <h2 class="section-titre">Ils nous ont fait confiance</h2>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for temoignage in temoignages %}
+      <div class="col" data-anim="fade-up" style="--delai: {{ forloop.counter0 }}">
+        <figure class="carte-temoignage h-100">
+          {% if temoignage.note %}
+          <p class="temoignage-note" aria-label="Note : {{ temoignage.note }} sur 5">
+            {% for etoile in "12345" %}<i class="bi {% if forloop.counter <= temoignage.note %}bi-star-fill{% else %}bi-star{% endif %}" aria-hidden="true"></i>{% endfor %}
+          </p>
+          {% endif %}
+          <blockquote class="mb-4"><p>{{ temoignage.texte|linebreaksbr }}</p></blockquote>
+          <figcaption class="d-flex align-items-center gap-3 mt-auto">
+            {% if temoignage.photo %}
+            <img src="{{ temoignage.photo.url }}" alt="" class="temoignage-photo" loading="lazy">
+            {% else %}
+            <span class="temoignage-photo temoignage-initiale" aria-hidden="true">{{ temoignage.nom|slice:":1"|upper }}</span>
+            {% endif %}
+            <span>
+              <strong class="d-block">{{ temoignage.nom }}</strong>
+              <span class="small text-body-secondary">{{ temoignage.fonction }}{% if temoignage.fonction and temoignage.formation_suivie %} · {% endif %}{{ temoignage.formation_suivie }}</span>
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# 11. Partenaires #}
+{% if partenaires %}
+<section class="section-partenaires" aria-labelledby="titre-partenaires">
+  <div class="container">
+    <h2 class="h6 text-center text-uppercase text-body-secondary mb-4" id="titre-partenaires">Ils travaillent avec nous</h2>
+    <ul class="liste-partenaires">
+      {% for partenaire in partenaires %}
+      <li data-anim="fade-up" style="--delai: {{ forloop.counter0 }}">
+        {% if partenaire.site_web %}<a href="{{ partenaire.site_web }}" target="_blank" rel="noopener noreferrer" title="{{ partenaire.nom }}">{% endif %}
+        <img src="{{ partenaire.logo.url }}" alt="{{ partenaire.nom }}" loading="lazy">
+        {% if partenaire.site_web %}</a>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+{# 12. Questions fréquentes #}
+{% if questions %}
+<section class="section section-claire">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4" data-anim="fade-up">
+        <p class="section-surtitre">FAQ</p>
+        <h2 class="section-titre">Questions fréquentes</h2>
+        <p>Vous ne trouvez pas la réponse à votre question ?</p>
+        <a href="{% url 'commercial:contact' %}" class="lien-fleche">Posez-la-nous</a>
+      </div>
+      <div class="col-lg-8" data-anim="fade-up" style="--delai: 1">
+        {% include "core/_faq.html" with questions=questions identifiant="faq-accueil" %}
+        {% if autres_questions %}<p class="mt-3"><a href="{% url 'core:faq' %}" class="lien-fleche">Toutes les questions</a></p>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# 13. Appel à l'action #}
+<section class="appel-action">
+  <div class="container text-center" data-anim="zoom-in">
+    <h2 class="h1">Un projet de formation ?</h2>
+    <p class="lead mb-4">Parlons de vos objectifs : nous vous orientons vers la formation la plus adaptée.</p>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <a href="{% url 'commercial:contact' %}" class="btn btn-accent btn-lg">Nous contacter</a>
+      {% if centre.lien_whatsapp %}
+      <a href="{{ centre.lien_whatsapp }}" class="btn btn-outline-light btn-lg" target="_blank" rel="noopener"><i class="bi bi-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+      {% endif %}
+      {% if centre.telephone %}
+      <a href="tel:{{ centre.telephone }}" class="btn btn-outline-light btn-lg"><i class="bi bi-telephone" aria-hidden="true"></i> {{ centre.telephone }}</a>
+      {% endif %}
     </div>
   </div>
 </section>

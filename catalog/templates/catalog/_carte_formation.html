@@ -1,0 +1,23 @@
+{% comment %}Carte d'une formation publique. Variable : formation.{% endcomment %}
+<article class="card carte-formation h-100">
+  {% if formation.image %}
+  <img src="{{ formation.image.url }}" class="card-img-top" alt="" loading="lazy">
+  {% else %}
+  <div class="carte-formation-visuel" aria-hidden="true"><span>{{ formation.titre|slice:":1"|upper }}</span></div>
+  {% endif %}
+  <div class="card-body d-flex flex-column">
+    <span class="badge badge-domaine align-self-start mb-2">{{ formation.categorie.nom }}</span>
+    <h3 class="h5 card-title">
+      <a href="{{ formation.get_absolute_url }}" class="stretched-link text-decoration-none">{{ formation.titre }}</a>
+    </h3>
+    <p class="card-text text-body-secondary">{{ formation.resume }}</p>
+    <ul class="list-inline small text-body-secondary mt-auto mb-0">
+      <li class="list-inline-item"><i class="bi bi-clock" aria-hidden="true"></i> {{ formation.duree_heures }} h</li>
+      <li class="list-inline-item"><i class="bi bi-geo-alt" aria-hidden="true"></i> {{ formation.get_modalite_display }}</li>
+      {% if formation.est_certifiante %}<li class="list-inline-item"><i class="bi bi-patch-check" aria-hidden="true"></i> Certifiante</li>{% endif %}
+    </ul>
+  </div>
+  <div class="card-footer bg-transparent fw-semibold">
+    {% include "catalog/_prix.html" with prix=formation.prix %}
+  </div>
+</article>
