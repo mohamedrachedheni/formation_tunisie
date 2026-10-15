@@ -1,0 +1,18 @@
+/* Styles propres au site, en complément de Bootstrap */
+
+/* Champ piège anti-spam du formulaire de contact : placé hors de l'écran
+   (et non en display:none, que certains robots savent détecter). */
+.champ-piege {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.bouton-whatsapp {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1030;
+}

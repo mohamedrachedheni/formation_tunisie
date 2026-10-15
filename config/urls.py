@@ -17,10 +17,13 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('formations/', include('catalog.urls')),
+    path('', include('commercial.urls')),
+    path('', include('core.urls')),
 ]
 
 # Servir les fichiers media en développement uniquement

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block titre %}{{ formation.titre }}{% endblock %}
+{% block description %}{{ formation.resume }}{% endblock %}
+
+{% block contenu %}
+<div class="container py-5">
+  <nav aria-label="Fil d'Ariane">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'catalog:liste' %}">Formations</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'catalog:liste' %}?categorie={{ formation.categorie.slug }}">{{ formation.categorie.nom }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ formation.titre }}</li>
+    </ol>
+  </nav>
+
+  <div class="row g-5">
+    <div class="col-lg-8">
+      <h1>{{ formation.titre }}</h1>
+      <p class="lead">{{ formation.resume }}</p>
+
+      {% if formation.image %}
+      <img src="{{ formation.image.url }}" class="img-fluid rounded mb-4" alt="">
+      {% endif %}
+
+      {% if formation.description %}
+      <section class="mb-4">{{ formation.description|linebreaks }}</section>
+      {% endif %}
+
+      {% if formation.objectifs %}
+      <section class="mb-4">
+        <h2 class="h4">Objectifs</h2>
+        {{ formation.objectifs|linebreaks }}
+      </section>
+      {% endif %}
+
+      {% if formation.public_vise %}
+      <section class="mb-4">
+        <h2 class="h4">Public visé</h2>
+        {{ formation.public_vise|linebreaks }}
+      </section>
+      {% endif %}
+
+      {% if formation.prerequis %}
+      <section class="mb-4">
+        <h2 class="h4">Prérequis</h2>
+        {{ formation.prerequis|linebreaks }}
+      </section>
+      {% endif %}
+
+      {% with modules=formation.modules.all %}
+      {% if modules %}
+      <section class="mb-4">
+        <h2 class="h4">Programme</h2>
+        <ol class="list-group list-group-numbered">
+          {% for module in modules %}
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-semibold">{{ module.titre }}</div>
+              {% if module.contenu %}<div class="small text-body-secondary">{{ module.contenu|linebreaksbr }}</div>{% endif %}
+            </div>
+            {% if module.duree_heures %}<span class="badge text-bg-light border">{{ module.duree_heures }} h</span>{% endif %}
+          </li>
+          {% endfor %}
+        </ol>
+      </section>
+      {% endif %}
+      {% endwith %}
+
+      {% if formation.documents_publics %}
+      <section class="mb-4">
+        <h2 class="h4">Documents</h2>
+        <ul>
+          {% for document in formation.documents_publics %}
+          <li><a href="{{ document.fichier.url }}" target="_blank" rel="noopener">{{ document.titre }}</a></li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+    </div>
+
+    <aside class="col-lg-4">
+      <div class="card shadow-sm sticky-lg-top">
+        <div class="card-body">
+          <p class="h3 mb-3">{% include "catalog/_prix.html" with prix=formation.prix %}</p>
+          <dl class="row small mb-4">
+            <dt class="col-6">Durée</dt><dd class="col-6">{{ formation.duree_heures }} heures</dd>
+            <dt class="col-6">Niveau</dt><dd class="col-6">{{ formation.get_niveau_display }}</dd>
+            <dt class="col-6">Modalité</dt><dd class="col-6">{{ formation.get_modalite_display }}</dd>
+            <dt class="col-6">Certifiante</dt><dd class="col-6">{{ formation.est_certifiante|yesno:"Oui,Non" }}</dd>
+          </dl>
+          <div class="d-grid gap-2">
+            {% if lien_whatsapp_formation %}
+            <a href="{{ lien_whatsapp_formation }}" class="btn btn-success" target="_blank" rel="noopener">Demander des informations sur WhatsApp</a>
+            {% endif %}
+            <a href="{% url 'commercial:contact' %}?formation={{ formation.slug }}" class="btn btn-outline-primary">Demander des informations</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

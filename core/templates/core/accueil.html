@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block titre %}Accueil{% endblock %}
+
+{% block contenu %}
+<section class="py-5 bg-body-secondary">
+  <div class="container py-4">
+    <h1 class="display-5 fw-bold">{{ centre.nom|default:"Bienvenue" }}</h1>
+    <p class="lead col-lg-8">{{ centre.slogan|default:"Des formations professionnelles pour développer vos compétences." }}</p>
+    <div class="d-flex flex-wrap gap-2 mt-4">
+      <a href="{% url 'commercial:contact' %}" class="btn btn-primary btn-lg">Nous contacter</a>
+      <a href="{% url 'core:a_propos' %}" class="btn btn-outline-secondary btn-lg">Découvrir le centre</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block titre %}À propos{% endblock %}
+
+{% block contenu %}
+<div class="container py-5">
+  <h1 class="mb-4">À propos</h1>
+  {% if centre.presentation %}
+    <div class="col-lg-8">{{ centre.presentation|linebreaks }}</div>
+  {% else %}
+    <p class="text-body-secondary">La présentation du centre sera bientôt disponible.</p>
+  {% endif %}
+</div>
+{% endblock %}

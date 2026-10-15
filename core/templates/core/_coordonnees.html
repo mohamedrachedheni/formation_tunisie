@@ -1,0 +1,10 @@
+{% if centre %}
+<dl class="row">
+  {% if centre.adresse %}<dt class="col-sm-4">Adresse</dt><dd class="col-sm-8">{{ centre.adresse }}{% if centre.ville %}, {{ centre.ville }}{% endif %}</dd>{% endif %}
+  {% if centre.telephone %}<dt class="col-sm-4">Téléphone</dt><dd class="col-sm-8"><a href="tel:{{ centre.telephone }}">{{ centre.telephone }}</a></dd>{% endif %}
+  {% if centre.email %}<dt class="col-sm-4">Email</dt><dd class="col-sm-8"><a href="mailto:{{ centre.email }}">{{ centre.email }}</a></dd>{% endif %}
+  {% if centre.lien_whatsapp %}<dt class="col-sm-4">WhatsApp</dt><dd class="col-sm-8"><a href="{{ centre.lien_whatsapp }}" target="_blank" rel="noopener">Nous écrire sur WhatsApp</a></dd>{% endif %}
+</dl>
+{% else %}
+<p class="text-body-secondary">Les coordonnées du centre seront bientôt disponibles.</p>
+{% endif %}

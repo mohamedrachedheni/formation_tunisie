@@ -13,6 +13,9 @@ media/*
 *.log
 db.sqlite3
 
+# Sauvegardes de base de données (contiennent des données)
+backups/
+
 # Éditeurs / OS
 .vscode/
 .idea/

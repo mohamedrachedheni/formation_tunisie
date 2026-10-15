@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block titre %}Contact{% endblock %}
+{% block description %}Contactez {{ centre.nom|default:"le centre de formation" }} pour toute information sur nos formations.{% endblock %}
+
+{% block contenu %}
+<div class="container py-5">
+  <h1 class="mb-4">Contact</h1>
+  <div class="row g-5">
+    <div class="col-lg-7">
+      <h2 class="h4 mb-3">Envoyez-nous un message</h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">{% for erreur in form.non_field_errors %}{{ erreur }}{% endfor %}</div>
+        {% endif %}
+
+        {% for champ in form.visible_fields %}
+          {% if champ.name == 'site_web' %}
+          {# Champ piège : hors écran et ignoré par les lecteurs d'écran, seuls les robots le remplissent. #}
+          <div class="champ-piege" aria-hidden="true">
+            <label for="{{ champ.id_for_label }}">{{ champ.label }}</label>{{ champ }}
+          </div>
+          {% else %}
+          <div class="mb-3">
+            <label for="{{ champ.id_for_label }}" class="form-label">{{ champ.label }}{% if champ.field.required %} <span class="text-danger" aria-hidden="true">*</span>{% endif %}</label>
+            {{ champ }}
+            {% for erreur in champ.errors %}<div class="invalid-feedback d-block">{{ erreur }}</div>{% endfor %}
+          </div>
+          {% endif %}
+        {% endfor %}
+
+        <p class="small text-body-secondary">Indiquez au moins un email ou un numéro de téléphone.</p>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+      </form>
+    </div>
+
+    <aside class="col-lg-5">
+      <h2 class="h4 mb-3">Nos coordonnées</h2>
+      {% include "core/_coordonnees.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

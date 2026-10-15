@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block titre %}{% if categorie_active %}{{ categorie_active.nom }} — {% endif %}Formations{% endblock %}
+{% block description %}Catalogue des formations{% if centre.nom %} de {{ centre.nom }}{% endif %}.{% endblock %}
+
+{% block contenu %}
+<div class="container py-5">
+  <h1 class="mb-4">{% if categorie_active %}{{ categorie_active.nom }}{% else %}Nos formations{% endif %}</h1>
+
+  {% if categories %}
+  <nav aria-label="Filtrer par catégorie" class="mb-4">
+    <ul class="nav nav-pills flex-wrap gap-2">
+      <li class="nav-item">
+        <a class="nav-link{% if not categorie_active %} active{% endif %}" href="{% url 'catalog:liste' %}">Toutes</a>
+      </li>
+      {% for categorie in categories %}
+      <li class="nav-item">
+        <a class="nav-link{% if categorie == categorie_active %} active{% endif %}"
+           href="{% url 'catalog:liste' %}?categorie={{ categorie.slug }}">{{ categorie.nom }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  {% if categorie_active.description %}<p class="lead">{{ categorie_active.description }}</p>{% endif %}
+
+  {% if formations %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for formation in formations %}
+    <div class="col">
+      <article class="card h-100 shadow-sm">
+        {% if formation.image %}
+        <img src="{{ formation.image.url }}" class="card-img-top object-fit-cover" height="180" alt="" loading="lazy">
+        {% endif %}
+        <div class="card-body d-flex flex-column">
+          <span class="badge text-bg-light border align-self-start mb-2">{{ formation.categorie.nom }}</span>
+          <h2 class="h5 card-title">
+            <a href="{{ formation.get_absolute_url }}" class="stretched-link text-decoration-none">{{ formation.titre }}</a>
+          </h2>
+          <p class="card-text text-body-secondary">{{ formation.resume }}</p>
+          <ul class="list-inline small text-body-secondary mt-auto mb-0">
+            <li class="list-inline-item">{{ formation.duree_heures }} h</li>
+            <li class="list-inline-item">· {{ formation.get_modalite_display }}</li>
+            {% if formation.est_certifiante %}<li class="list-inline-item">· Certifiante</li>{% endif %}
+          </ul>
+        </div>
+        <div class="card-footer bg-transparent fw-semibold">
+          {% include "catalog/_prix.html" with prix=formation.prix %}
+        </div>
+      </article>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if is_paginated %}
+  <nav aria-label="Pagination" class="mt-5">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?{% if categorie_active %}categorie={{ categorie_active.slug }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">Précédent</a></li>
+      {% endif %}
+      <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} / {{ paginator.num_pages }}</span></li>
+      {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?{% if categorie_active %}categorie={{ categorie_active.slug }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Suivant</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  {% else %}
+  <p class="text-body-secondary">Aucune formation n'est disponible pour le moment.</p>
+  {% endif %}
+</div>
+{% endblock %}
