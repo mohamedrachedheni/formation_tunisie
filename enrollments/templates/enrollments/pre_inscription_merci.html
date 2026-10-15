@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block titre %}Demande envoyée{% endblock %}
+
+{% block contenu %}
+<div class="container py-5">
+  <div class="row g-5">
+    <div class="col-lg-7">
+      <h1 class="mb-3">Demande envoyée</h1>
+      <p class="lead">Le centre va examiner votre demande et vous contactera pour confirmer votre inscription.</p>
+      <p>Pour accélérer la confirmation, vous pouvez aussi nous écrire en indiquant la référence <strong>{{ session.code }}</strong>.</p>
+      <div class="d-flex flex-wrap gap-2 mt-4">
+        {% if lien_whatsapp_session %}
+        <a href="{{ lien_whatsapp_session }}" class="btn btn-success" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+        {% endif %}
+        <a href="{% url 'enrollments:liste' %}" class="btn btn-outline-secondary">Voir les autres sessions</a>
+      </div>
+    </div>
+    <aside class="col-lg-5">
+      {% include "enrollments/_resume_session.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

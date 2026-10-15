@@ -1,16 +1,9 @@
 from django.conf import settings
-from django.core.validators import RegexValidator
 from django.db import models
 
 from catalog.models import Formation
 from core.models import ModeleDeBase
-
-# Numéro de téléphone : chiffres, espaces, points ou tirets, avec un « + » initial facultatif.
-# Exemples acceptés : 71 123 456, 98-123-456, +216 98 123 456.
-valider_telephone = RegexValidator(
-    r'^\+?[0-9][0-9 .-]{6,18}[0-9]$',
-    'Saisissez un numéro de téléphone valide (8 chiffres au minimum).',
-)
+from core.validators import valider_telephone
 
 
 class DemandeContact(ModeleDeBase):

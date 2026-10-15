@@ -1,0 +1,31 @@
+{% comment %}Carte d'une session publique. Variables : session (annotée nb_places_occupees), afficher_formation (bool).{% endcomment %}
+<article class="card h-100 shadow-sm">
+  <div class="card-body">
+    {% if afficher_formation %}
+    <h3 class="h5 card-title"><a href="{{ session.formation.get_absolute_url }}" class="text-decoration-none">{{ session.formation.titre }}</a></h3>
+    {% endif %}
+    <p class="fw-semibold mb-2">
+      {% if session.date_debut == session.date_fin %}Le {{ session.date_debut|date:"l j F Y" }}
+      {% else %}Du {{ session.date_debut|date:"j F Y" }} au {{ session.date_fin|date:"j F Y" }}{% endif %}
+    </p>
+    <ul class="list-unstyled small text-body-secondary mb-3">
+      {% if session.horaires %}<li>Horaires : {{ session.horaires }}</li>{% endif %}
+      {% if session.lieu %}<li>Lieu : {{ session.lieu }}</li>{% endif %}
+      <li>Modalité : {{ session.get_modalite_display }}</li>
+      {% if session.formateur %}<li>Formateur : {{ session.formateur.nom_complet }}</li>{% endif %}
+      <li>Référence : {{ session.code }}</li>
+    </ul>
+    <p class="h5 mb-2">{% include "catalog/_prix.html" with prix=session.prix_effectif %}</p>
+    {% if session.places_restantes %}
+      <span class="badge text-bg-success">{{ session.places_restantes }} place{{ session.places_restantes|pluralize }} restante{{ session.places_restantes|pluralize }}</span>
+    {% else %}
+      <span class="badge text-bg-warning">Complet — inscription sur liste d’attente</span>
+    {% endif %}
+  </div>
+  <div class="card-footer bg-transparent d-flex flex-wrap gap-2">
+    <a href="{% url 'enrollments:inscription' uuid=session.uuid %}" class="btn btn-primary btn-sm">S’inscrire</a>
+    {% if session.lien_whatsapp %}
+    <a href="{{ session.lien_whatsapp }}" class="btn btn-outline-success btn-sm" target="_blank" rel="noopener">S’inscrire via WhatsApp</a>
+    {% endif %}
+  </div>
+</article>

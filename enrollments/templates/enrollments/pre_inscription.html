@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block titre %}Inscription — {{ session.formation.titre }}{% endblock %}
+{% block description %}Pré-inscription à la session {{ session.code }} de la formation {{ session.formation.titre }}.{% endblock %}
+
+{% block contenu %}
+<div class="container py-5">
+  <nav aria-label="Fil d'Ariane">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'enrollments:liste' %}">Sessions</a></li>
+      <li class="breadcrumb-item"><a href="{{ session.formation.get_absolute_url }}">{{ session.formation.titre }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Inscription</li>
+    </ol>
+  </nav>
+
+  <h1 class="mb-4">Demande d’inscription</h1>
+  <div class="row g-5">
+    <div class="col-lg-7">
+      {% if not session.places_restantes %}
+      <div class="alert alert-warning">Cette session est complète : votre demande sera placée sur liste d’attente.</div>
+      {% endif %}
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% include "core/_champs_formulaire.html" with form=form %}
+        <p class="small text-body-secondary">Votre inscription sera définitive après confirmation par le centre.</p>
+        <button type="submit" class="btn btn-primary">Envoyer ma demande</button>
+      </form>
+    </div>
+    <aside class="col-lg-5">
+      {% include "enrollments/_resume_session.html" %}
+    </aside>
+  </div>
+</div>
+{% endblock %}

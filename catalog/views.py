@@ -1,5 +1,3 @@
-from urllib.parse import quote
-
 from django.db.models import Count, Prefetch, Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView
@@ -52,5 +50,5 @@ class FormationDetailView(DetailView):
         centre = ParametresCentre.obtenir()
         if centre and centre.whatsapp:
             message = f'Bonjour, je souhaite avoir des informations sur la formation « {self.object.titre} ».'
-            contexte['lien_whatsapp_formation'] = f'{centre.lien_whatsapp}?text={quote(message)}'
+            contexte['lien_whatsapp_formation'] = centre.lien_whatsapp_avec_message(message)
         return contexte

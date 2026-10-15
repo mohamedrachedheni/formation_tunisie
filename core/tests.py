@@ -1,9 +1,14 @@
+from urllib.parse import unquote
+
+from django import forms
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError, transaction
 from django.test import TestCase
 from django.urls import reverse
 
+from .forms import FormulairePublicMixin
 from .models import ParametresCentre
+from .validators import normaliser_telephone
 
 
 class ParametresCentreTests(TestCase):
@@ -43,6 +48,49 @@ class ParametresCentreTests(TestCase):
     def test_lien_whatsapp(self):
         self.assertEqual(ParametresCentre(nom='C', whatsapp='21612345678').lien_whatsapp, 'https://wa.me/21612345678')
         self.assertEqual(ParametresCentre(nom='C').lien_whatsapp, '')
+
+
+class OutilsCommunsTests(TestCase):
+    def test_normaliser_telephone(self):
+        cas = {
+            '98 123 456': '98123456',
+            '98-123-456': '98123456',
+            '98.123.456': '98123456',
+            '+216 98 123 456': '98123456',
+            '00216 98 123 456': '98123456',
+            '+33 6 12 34 56 78': '+33612345678',
+            '0033612345678': '+33612345678',
+            '': '',
+            None: '',
+        }
+        for saisie, attendu in cas.items():
+            with self.subTest(saisie=saisie):
+                self.assertEqual(normaliser_telephone(saisie), attendu)
+
+    def test_lien_whatsapp_avec_message_encode(self):
+        centre = ParametresCentre(nom='C', whatsapp='21612345678')
+        lien = centre.lien_whatsapp_avec_message('Bonjour « Excel » & co')
+        self.assertTrue(lien.startswith('https://wa.me/21612345678?text='))
+        self.assertEqual(unquote(lien.split('?text=')[1]), 'Bonjour « Excel » & co')
+        self.assertEqual(ParametresCentre(nom='C').lien_whatsapp_avec_message('x'), '')
+
+    def test_formulaire_public_champ_piege_et_classes(self):
+        class Formulaire(FormulairePublicMixin, forms.Form):
+            nom = forms.CharField()
+            choix = forms.ChoiceField(choices=[('a', 'A')])
+            accord = forms.BooleanField()
+
+        formulaire = Formulaire({'nom': '', 'choix': 'a', 'accord': 'on', 'site_web': 'http://spam'})
+        self.assertIn('site_web', formulaire.fields)
+        self.assertFalse(formulaire.is_valid())
+        self.assertEqual(formulaire.fields['nom'].widget.attrs['class'], 'form-control is-invalid')
+        self.assertEqual(formulaire.fields['choix'].widget.attrs['class'], 'form-select')
+        self.assertEqual(formulaire.fields['accord'].widget.attrs['class'], 'form-check-input')
+        self.assertNotIn('class', formulaire.fields['site_web'].widget.attrs)
+        self.assertTrue(Formulaire({'nom': 'x', 'choix': 'a', 'accord': 'on', 'site_web': 'x'}).is_valid())
+        robot = Formulaire({'nom': 'x', 'choix': 'a', 'accord': 'on', 'site_web': 'x'})
+        robot.is_valid()
+        self.assertTrue(robot.est_spam())
 
 
 class PagesVitrineTests(TestCase):

@@ -1,0 +1,29 @@
+{% comment %}
+Rendu Bootstrap des champs d'un formulaire public (voir core.forms.FormulairePublicMixin).
+Usage : {% include "core/_champs_formulaire.html" with form=form %}
+{% endcomment %}
+{% if form.non_field_errors %}
+<div class="alert alert-danger" role="alert">{% for erreur in form.non_field_errors %}{{ erreur }}{% endfor %}</div>
+{% endif %}
+
+{% for champ in form.visible_fields %}
+  {% if champ.name == 'site_web' %}
+  {# Champ piège : hors écran et ignoré par les lecteurs d'écran, seuls les robots le remplissent. #}
+  <div class="champ-piege" aria-hidden="true">
+    <label for="{{ champ.id_for_label }}">{{ champ.label }}</label>{{ champ }}
+  </div>
+  {% elif champ.widget_type == 'checkbox' %}
+  <div class="form-check mb-3">
+    {{ champ }}
+    <label for="{{ champ.id_for_label }}" class="form-check-label">{{ champ.label }}{% if champ.field.required %} <span class="text-danger" aria-hidden="true">*</span>{% endif %}</label>
+    {% for erreur in champ.errors %}<div class="invalid-feedback d-block">{{ erreur }}</div>{% endfor %}
+  </div>
+  {% else %}
+  <div class="mb-3">
+    <label for="{{ champ.id_for_label }}" class="form-label">{{ champ.label }}{% if champ.field.required %} <span class="text-danger" aria-hidden="true">*</span>{% endif %}</label>
+    {{ champ }}
+    {% if champ.help_text %}<div class="form-text">{{ champ.help_text }}</div>{% endif %}
+    {% for erreur in champ.errors %}<div class="invalid-feedback d-block">{{ erreur }}</div>{% endfor %}
+  </div>
+  {% endif %}
+{% endfor %}

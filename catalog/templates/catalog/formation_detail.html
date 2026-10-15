@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load sessions_publiques %}
 
 {% block titre %}{{ formation.titre }}{% endblock %}
 {% block description %}{{ formation.resume }}{% endblock %}
@@ -66,6 +67,9 @@
       {% endif %}
       {% endwith %}
 
+      {# Balise fournie par l'application enrollments (aucune dépendance Python de catalog vers enrollments). #}
+      {% sessions_de_la_formation formation %}
+
       {% if formation.documents_publics %}
       <section class="mb-4">
         <h2 class="h4">Documents</h2>
@@ -89,6 +93,7 @@
             <dt class="col-6">Certifiante</dt><dd class="col-6">{{ formation.est_certifiante|yesno:"Oui,Non" }}</dd>
           </dl>
           <div class="d-grid gap-2">
+            <a href="#sessions" class="btn btn-primary">Voir les sessions et s’inscrire</a>
             {% if lien_whatsapp_formation %}
             <a href="{{ lien_whatsapp_formation }}" class="btn btn-success" target="_blank" rel="noopener">Demander des informations sur WhatsApp</a>
             {% endif %}

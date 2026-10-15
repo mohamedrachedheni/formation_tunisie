@@ -1,0 +1,21 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="h5"><a href="{{ session.formation.get_absolute_url }}" class="text-decoration-none">{{ session.formation.titre }}</a></h2>
+    <dl class="row small mb-0">
+      <dt class="col-5">Dates</dt>
+      <dd class="col-7">{% if session.date_debut == session.date_fin %}{{ session.date_debut|date:"j F Y" }}{% else %}du {{ session.date_debut|date:"j F Y" }} au {{ session.date_fin|date:"j F Y" }}{% endif %}</dd>
+      {% if session.horaires %}<dt class="col-5">Horaires</dt><dd class="col-7">{{ session.horaires }}</dd>{% endif %}
+      {% if session.lieu %}<dt class="col-5">Lieu</dt><dd class="col-7">{{ session.lieu }}</dd>{% endif %}
+      <dt class="col-5">Modalité</dt><dd class="col-7">{{ session.get_modalite_display }}</dd>
+      <dt class="col-5">Prix</dt><dd class="col-7">{% include "catalog/_prix.html" with prix=session.prix_effectif %}</dd>
+      <dt class="col-5">Référence</dt><dd class="col-7">{{ session.code }}</dd>
+      <dt class="col-5">Places</dt>
+      <dd class="col-7">{% if session.places_restantes %}{{ session.places_restantes }} restante{{ session.places_restantes|pluralize }}{% else %}Complet — liste d’attente{% endif %}</dd>
+    </dl>
+  </div>
+  {% if lien_whatsapp_session %}
+  <div class="card-footer bg-transparent">
+    <a href="{{ lien_whatsapp_session }}" class="btn btn-outline-success btn-sm w-100" target="_blank" rel="noopener">Une question ? Écrivez-nous sur WhatsApp</a>
+  </div>
+  {% endif %}
+</div>

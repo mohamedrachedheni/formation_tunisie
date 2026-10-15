@@ -1,0 +1,13 @@
+<section class="mb-4" id="sessions">
+  <h2 class="h4">Prochaines sessions</h2>
+  {% if sessions %}
+  <div class="row row-cols-1 row-cols-md-2 g-3">
+    {% for session in sessions %}
+    <div class="col">{% include "enrollments/_carte_session.html" with session=session afficher_formation=False %}</div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-body-secondary">Aucune session n’est ouverte aux inscriptions pour le moment.
+    <a href="{% url 'commercial:contact' %}?formation={{ formation.slug }}">Contactez-nous</a> pour être informé(e) des prochaines dates.</p>
+  {% endif %}
+</section>

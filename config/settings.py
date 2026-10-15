@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'accounts',
     'catalog',
     'commercial',
+    'trainers',
+    'enrollments',
 ]
 
 # Modèle utilisateur personnalisé (connexion par email)

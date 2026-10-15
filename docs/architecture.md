@@ -95,7 +95,20 @@ Pourquoi ce découpage :
 - **Modèle** : `Formateur` : nom, prenom, email, telephone, specialite, biographie, photo, cv, est_actif,
   est_visible_site, utilisateur (`OneToOne`, nullable).
 - **Permissions** : gestion par Administrateur et Gestionnaire ; un formateur ne voit que ses sessions (niveau 3).
-- **Contraintes** : `utilisateur` unique ; désactivation plutôt que suppression.
+- **Contraintes** : `utilisateur` unique ; désactivation plutôt que suppression ;
+  `email` unique mais facultatif (vide stocké `NULL`, en minuscules) ;
+  `CHECK` : un formateur inactif n'est jamais visible sur le site.
+- **Règles** : rattacher un compte donne le rôle Formateur (jamais retiré automatiquement) ; le rattachement
+  n'est possible que pour qui peut consulter les comptes. Le CV est une donnée personnelle, jamais affichée.
+
+### Outils communs de `core`
+
+- `core.validators.valider_telephone` : format de téléphone commun à toutes les applications.
+- `core.fichiers.CheminAleatoire(dossier)` : `upload_to` donnant un nom aléatoire aux fichiers envoyés.
+- `core.validators.normaliser_telephone` : forme unique d'un numéro (comparaison, recherche).
+- `core.forms.FormulairePublicMixin` + gabarit `core/_champs_formulaire.html` : champ piège anti-spam
+  `site_web` et classes Bootstrap pour tous les formulaires publics.
+- `ParametresCentre.lien_whatsapp_avec_message(texte)` : lien WhatsApp prérempli.
 
 ### `enrollments`
 
@@ -109,6 +122,26 @@ Pourquoi ce découpage :
     date_confirmation.
 - **Permissions** : pré-inscription publique (statut « en attente ») ; validation par le Gestionnaire
   (`valider_inscription`) ; au niveau 3, formateur limité à ses sessions, candidat à ses inscriptions.
+- **Services** (`enrollments/services.py`) : seul point d'entrée pour créer une inscription ou changer son statut
+  (`inscrire`, `confirmer`, `annuler`, `terminer`, `verifier_inscription_possible`). Dans l'administration,
+  statut, résultat, prix et source sont en lecture seule après création ; les statuts changent par des actions.
+- **Places** : seules les inscriptions confirmées ou terminées occupent une place ; les inscriptions en attente
+  forment une liste d'attente. La place est vérifiée à la confirmation, sous verrou de la session
+  (`select_for_update`), ce qui empêche d'attribuer deux fois la dernière place (test de concurrence).
+- **Code de session** généré si vide : `<SLUG-FORMATION>-<AAAA-MM>`, suffixé `-2`, `-3`… si besoin.
+- **Formateur** : seul un formateur actif peut être affecté ; un formateur désactivé après affectation reste accepté.
+- **Gouvernorats** : `core.constantes.Gouvernorat` (24 gouvernorats).
+- **Pages publiques** : `/sessions/` (sessions visibles), `/sessions/<uuid>/inscription/` (pré-inscription),
+  `/sessions/<uuid>/inscription/merci/`. Visibilité (`Session.objects.visibles()`) : session publiée, statut
+  « ouverte », formation publiée et catégorie active ; sinon 404.
+- **Fiche formation** : les sessions sont affichées par la balise `{% sessions_de_la_formation formation %}`
+  (bibliothèque `sessions_publiques` d'`enrollments`) ; `catalog` n'importe aucun code d'`enrollments`.
+- **Pré-inscription** (`services.pre_inscrire`) : candidat retrouvé par CIN, puis téléphone normalisé, puis email ;
+  la fiche d'un candidat existant n'est jamais modifiée par une saisie publique (différences reportées dans les
+  notes de l'inscription) ; si déjà inscrit, rien n'est modifié et la réponse est identique (on ne révèle pas
+  qui est inscrit) ; transaction unique (aucun candidat créé si l'inscription est refusée).
+- **Téléphone des candidats** stocké normalisé (`core.validators.normaliser_telephone`) : `98123456`,
+  ou `+XXX…` pour un numéro étranger.
 
 ### `certificates`
 

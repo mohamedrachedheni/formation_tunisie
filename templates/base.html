@@ -23,10 +23,11 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="menu-principal">
-        {% url 'core:accueil' as url_accueil %}{% url 'catalog:liste' as url_formations %}{% url 'core:a_propos' as url_a_propos %}{% url 'commercial:contact' as url_contact %}
+        {% url 'core:accueil' as url_accueil %}{% url 'catalog:liste' as url_formations %}{% url 'enrollments:liste' as url_sessions %}{% url 'core:a_propos' as url_a_propos %}{% url 'commercial:contact' as url_contact %}
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link{% if request.path == url_accueil %} active{% endif %}" href="{{ url_accueil }}"{% if request.path == url_accueil %} aria-current="page"{% endif %}>Accueil</a></li>
           <li class="nav-item"><a class="nav-link{% if url_formations in request.path %} active{% endif %}" href="{{ url_formations }}"{% if request.path == url_formations %} aria-current="page"{% endif %}>Formations</a></li>
+          <li class="nav-item"><a class="nav-link{% if url_sessions in request.path %} active{% endif %}" href="{{ url_sessions }}"{% if request.path == url_sessions %} aria-current="page"{% endif %}>Sessions</a></li>
           <li class="nav-item"><a class="nav-link{% if request.path == url_a_propos %} active{% endif %}" href="{{ url_a_propos }}"{% if request.path == url_a_propos %} aria-current="page"{% endif %}>À propos</a></li>
           <li class="nav-item"><a class="nav-link{% if request.path == url_contact %} active{% endif %}" href="{{ url_contact }}"{% if request.path == url_contact %} aria-current="page"{% endif %}>Contact</a></li>
         </ul>

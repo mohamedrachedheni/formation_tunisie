@@ -1,4 +1,5 @@
 import uuid
+from urllib.parse import quote
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -71,3 +72,7 @@ class ParametresCentre(ModeleDeBase):
     @property
     def lien_whatsapp(self):
         return f'https://wa.me/{self.whatsapp}' if self.whatsapp else ''
+
+    def lien_whatsapp_avec_message(self, message):
+        """Lien WhatsApp avec un message prérempli, ou chaîne vide si aucun numéro n'est saisi."""
+        return f'{self.lien_whatsapp}?text={quote(message)}' if self.whatsapp else ''

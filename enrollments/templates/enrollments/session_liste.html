@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block titre %}Sessions{% endblock %}
+{% block description %}Prochaines sessions de formation ouvertes aux inscriptions{% if centre.nom %} — {{ centre.nom }}{% endif %}.{% endblock %}
+
+{% block contenu %}
+<div class="container py-5">
+  <h1 class="mb-4">Prochaines sessions</h1>
+  {% if sessions %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for session in sessions %}
+    <div class="col">{% include "enrollments/_carte_session.html" with session=session afficher_formation=True %}</div>
+    {% endfor %}
+  </div>
+
+  {% if is_paginated %}
+  <nav aria-label="Pagination" class="mt-5">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a></li>{% endif %}
+      <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} / {{ paginator.num_pages }}</span></li>
+      {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a></li>{% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  {% else %}
+  <p class="text-body-secondary">Aucune session n’est ouverte aux inscriptions pour le moment.
+    Consultez <a href="{% url 'catalog:liste' %}">nos formations</a> ou <a href="{% url 'commercial:contact' %}">contactez-nous</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}
