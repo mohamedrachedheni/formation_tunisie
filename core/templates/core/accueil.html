@@ -12,8 +12,10 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
 {% domaines_de_formation as domaines %}
 
 {# 1. Bandeau d'accueil #}
-<section class="accueil-hero{% if centre.image_accueil %} avec-image{% endif %}"
-         {% if centre.image_accueil %}style="--image-hero: url('{{ centre.image_accueil.url }}')"{% endif %}>
+{% with bandeau=photos.accueil_bandeau %}
+<section class="accueil-hero{% if bandeau.fichier %} avec-image{% endif %}"
+         {% if bandeau.fichier %}style="--image-fond: url('{{ bandeau.fichier.url }}')"{% endif %}>
+  {% if bandeau.fichier %}<span class="visually-hidden">Photo : {{ bandeau.texte_alternatif }}</span>{% endif %}
   <div class="container position-relative">
     <div class="col-lg-8" data-anim="fade-up">
       <p class="accueil-hero-surtitre">Centre de formation professionnelle</p>
@@ -29,6 +31,7 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
     </div>
   </div>
 </section>
+{% endwith %}
 
 {# 2. Bandeau défilant des domaines #}
 {% if domaines %}
@@ -64,7 +67,10 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
         <a href="{% url 'core:a_propos' %}" class="lien-fleche">En savoir plus sur le centre</a>
       </div>
       <div class="col-lg-6" data-anim="zoom-in">
-        <div class="cadre-arguments">
+        {% with photo=photos.accueil_presentation %}{% if photo.fichier %}
+        <img src="{{ photo.fichier.url }}" alt="{{ photo.texte_alternatif }}" class="photo-emplacement photo-presentation" loading="lazy">
+        {% endif %}{% endwith %}
+        <div class="cadre-arguments{% if photos.accueil_presentation.fichier %} cadre-arguments-superpose{% endif %}">
           <div class="argument">
             <i class="bi bi-patch-check" aria-hidden="true"></i>
             <div><h3 class="h6">Formations certifiantes</h3><p>Validez vos acquis par une attestation ou un certificat.</p></div>
@@ -156,6 +162,9 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
       <p class="section-surtitre">Inscription</p>
       <h2 class="section-titre">S’inscrire en trois étapes</h2>
     </div>
+    {% with photo=photos.accueil_etapes %}{% if photo.fichier %}
+    <img src="{{ photo.fichier.url }}" alt="{{ photo.texte_alternatif }}" class="photo-emplacement photo-etapes mb-5" loading="lazy" data-anim="fade-up">
+    {% endif %}{% endwith %}
     <ol class="row g-4 list-unstyled etapes">
       <li class="col-md-4" data-anim="fade-up">
         <span class="etape-numero">1</span>
@@ -265,7 +274,10 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
 {% endif %}
 
 {# 13. Appel à l'action #}
-<section class="appel-action">
+{% with fond=photos.accueil_appel_action %}
+<section class="appel-action{% if fond.fichier %} avec-image{% endif %}"
+         {% if fond.fichier %}style="--image-fond: url('{{ fond.fichier.url }}')"{% endif %}>
+  {% if fond.fichier %}<span class="visually-hidden">Photo : {{ fond.texte_alternatif }}</span>{% endif %}
   <div class="container text-center" data-anim="zoom-in">
     <h2 class="h1">Un projet de formation ?</h2>
     <p class="lead mb-4">Parlons de vos objectifs : nous vous orientons vers la formation la plus adaptée.</p>
@@ -280,4 +292,5 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
     </div>
   </div>
 </section>
+{% endwith %}
 {% endblock %}

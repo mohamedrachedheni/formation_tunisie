@@ -1,3 +1,4 @@
+from datetime import timedelta
 from decimal import Decimal
 
 from django.contrib.auth import get_user_model
@@ -5,6 +6,7 @@ from django.contrib.auth.models import Group
 from django.db import IntegrityError, transaction
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from accounts.models import Roles
 from catalog.models import Categorie, Formation
@@ -219,7 +221,10 @@ class AdministrationDemandesTests(TestCase):
         self.assertEqual(self.demande.traitee_par, self.gestionnaire)
 
     def test_action_marquer_traitee(self):
-        date_avant = self.demande.date_modification
+        # Date de modification placée dans le passé : sous Windows, l'horloge peut ne pas avancer
+        # entre la création et l'action, ce qui rendait la comparaison instable.
+        date_avant = timezone.now() - timedelta(hours=1)
+        DemandeContact.objects.filter(pk=self.demande.pk).update(date_modification=date_avant)
         self.client.post(reverse('admin:commercial_demandecontact_changelist'), {
             'action': 'marquer_traitee', '_selected_action': [self.demande.pk],
         })

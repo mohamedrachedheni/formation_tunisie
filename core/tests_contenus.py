@@ -2,6 +2,7 @@
 
 import shutil
 import tempfile
+from io import BytesIO
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
@@ -10,6 +11,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import IntegrityError, transaction
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from PIL import Image
 
 from accounts.models import Roles
 
@@ -28,7 +30,10 @@ def creer_temoignage(**champs):
 
 
 def logo(nom='logo.png'):
-    return SimpleUploadedFile(nom, b'\x89PNG\r\n\x1a\n', content_type='image/png')
+    # Vraie image : les logos sont désormais ouverts et compressés à l'enregistrement.
+    tampon = BytesIO()
+    Image.new('RGBA', (300, 120), (0, 32, 91, 255)).save(tampon, format='PNG')
+    return SimpleUploadedFile(nom, tampon.getvalue(), content_type='image/png')
 
 
 # --- Témoignages ----------------------------------------------------------------------------

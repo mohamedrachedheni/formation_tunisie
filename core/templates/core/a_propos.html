@@ -5,10 +5,19 @@
 {% block contenu %}
 <div class="container py-5">
   <h1 class="mb-4">À propos</h1>
-  {% if centre.presentation %}
-    <div class="col-lg-8">{{ centre.presentation|linebreaks }}</div>
-  {% else %}
-    <p class="text-body-secondary">La présentation du centre sera bientôt disponible.</p>
-  {% endif %}
+  <div class="row g-5">
+    <div class="{% if photos.a_propos_principale.fichier %}col-lg-6{% else %}col-lg-8{% endif %}">
+      {% if centre.presentation %}
+        {{ centre.presentation|linebreaks }}
+      {% else %}
+        <p class="text-body-secondary">La présentation du centre sera bientôt disponible.</p>
+      {% endif %}
+    </div>
+    {% with photo=photos.a_propos_principale %}{% if photo.fichier %}
+    <div class="col-lg-6">
+      <img src="{{ photo.fichier.url }}" alt="{{ photo.texte_alternatif }}" class="photo-emplacement">
+    </div>
+    {% endif %}{% endwith %}
+  </div>
 </div>
 {% endblock %}

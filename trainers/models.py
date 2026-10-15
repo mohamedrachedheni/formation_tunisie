@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
+from core.champs import ImageCompresseeField, SuppressionFichiersRemplacesMixin
 from core.fichiers import CheminAleatoire
 from core.models import ModeleDeBase
 from core.validators import valider_telephone
@@ -17,7 +18,7 @@ class FormateurQuerySet(models.QuerySet):
         return self.filter(est_actif=True, est_visible_site=True)
 
 
-class Formateur(ModeleDeBase):
+class Formateur(SuppressionFichiersRemplacesMixin, ModeleDeBase):
     """Formateur du centre. Peut exister sans compte utilisateur (affichage, affectation aux sessions)."""
 
     # Compte facultatif, donné au niveau 3 pour l'espace formateur.
@@ -34,7 +35,8 @@ class Formateur(ModeleDeBase):
     telephone = models.CharField('téléphone', max_length=20, blank=True, validators=[valider_telephone])
     specialite = models.CharField('spécialité', max_length=150, blank=True)
     biographie = models.TextField(blank=True, help_text='Présentation affichée sur le site si le formateur est visible.')
-    photo = models.ImageField(upload_to=CheminAleatoire('formateurs/photos'), blank=True)
+    # Affichée en médaillon de 120 px : 400 px de large suffisent, y compris sur écran haute densité.
+    photo = ImageCompresseeField(upload_to=CheminAleatoire('formateurs/photos'), blank=True, largeur_max=400)
     # Donnée personnelle : à ne jamais afficher sur le site public.
     cv = models.FileField(
         'CV', upload_to=CheminAleatoire('formateurs/cv'), blank=True,

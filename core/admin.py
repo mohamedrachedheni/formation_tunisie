@@ -1,7 +1,8 @@
 from django.contrib import admin, messages
 from django.utils import timezone
+from django.utils.html import format_html
 
-from .models import ParametresCentre, Partenaire, QuestionFrequente, Temoignage
+from .models import EmplacementPhoto, ParametresCentre, Partenaire, QuestionFrequente, Temoignage
 
 
 @admin.register(ParametresCentre)
@@ -9,7 +10,7 @@ class ParametresCentreAdmin(admin.ModelAdmin):
     list_display = ('nom', 'telephone', 'email', 'date_modification')
     readonly_fields = ('uuid', 'date_creation', 'date_modification')
     fieldsets = (
-        ('Identité', {'fields': ('nom', 'slogan', 'presentation', 'logo', 'image_accueil', 'matricule_fiscal')}),
+        ('Identité', {'fields': ('nom', 'slogan', 'presentation', 'logo', 'matricule_fiscal')}),
         ('Coordonnées', {'fields': ('adresse', 'ville', 'telephone', 'whatsapp', 'email')}),
         ('Réseaux sociaux', {'fields': ('facebook', 'instagram', 'linkedin')}),
         ('Suivi', {'fields': ('uuid', 'date_creation', 'date_modification')}),
@@ -73,3 +74,38 @@ class QuestionFrequenteAdmin(ContenuOrdonneAdmin):
     list_display = ('question', 'ordre', 'est_publie')
     search_fields = ('question', 'reponse')
     fields = ('question', 'reponse', 'est_publie', 'ordre', 'uuid', 'date_creation', 'date_modification')
+
+
+@admin.register(EmplacementPhoto)
+class EmplacementPhotoAdmin(admin.ModelAdmin):
+    """Changement des photos du site. Réservé à l'Administrateur (permission change_emplacementphoto)."""
+
+    list_display = ('apercu', 'libelle', 'page', 'format_conseille', 'a_une_photo')
+    list_display_links = ('apercu', 'libelle')
+    list_filter = ('page',)
+    readonly_fields = ('libelle', 'page', 'cle', 'format_conseille', 'apercu_grand', 'date_modification')
+    fields = ('libelle', 'page', 'format_conseille', 'apercu_grand', 'fichier', 'texte_alternatif', 'cle', 'date_modification')
+
+    # Les emplacements correspondent à des endroits précis des pages : ils sont créés par migration,
+    # jamais ajoutés ni supprimés à la main (pas même par le superutilisateur).
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    @admin.display(description='aperçu')
+    def apercu(self, obj):
+        if not obj.fichier:
+            return '—'
+        return format_html('<img src="{}" alt="" style="height:48px;width:auto;border-radius:4px">', obj.fichier.url)
+
+    @admin.display(description='photo actuelle')
+    def apercu_grand(self, obj):
+        if not obj.fichier:
+            return 'Aucune photo : la page affiche son fond par défaut.'
+        return format_html('<img src="{}" alt="" style="max-width:480px;height:auto;border-radius:6px">', obj.fichier.url)
+
+    @admin.display(description='photo', boolean=True)
+    def a_une_photo(self, obj):
+        return bool(obj.fichier)

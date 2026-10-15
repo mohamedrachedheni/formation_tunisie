@@ -6,6 +6,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+from core.champs import ImageCompresseeField, SuppressionFichiersRemplacesMixin
 from core.models import ModeleDeBase
 
 
@@ -55,7 +56,7 @@ class FormationQuerySet(models.QuerySet):
         return self.filter(est_publiee=True, categorie__est_active=True)
 
 
-class Formation(SlugAutomatiqueMixin, ModeleDeBase):
+class Formation(SuppressionFichiersRemplacesMixin, SlugAutomatiqueMixin, ModeleDeBase):
     champ_source_slug = 'titre'
 
     objects = FormationQuerySet.as_manager()
@@ -84,7 +85,8 @@ class Formation(SlugAutomatiqueMixin, ModeleDeBase):
     prix = models.DecimalField('prix (TND)', max_digits=10, decimal_places=3, validators=[MinValueValidator(0)])
     niveau = models.CharField(max_length=20, choices=Niveau.choices, default=Niveau.DEBUTANT)
     modalite = models.CharField('modalité', max_length=20, choices=Modalite.choices, default=Modalite.PRESENTIEL)
-    image = models.ImageField(upload_to=chemin_image_formation, blank=True)
+    # Affichée en carte (190 px de haut) et sur la fiche (colonne d'environ 800 px) : 1200 px de large suffisent.
+    image = ImageCompresseeField(upload_to=chemin_image_formation, blank=True, largeur_max=1200)
     # Une formation non publiée reste visible dans l'administration mais pas sur le site.
     est_publiee = models.BooleanField('publiée', default=False)
     est_certifiante = models.BooleanField('certifiante', default=False)

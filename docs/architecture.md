@@ -107,8 +107,17 @@ Pourquoi ce découpage :
   `catalogue_public` (domaines, formations à la une, nombre de formations), `sessions_publiques`
   (prochaines sessions, sessions ouvertes, stagiaires formés), `formateurs_publics` (équipe, nombre).
   `core` n'importe aucun code de ces applications.
-- Administrable : slogan, présentation, coordonnées, réseaux et image du bandeau (`ParametresCentre.image_accueil`),
+- Administrable : slogan, présentation, coordonnées, réseaux (`ParametresCentre`),
   formations mises en avant (`Formation.est_a_la_une` ; à défaut, les dernières publiées).
+- **Emplacements photo** (`core.EmplacementPhoto`) : un emplacement par endroit précis d'une page, identifié par une
+  `cle` fixe utilisée par les gabarits (`photos.accueil_bandeau`…). Créés par migration (`core.0006`) :
+  `accueil_bandeau`, `accueil_presentation`, `accueil_etapes`, `accueil_appel_action`, `a_propos_principale`.
+  Dans l'administration : ni ajout ni suppression (même superutilisateur), seule la photo et sa description changent ;
+  réservé à l'Administrateur. Toute photo doit être décrite (`texte_alternatif`, contrainte `CHECK`).
+  À l'envoi (`core/images.py`) : 10 Mo maximum, orientation du téléphone appliquée, métadonnées supprimées,
+  redimensionnement à `largeur_max`, conversion WebP ; l'ancien fichier est supprimé après remplacement.
+  Sans photo, chaque section garde son fond par défaut. Pour ajouter un emplacement : nouvelle migration + gabarit.
+  (Remplace l'ancien champ `ParametresCentre.image_accueil`, retiré en `core.0005`.)
 - Chiffres clés calculés depuis la base ; un chiffre nul n'est pas affiché (jamais de valeur inventée).
 - Style : bleu marine `#00205B`, jaune `#F7C800`, polices Poppins / Open Sans ; animations sans bibliothèque
   externe (`static/js/site.js`), désactivées si le visiteur préfère réduire les animations.
@@ -128,6 +137,13 @@ Pourquoi ce découpage :
 - `core.forms.FormulairePublicMixin` + gabarit `core/_champs_formulaire.html` : champ piège anti-spam
   `site_web` et classes Bootstrap pour tous les formulaires publics.
 - `ParametresCentre.lien_whatsapp_avec_message(texte)` : lien WhatsApp prérempli.
+- `core.champs.ImageCompresseeField` : champ image à utiliser pour **toute** image du projet (un test le vérifie).
+  À l'enregistrement d'une nouvelle image : 10 Mo maximum, orientation appliquée, métadonnées supprimées,
+  réduction à `largeur_max` (ou `champ_largeur`), conversion WebP, transparence conservée.
+  Largeurs : formation 1200, formateur 400, témoignage 200, logo partenaire 400, logo du centre 512,
+  emplacement photo selon l'emplacement.
+- `core.champs.SuppressionFichiersRemplacesMixin` : à placer en premier parent des modèles ayant de tels champs ;
+  supprime l'ancien fichier après remplacement ou retrait (après validation de la transaction uniquement).
 
 ### `enrollments`
 

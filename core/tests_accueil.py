@@ -6,7 +6,6 @@ from datetime import date
 from decimal import Decimal
 
 from django.contrib.staticfiles import finders
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
@@ -141,13 +140,4 @@ class AccueilParametresCentreTests(TestCase):
         self.assertContains(reponse, 'https://facebook.com/exemple')
         self.assertContains(reponse, 'barre-contact')
 
-    def test_image_du_bandeau(self):
-        self.assertNotContains(self.client.get(URL_ACCUEIL), '--image-hero')
-        ParametresCentre.objects.create(
-            nom='Centre', image_accueil=SimpleUploadedFile('photo centre.JPG', b'\xff\xd8\xff', content_type='image/jpeg'),
-        )
-        reponse = self.client.get(URL_ACCUEIL)
-        centre = ParametresCentre.obtenir()
-        self.assertTrue(centre.image_accueil.name.startswith('centre/accueil/'))
-        self.assertContains(reponse, f"--image-hero: url('{centre.image_accueil.url}')")
-        self.assertContains(reponse, 'accueil-hero avec-image')
+    # La photo du bandeau est désormais gérée par les emplacements photo (voir tests_photos.py).

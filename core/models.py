@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
+from .champs import ImageCompresseeField, SuppressionFichiersRemplacesMixin
 from .fichiers import CheminAleatoire
 
 
@@ -21,7 +22,7 @@ class ModeleDeBase(models.Model):
         abstract = True
 
 
-class ParametresCentre(ModeleDeBase):
+class ParametresCentre(SuppressionFichiersRemplacesMixin, ModeleDeBase):
     """Coordonnées et informations du centre affichées sur le site."""
 
     # Le centre est unique : la table ne contient qu'une seule ligne.
@@ -43,11 +44,8 @@ class ParametresCentre(ModeleDeBase):
     )
     email = models.EmailField(blank=True)
     matricule_fiscal = models.CharField('matricule fiscal', max_length=30, blank=True)
-    logo = models.ImageField(upload_to='centre/', blank=True)
-    image_accueil = models.ImageField(
-        'image du bandeau d’accueil', upload_to=CheminAleatoire('centre/accueil'), blank=True,
-        help_text='Photo du centre affichée en grand sur la page d’accueil (format paysage, 1920 × 1080 conseillé).',
-    )
+    # Logo affiché dans l'en-tête (36 px de haut) : 512 px de large suffisent, y compris sur écran haute densité.
+    logo = ImageCompresseeField(upload_to=CheminAleatoire('centre'), blank=True, largeur_max=512)
     facebook = models.URLField(blank=True)
     instagram = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
@@ -92,7 +90,7 @@ class ContenuPublieQuerySet(models.QuerySet):
         return self.filter(est_publie=True)
 
 
-class Temoignage(ModeleDeBase):
+class Temoignage(SuppressionFichiersRemplacesMixin, ModeleDeBase):
     """Avis d'un ancien stagiaire ou d'une entreprise, affiché sur la page d'accueil."""
 
     nom = models.CharField('nom affiché', max_length=100, help_text='Par exemple « Amira B. » : évitez le nom complet si la personne le préfère.')
@@ -100,7 +98,8 @@ class Temoignage(ModeleDeBase):
     formation_suivie = models.CharField('formation suivie', max_length=200, blank=True)
     texte = models.TextField('témoignage', max_length=800)
     note = models.PositiveSmallIntegerField('note sur 5', null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    photo = models.ImageField(upload_to=CheminAleatoire('temoignages'), blank=True)
+    # Photo affichée en vignette ronde de 48 px.
+    photo = ImageCompresseeField(upload_to=CheminAleatoire('temoignages'), blank=True, largeur_max=200)
     # Un témoignage est une donnée personnelle : il n'est publié qu'avec l'accord de la personne.
     consentement_obtenu = models.BooleanField(
         'accord de la personne obtenu', default=False,
@@ -133,11 +132,12 @@ class Temoignage(ModeleDeBase):
             raise ValidationError({'est_publie': 'Un témoignage ne peut être publié qu’avec l’accord de la personne.'})
 
 
-class Partenaire(ModeleDeBase):
+class Partenaire(SuppressionFichiersRemplacesMixin, ModeleDeBase):
     """Entreprise ou organisme partenaire, dont le logo est affiché sur la page d'accueil."""
 
     nom = models.CharField(max_length=150, unique=True)
-    logo = models.ImageField(upload_to=CheminAleatoire('partenaires'), help_text='Logo sur fond transparent ou blanc, utilisé avec l’accord du partenaire.')
+    # Logo affiché sur 60 px de haut (160 px de large au plus) ; la transparence est conservée.
+    logo = ImageCompresseeField(upload_to=CheminAleatoire('partenaires'), largeur_max=400, help_text='Logo sur fond transparent ou blanc, utilisé avec l’accord du partenaire.')
     site_web = models.URLField('site web', blank=True)
     est_publie = models.BooleanField('publié', default=True)
     ordre = models.PositiveSmallIntegerField('ordre d’affichage', default=0)
@@ -170,3 +170,58 @@ class QuestionFrequente(ModeleDeBase):
 
     def __str__(self):
         return self.question
+
+
+# --- Emplacements photo ---------------------------------------------------------------------
+
+class EmplacementPhoto(SuppressionFichiersRemplacesMixin, ModeleDeBase):
+    """Emplacement réservé à une photo sur une page du site.
+
+    Les emplacements sont créés par migration (ils correspondent à des endroits précis des gabarits) :
+    dans l'administration, on ne peut ni en ajouter ni en supprimer, seulement changer la photo.
+    Les gabarits les retrouvent par leur `cle`, qui ne change jamais.
+    """
+
+    class Page(models.TextChoices):
+        ACCUEIL = 'accueil', 'Accueil'
+        A_PROPOS = 'a_propos', 'À propos'
+
+    cle = models.CharField('clé', max_length=50, unique=True, editable=False)
+    page = models.CharField(max_length=20, choices=Page.choices, editable=False)
+    libelle = models.CharField('emplacement', max_length=150, editable=False)
+    format_conseille = models.CharField('format conseillé', max_length=100, blank=True, editable=False)
+    # Largeur maximale après redimensionnement automatique (en pixels).
+    largeur_max = models.PositiveIntegerField('largeur maximale', default=1920, editable=False)
+    # Largeur propre à chaque emplacement (champ largeur_max ci-dessus).
+    fichier = ImageCompresseeField(
+        'photo', upload_to=CheminAleatoire('emplacements'), blank=True, champ_largeur='largeur_max',
+        help_text='JPEG, PNG ou WebP, 10 Mo au plus. La photo est automatiquement redimensionnée et compressée.',
+    )
+    texte_alternatif = models.CharField(
+        'description de la photo', max_length=200, blank=True,
+        help_text='Décrit la photo pour les personnes malvoyantes et pour Google (ex. « Stagiaires en atelier de programmation »).',
+    )
+
+    class Meta:
+        verbose_name = 'emplacement photo'
+        verbose_name_plural = 'emplacements photo'
+        ordering = ['page', 'cle']
+        constraints = [
+            # Toute photo publiée doit être décrite (accessibilité, référencement).
+            models.CheckConstraint(
+                condition=models.Q(fichier='') | ~models.Q(texte_alternatif=''), name='emplacement_photo_decrite',
+            ),
+        ]
+
+    def __str__(self):
+        return self.libelle
+
+    @classmethod
+    def pour_page(cls, page):
+        """Dictionnaire {clé: emplacement} des emplacements d'une page (une seule requête)."""
+        return {emplacement.cle: emplacement for emplacement in cls.objects.filter(page=page)}
+
+    def clean(self):
+        super().clean()
+        if self.fichier and not self.texte_alternatif.strip():
+            raise ValidationError({'texte_alternatif': 'Décrivez la photo en quelques mots.'})

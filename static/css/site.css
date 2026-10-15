@@ -133,8 +133,30 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
   background: linear-gradient(135deg, var(--couleur-primaire) 0%, #0b3b8c 100%);
   overflow: hidden;
 }
+/* Photo de fond (emplacement photo) sous un voile bleu : le texte blanc reste lisible quelle que soit la photo */
 .accueil-hero.avec-image {
-  background: linear-gradient(90deg, rgba(0, 22, 64, .92) 0%, rgba(0, 32, 91, .6) 100%), var(--image-hero) center / cover no-repeat;
+  background: linear-gradient(90deg, rgba(0, 22, 64, .92) 0%, rgba(0, 32, 91, .6) 100%), var(--image-fond) center / cover no-repeat;
+}
+.appel-action.avec-image {
+  background: linear-gradient(135deg, rgba(0, 22, 64, .9), rgba(11, 59, 140, .8)), var(--image-fond) center / cover no-repeat;
+}
+
+/* Photos des emplacements */
+.photo-emplacement {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 10px 40px rgba(0, 32, 91, .12);
+}
+.photo-presentation { aspect-ratio: 3 / 2; object-fit: cover; }
+.photo-etapes { aspect-ratio: 12 / 5; object-fit: cover; max-width: 960px; margin-inline: auto; }
+/* Carte d'arguments qui chevauche le bas de la photo de présentation (grands écrans) */
+@media (min-width: 992px) {
+  .cadre-arguments-superpose { position: relative; margin: -4rem 1.5rem 0; }
+}
+@media (max-width: 991.98px) {
+  .cadre-arguments-superpose { margin-top: 1.5rem; }
 }
 .accueil-hero::after {
   /* Motif discret quand il n'y a pas de photo */
