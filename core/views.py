@@ -3,6 +3,7 @@ from django.views.generic import ListView, TemplateView
 from .models import EmplacementPhoto, Partenaire, QuestionFrequente, Temoignage
 
 NOMBRE_QUESTIONS_ACCUEIL = 5
+NOMBRE_TEMOIGNAGES_ACCUEIL = 12
 
 
 class AccueilView(TemplateView):
@@ -10,7 +11,8 @@ class AccueilView(TemplateView):
 
     def get_context_data(self, **kwargs):
         contexte = super().get_context_data(**kwargs)
-        contexte['temoignages'] = Temoignage.objects.publies()[:6]
+        # Affichés dans un carrousel (3 visibles à la fois) : jusqu'à 12 témoignages défilent.
+        contexte['temoignages'] = Temoignage.objects.publies()[:NOMBRE_TEMOIGNAGES_ACCUEIL]
         contexte['partenaires'] = Partenaire.objects.publies()
         questions = list(QuestionFrequente.objects.publies()[:NOMBRE_QUESTIONS_ACCUEIL + 1])
         contexte['questions'] = questions[:NOMBRE_QUESTIONS_ACCUEIL]

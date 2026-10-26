@@ -190,7 +190,7 @@ class AffichagePhotosTests(MediaTemporaireMixin, TestCase):
         self.assertContains(reponse, 'accueil-hero avec-image')
         self.assertContains(reponse, 'Photo : Façade du centre')
         self.assertContains(reponse, f'src="{presentation.fichier.url}" alt="Stagiaires en atelier"')
-        self.assertContains(reponse, 'cadre-arguments-superpose')
+        self.assertContains(reponse, 'cadre-arguments-sous-photo')
         self.assertContains(reponse, f'src="{etapes.fichier.url}" alt="Accueil des candidats"')
         self.assertContains(reponse, f"--image-fond: url('{appel.fichier.url}')")
         self.assertContains(reponse, 'appel-action avec-image')

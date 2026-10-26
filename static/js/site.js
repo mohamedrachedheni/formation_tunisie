@@ -1,4 +1,4 @@
-// Animations du site : apparition au défilement, compteurs, ombre de l'en-tête.
+// Animations du site : apparition au défilement, compteurs, ombre de l'en-tête, carrousels.
 // Sans JavaScript ou si le visiteur préfère réduire les animations, tout le contenu reste affiché normalement.
 (function () {
   'use strict';
@@ -12,6 +12,81 @@
     window.addEventListener('scroll', majEntete, { passive: true });
     majEntete();
   }
+
+  // Carrousels ([data-carrousel]) : défilement automatique d'une carte toutes les 5 secondes,
+  // retour au début en fin de ligne, boutons précédent / suivant / pause.
+  // Le défilement s'arrête au survol, au toucher et quand le carrousel a le focus clavier ;
+  // il est désactivé si le visiteur préfère réduire les animations (les boutons restent utilisables).
+  var DELAI_DEFILEMENT = 5000;
+  document.querySelectorAll('[data-carrousel]').forEach(function (carrousel) {
+    var piste = carrousel.querySelector('.carrousel-piste');
+    var commandes = carrousel.querySelector('[data-carrousel-commandes]');
+    var boutonPause = carrousel.querySelector('[data-carrousel-pause]');
+    if (!piste) { return; }
+
+    var minuterie = null;
+    var enPause = mouvementReduit;      // pause demandée par le visiteur (bouton) ou préférence système
+    var suspendu = false;               // pause temporaire : survol, toucher, focus
+
+    var deborde = function () { return piste.scrollWidth > piste.clientWidth + 2; };
+    var pas = function () {
+      var carte = piste.firstElementChild;
+      var espace = parseFloat(window.getComputedStyle(piste).columnGap) || 0;
+      return carte ? carte.getBoundingClientRect().width + espace : piste.clientWidth;
+    };
+    var defiler = function (sens) {
+      var auBout = piste.scrollLeft + piste.clientWidth >= piste.scrollWidth - 2;
+      var auDebut = piste.scrollLeft <= 2;
+      if (sens > 0 && auBout) {
+        piste.scrollTo({ left: 0 });
+      } else if (sens < 0 && auDebut) {
+        piste.scrollTo({ left: piste.scrollWidth });
+      } else {
+        piste.scrollBy({ left: sens * pas() });
+      }
+    };
+    var arreter = function () { window.clearInterval(minuterie); minuterie = null; };
+    var demarrer = function () {
+      arreter();
+      if (!enPause && !suspendu && deborde() && !document.hidden) {
+        minuterie = window.setInterval(function () { defiler(1); }, DELAI_DEFILEMENT);
+      }
+    };
+    var majPause = function () {
+      if (!boutonPause) { return; }
+      boutonPause.setAttribute('aria-pressed', enPause ? 'true' : 'false');
+      boutonPause.setAttribute('aria-label', enPause ? 'Reprendre le défilement' : 'Mettre en pause le défilement');
+      boutonPause.innerHTML = '<i class="bi ' + (enPause ? 'bi-play-fill' : 'bi-pause-fill') + '" aria-hidden="true"></i>';
+    };
+    var majCommandes = function () {
+      if (commandes) { commandes.hidden = !deborde(); }
+      demarrer();
+    };
+
+    var suivant = carrousel.querySelector('[data-carrousel-suivant]');
+    var precedent = carrousel.querySelector('[data-carrousel-precedent]');
+    if (suivant) { suivant.addEventListener('click', function () { defiler(1); demarrer(); }); }
+    if (precedent) { precedent.addEventListener('click', function () { defiler(-1); demarrer(); }); }
+    if (boutonPause) {
+      boutonPause.addEventListener('click', function () { enPause = !enPause; majPause(); demarrer(); });
+    }
+
+    var suspendre = function () { suspendu = true; arreter(); };
+    var reprendre = function () { suspendu = false; demarrer(); };
+    carrousel.addEventListener('mouseenter', suspendre);
+    carrousel.addEventListener('mouseleave', reprendre);
+    carrousel.addEventListener('focusin', suspendre);
+    carrousel.addEventListener('focusout', function (evenement) {
+      if (!carrousel.contains(evenement.relatedTarget)) { reprendre(); }
+    });
+    piste.addEventListener('touchstart', suspendre, { passive: true });
+    piste.addEventListener('touchend', function () { window.setTimeout(reprendre, DELAI_DEFILEMENT); }, { passive: true });
+    document.addEventListener('visibilitychange', demarrer);
+    window.addEventListener('resize', majCommandes);
+
+    majPause();
+    majCommandes();
+  });
 
   if (mouvementReduit || !('IntersectionObserver' in window)) {
     return;

@@ -70,7 +70,7 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
         {% with photo=photos.accueil_presentation %}{% if photo.fichier %}
         <img src="{{ photo.fichier.url }}" alt="{{ photo.texte_alternatif }}" class="photo-emplacement photo-presentation" loading="lazy">
         {% endif %}{% endwith %}
-        <div class="cadre-arguments{% if photos.accueil_presentation.fichier %} cadre-arguments-superpose{% endif %}">
+        <div class="cadre-arguments{% if photos.accueil_presentation.fichier %} cadre-arguments-sous-photo{% endif %}">
           <div class="argument">
             <i class="bi bi-patch-check" aria-hidden="true"></i>
             <div><h3 class="h6">Formations certifiantes</h3><p>Validez vos acquis par une attestation ou un certificat.</p></div>
@@ -206,10 +206,14 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
       <p class="section-surtitre">Témoignages</p>
       <h2 class="section-titre">Ils nous ont fait confiance</h2>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% comment %}
+    Carrousel : 3 témoignages visibles au départ (2 sur tablette, 1 sur mobile), défilement automatique
+    géré par static/js/site.js ; sans JavaScript, la ligne se fait défiler à la main.
+    {% endcomment %}
+    <div class="carrousel" data-carrousel aria-roledescription="carrousel" aria-label="Témoignages" data-anim="fade-up">
+      <div class="carrousel-piste" tabindex="0" aria-label="Témoignages — faire défiler horizontalement">
       {% for temoignage in temoignages %}
-      <div class="col" data-anim="fade-up" style="--delai: {{ forloop.counter0 }}">
-        <figure class="carte-temoignage h-100">
+        <figure class="carte-temoignage carrousel-element" aria-roledescription="diapositive" aria-label="{{ forloop.counter }} sur {{ temoignages|length }}">
           {% if temoignage.note %}
           <p class="temoignage-note" aria-label="Note : {{ temoignage.note }} sur 5">
             {% for etoile in "12345" %}<i class="bi {% if forloop.counter <= temoignage.note %}bi-star-fill{% else %}bi-star{% endif %}" aria-hidden="true"></i>{% endfor %}
@@ -228,8 +232,16 @@ de ces applications. Structure inspirée des sites de centres de formation tunis
             </span>
           </figcaption>
         </figure>
-      </div>
       {% endfor %}
+      </div>
+      {% if temoignages|length > 1 %}
+      {# Masquées par le script tant que tous les témoignages tiennent à l'écran #}
+      <div class="carrousel-commandes" data-carrousel-commandes>
+        <button type="button" class="carrousel-bouton" data-carrousel-precedent aria-label="Témoignage précédent"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+        <button type="button" class="carrousel-bouton" data-carrousel-pause aria-label="Mettre en pause le défilement" aria-pressed="false"><i class="bi bi-pause-fill" aria-hidden="true"></i></button>
+        <button type="button" class="carrousel-bouton" data-carrousel-suivant aria-label="Témoignage suivant"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      {% endif %}
     </div>
   </div>
 </section>

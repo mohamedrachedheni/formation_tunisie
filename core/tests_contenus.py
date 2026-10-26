@@ -87,10 +87,31 @@ class AccueilTemoignagesTests(TestCase):
         self.assertNotContains(reponse, '<script>alert(1)</script>')
         self.assertContains(reponse, '&lt;script&gt;alert(1)&lt;/script&gt;')
 
-    def test_six_temoignages_au_maximum(self):
-        for i in range(8):
+    def test_douze_temoignages_au_maximum_dans_le_carrousel(self):
+        for i in range(14):
             creer_temoignage(nom=f'Personne {i}', ordre=i)
-        self.assertEqual(len(self.client.get(URL_ACCUEIL).context['temoignages']), 6)
+        reponse = self.client.get(URL_ACCUEIL)
+        self.assertEqual(len(reponse.context['temoignages']), 12)
+        self.assertContains(reponse, 'carrousel-element', count=12)
+
+    def test_carrousel_sur_une_ligne_avec_commandes(self):
+        for i in range(5):
+            creer_temoignage(nom=f'Personne {i}', ordre=i)
+        reponse = self.client.get(URL_ACCUEIL)
+        self.assertContains(reponse, 'data-carrousel aria-roledescription="carrousel"')
+        self.assertContains(reponse, 'class="carrousel-piste"')
+        self.assertContains(reponse, 'aria-label="1 sur 5"')
+        for commande in ('data-carrousel-precedent', 'data-carrousel-pause', 'data-carrousel-suivant'):
+            self.assertContains(reponse, commande)
+        # L'ordre d'affichage est respecté dans la ligne.
+        contenu = reponse.content.decode()
+        self.assertLess(contenu.index('Personne 0'), contenu.index('Personne 4'))
+
+    def test_un_seul_temoignage_sans_commandes(self):
+        creer_temoignage()
+        reponse = self.client.get(URL_ACCUEIL)
+        self.assertContains(reponse, 'carrousel-element', count=1)
+        self.assertNotContains(reponse, 'data-carrousel-commandes')
 
 
 # --- Partenaires ----------------------------------------------------------------------------

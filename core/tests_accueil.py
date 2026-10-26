@@ -39,6 +39,14 @@ class AccueilVideTests(TestCase):
         self.assertNotContains(reponse, 'bandeau-defilant')
         self.assertNotContains(reponse, 'Nos formateurs')
 
+    def test_aucun_commentaire_de_gabarit_affiche(self):
+        # Un commentaire {# … #} écrit sur plusieurs lignes s'affiche en clair sur la page.
+        for url in ('/', '/formations/', '/sessions/', '/a-propos/', '/contact/', '/faq/'):
+            with self.subTest(url=url):
+                contenu = self.client.get(url).content.decode()
+                self.assertNotIn('{#', contenu)
+                self.assertNotIn('#}', contenu)
+
     def test_ressources_statiques_presentes(self):
         self.assertIsNotNone(finders.find('css/site.css'))
         self.assertIsNotNone(finders.find('js/site.js'))
