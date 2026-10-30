@@ -1,0 +1,7 @@
+{% extends "accounts/_carte_compte.html" %}
+{% block titre %}Mot de passe modifié{% endblock %}
+{% block carte %}
+<h1 class="h3 mb-3">Mot de passe modifié</h1>
+<p>Votre nouveau mot de passe est enregistré. Vous pouvez maintenant vous connecter.</p>
+<a href="{% url 'accounts:connexion' %}" class="btn btn-primary">Se connecter</a>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block titre %}{{ session.formation.titre }} — inscrits{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+  {% include "espaces/_entete_espace.html" with titre_espace="Espace formateur" %}
+  <nav aria-label="Fil d’Ariane"><ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'espaces:formateur' %}">Mes sessions</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ session.code }}</li>
+  </ol></nav>
+  <h2 class="h3">{{ session.formation.titre }}</h2>
+  <p class="text-body-secondary">Du {{ session.date_debut|date:"d/m/Y" }} au {{ session.date_fin|date:"d/m/Y" }}
+    {% if session.horaires %} · {{ session.horaires }}{% endif %}{% if session.lieu %} · {{ session.lieu }}{% endif %}
+    · <span class="badge statut statut-{{ session.statut }}">{{ session.get_statut_display }}</span></p>
+
+  <h3 class="h5 mt-4 mb-3">Inscrits confirmés ({{ inscrits|length }} / {{ session.places_max }})</h3>
+  {% if inscrits %}
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead><tr><th>Nom</th><th>Prénom</th><th>Téléphone</th><th>Email</th></tr></thead>
+      <tbody>
+      {% for inscription in inscrits %}
+        {# Seulement nom, prénom, téléphone et email : jamais la CIN, le prix ni les notes internes. #}
+        <tr>
+          <td>{{ inscription.candidat.nom }}</td>
+          <td>{{ inscription.candidat.prenom }}</td>
+          <td><a href="tel:{{ inscription.candidat.telephone }}">{{ inscription.candidat.telephone }}</a></td>
+          <td>{% if inscription.candidat.email %}<a href="mailto:{{ inscription.candidat.email }}">{{ inscription.candidat.email }}</a>{% else %}—{% endif %}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-body-secondary">Ces coordonnées sont confidentielles : utilisez-les uniquement pour le suivi de cette session.</p>
+  {% else %}
+  <p class="text-body-secondary">Aucun inscrit confirmé pour le moment.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "accounts/_carte_compte.html" %}
+{% block titre %}Email envoyé{% endblock %}
+{% block carte %}
+<h1 class="h3 mb-3">Vérifiez votre messagerie</h1>
+<p>Si un compte correspond à cette adresse, un email contenant un lien vient de vous être envoyé.
+   Le lien est valable 24 heures.</p>
+<p class="small text-body-secondary">Rien reçu ? Vérifiez les courriers indésirables, ou contactez le centre.</p>
+<a href="{% url 'accounts:connexion' %}" class="btn btn-outline-primary">Retour à la connexion</a>
+{% endblock %}

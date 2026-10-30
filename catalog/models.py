@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 from core.champs import ImageCompresseeField, SuppressionFichiersRemplacesMixin
+from core.fichiers import StockagePrive
 from core.models import ModeleDeBase
 
 
@@ -143,12 +144,15 @@ class DocumentFormation(ModeleDeBase):
 
     formation = models.ForeignKey(Formation, on_delete=models.CASCADE, related_name='documents')
     titre = models.CharField(max_length=200)
+    # Stockage privé : le fichier n'est jamais servi directement, mais par une vue qui vérifie les droits
+    # (application espaces). Son URL reste utilisable normalement (gabarits, administration).
     fichier = models.FileField(
         upload_to=chemin_document_formation,
+        storage=StockagePrive(),
         validators=[FileExtensionValidator(EXTENSIONS_AUTORISEES)],
     )
-    # Public : téléchargeable sur la fiche de la formation (ex. brochure).
-    # Non public : réservé aux inscrits (niveau 3).
+    # Public : téléchargeable par tous sur la fiche de la formation (ex. brochure).
+    # Non public : réservé aux candidats confirmés, aux formateurs de la formation et au personnel.
     est_public = models.BooleanField('public', default=False)
 
     class Meta:

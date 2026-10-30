@@ -122,7 +122,7 @@ class ModuleProgrammeTests(CatalogueTestCase):
             ModuleProgramme.objects.create(formation=self.formation, ordre=2, titre='Durée nulle', duree_heures=0)
 
 
-@override_settings(MEDIA_ROOT=MEDIA_TEST)
+@override_settings(MEDIA_ROOT=MEDIA_TEST, FICHIERS_PRIVES_ROOT=MEDIA_TEST)
 class DocumentFormationTests(MediaTemporaireMixin, CatalogueTestCase):
     def test_extension_interdite_refusee(self):
         formation = creer_formation(self.informatique)
@@ -143,7 +143,7 @@ class DocumentFormationTests(MediaTemporaireMixin, CatalogueTestCase):
 
 # --- Pages publiques ------------------------------------------------------------------------
 
-@override_settings(MEDIA_ROOT=MEDIA_TEST)
+@override_settings(MEDIA_ROOT=MEDIA_TEST, FICHIERS_PRIVES_ROOT=MEDIA_TEST)
 class PagesCatalogueTests(MediaTemporaireMixin, CatalogueTestCase):
     @classmethod
     def setUpTestData(cls):

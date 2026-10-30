@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
 
+from commercial.models import DemandeContact
 from core.validators import normaliser_telephone
 
 from .models import Candidat, Inscription, Session
@@ -142,6 +143,72 @@ def pre_inscrire(session, donnees_candidat, message=''):
             notes.append(f'Message du candidat : {message}')
         inscription = inscrire(candidat, session, source=Inscription.Source.SITE, notes='\n'.join(notes))
         return inscription, True
+
+
+class CreationCandidatImpossible(ValidationError):
+    """La fiche candidat ne peut pas être créée à partir d'une demande (message destiné au centre)."""
+
+
+def separer_nom_complet(nom_complet):
+    """« Amira Ben Salah » → ('Amira', 'Ben Salah') : le premier mot est pris comme prénom.
+
+    Le visiteur saisit un seul champ « nom et prénom » dans un ordre quelconque :
+    le découpage est une proposition que le centre vérifie sur la fiche créée.
+    Retourne None si le nom ne contient qu'un mot.
+    """
+    mots = (nom_complet or '').split()
+    if len(mots) < 2:
+        return None
+    return mots[0], ' '.join(mots[1:])
+
+
+def candidat_depuis_demande(demande, utilisateur):
+    """Crée (ou retrouve) la fiche candidat d'une demande de contact.
+
+    Retourne (candidat, est_nouveau).
+    - Un candidat existant (même téléphone ou même email) est réutilisé et sa fiche n'est pas modifiée :
+      les coordonnées différentes sont reportées dans les notes internes de la demande.
+    - Sinon une fiche est créée avec le prénom, le nom, le téléphone et l'email de la demande.
+      Le téléphone est obligatoire pour un candidat : une demande sans téléphone est refusée.
+    - La demande passe de « Nouvelle » à « En cours » (une demande déjà traitée garde son statut),
+      le responsable est renseigné s'il est vide, et l'opération est tracée dans les notes internes.
+    """
+    with transaction.atomic():
+        # Verrou sur la demande : un double clic ne crée pas deux fiches.
+        demande = DemandeContact.objects.select_for_update().get(pk=demande.pk)
+        candidat = trouver_candidat(demande.telephone, demande.email)
+        est_nouveau = candidat is None
+        if est_nouveau:
+            if not demande.telephone:
+                raise CreationCandidatImpossible(
+                    'la demande n’a pas de téléphone, obligatoire pour une fiche candidat : '
+                    'créez la fiche manuellement après avoir obtenu le numéro.'
+                )
+            noms = separer_nom_complet(demande.nom)
+            if noms is None:
+                raise CreationCandidatImpossible(
+                    'le nom ne contient qu’un mot (prénom et nom requis) : créez la fiche manuellement.'
+                )
+            candidat = Candidat(prenom=noms[0], nom=noms[1], telephone=demande.telephone, email=demande.email)
+            candidat.full_clean()
+            candidat.save()
+            notes = [f'Fiche candidat créée : {candidat}.']
+        else:
+            notes = [f'Candidat existant retrouvé : {candidat} (aucune fiche créée).']
+            differences = _differences(candidat, {'telephone': demande.telephone, 'email': demande.email})
+            if differences:
+                notes.append('Coordonnées de la demande différentes de la fiche (à vérifier) :')
+                notes.extend(differences)
+
+        horodatage = timezone.localtime().strftime('%d/%m/%Y %H:%M')
+        notes[0] = f'[{horodatage}] {notes[0]}'
+        demande.notes = '\n'.join(filter(None, [demande.notes.strip(), *notes]))
+        if demande.statut == DemandeContact.Statut.NOUVELLE:
+            demande.statut = DemandeContact.Statut.EN_COURS
+        if demande.traitee_par_id is None:
+            demande.traitee_par = utilisateur
+        demande.save(update_fields=['notes', 'statut', 'traitee_par', 'date_modification'])
+        return candidat, est_nouveau
 
 
 def confirmer(inscription):

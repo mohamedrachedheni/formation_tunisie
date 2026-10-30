@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block titre %}Mes coordonnées{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+  {% include "espaces/_entete_espace.html" with titre_espace="Espace candidat" %}
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item"><a class="nav-link" href="{% url 'espaces:candidat' %}">Mes inscriptions</a></li>
+    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'espaces:profil' %}">Mes coordonnées</a></li>
+  </ul>
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <h2 class="h4 mb-3">Mes coordonnées</h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% include "core/_champs_formulaire.html" with form=form %}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </form>
+    </div>
+    <div class="col-lg-6">
+      <h2 class="h4 mb-3">Mon identité</h2>
+      <dl class="row">
+        <dt class="col-sm-4">Nom</dt><dd class="col-sm-8">{{ object.prenom }} {{ object.nom }}</dd>
+        <dt class="col-sm-4">CIN</dt><dd class="col-sm-8">{{ object.cin|default:"—" }}</dd>
+      </dl>
+      <p class="small text-body-secondary">Une erreur dans votre nom ou votre CIN ? Contactez le centre : ces informations
+        figurent sur vos attestations et ne peuvent être corrigées que par lui.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

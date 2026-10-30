@@ -1,0 +1,27 @@
+{% extends "admin/base_site.html" %}
+{% load admin_urls %}
+{% comment %}Page intermédiaire de l'action « Annuler » : motif obligatoire et confirmation.{% endcomment %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Accueil</a> ›
+  <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a> ›
+  Annulation
+</div>
+{% endblock %}
+
+{% block content %}
+<p>Les documents suivants seront <strong>annulés</strong>. Ils restent enregistrés, mais leur page de vérification
+   indiquera « Document annulé » et le candidat ne pourra plus les télécharger.</p>
+<ul>
+  {% for certificat in certificats %}<li>{{ certificat.numero }} — {{ certificat.titulaire }} ({{ certificat.get_statut_display|lower }})</li>{% endfor %}
+</ul>
+<form method="post">{% csrf_token %}
+  {% for certificat in certificats %}<input type="hidden" name="{{ action_checkbox_name }}" value="{{ certificat.pk }}">{% endfor %}
+  <input type="hidden" name="action" value="annuler">
+  <p><label for="motif"><strong>Motif de l’annulation</strong> (obligatoire, non visible sur la page publique) :</label><br>
+     <textarea name="motif" id="motif" rows="3" cols="80" required></textarea></p>
+  <input type="submit" name="confirmer" value="Confirmer l’annulation">
+  <a href="{% url opts|admin_urlname:'changelist' %}" class="button cancel-link">Retour</a>
+</form>
+{% endblock %}

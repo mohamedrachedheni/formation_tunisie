@@ -1,7 +1,8 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.models import Group
 from django.utils import timezone
 
+from accounts.invitations import reponse_action_invitation
 from accounts.models import Roles
 
 from .models import Formateur
@@ -16,7 +17,7 @@ class FormateurAdmin(admin.ModelAdmin):
     search_fields = ('nom', 'prenom', 'email', 'telephone', 'specialite')
     autocomplete_fields = ('utilisateur',)
     readonly_fields = ('uuid', 'date_creation', 'date_modification')
-    actions = ('desactiver',)
+    actions = ('creer_acces_espace', 'desactiver')
     fieldsets = (
         ('Identité', {'fields': ('prenom', 'nom', 'specialite', 'photo', 'biographie')}),
         ('Coordonnées', {'fields': ('telephone', 'email')}),
@@ -42,6 +43,17 @@ class FormateurAdmin(admin.ModelAdmin):
         # Le rôle n'est jamais retiré automatiquement : la personne peut avoir d'autres fonctions.
         if obj.utilisateur_id:
             obj.utilisateur.groups.add(Group.objects.get(name=Roles.FORMATEUR))
+
+    @admin.action(description='Créer ou renouveler l’accès à l’espace formateur', permissions=['change'])
+    def creer_acces_espace(self, request, queryset):
+        # Un formateur inactif ne reçoit pas d'accès à l'espace formateur.
+        inactifs = queryset.filter(est_actif=False).count()
+        if inactifs:
+            self.message_user(request, f'{inactifs} formateur(s) inactif(s) ignoré(s) : réactivez-les d’abord.', messages.WARNING)
+        actifs = queryset.filter(est_actif=True)
+        if actifs.exists():
+            return reponse_action_invitation(self, request, actifs, Roles.FORMATEUR)
+        return None
 
     @admin.action(description='Désactiver (et retirer du site)', permissions=['change'])
     def desactiver(self, request, queryset):

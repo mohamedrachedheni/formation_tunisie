@@ -26,3 +26,14 @@ def normaliser_telephone(numero):
     if chiffres.startswith('+216') and len(chiffres) == 12:
         return chiffres[4:]
     return chiffres
+
+
+def telephone_international(numero):
+    """Numéro au format attendu par wa.me (chiffres seuls, avec indicatif) : « 98 123 456 » → « 21698123456 »."""
+    normalise = normaliser_telephone(numero)
+    if not normalise:
+        return ''
+    if normalise.startswith('+'):
+        return normalise[1:]
+    # Numéro tunisien à 8 chiffres : on ajoute l'indicatif 216.
+    return f'216{normalise}' if len(normalise) == 8 else normalise

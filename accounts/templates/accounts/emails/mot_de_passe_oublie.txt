@@ -1,0 +1,9 @@
+{% autoescape off %}Bonjour {{ user.first_name|default:"" }},
+
+Vous avez demandé à choisir un nouveau mot de passe pour votre espace.
+Cliquez sur ce lien (valable 24 heures) :
+
+{{ protocol }}://{{ domain }}{% url 'accounts:reinitialisation' uidb64=uid token=token %}
+
+Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet email : votre mot de passe reste inchangé.
+{% endautoescape %}

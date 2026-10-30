@@ -1,0 +1,38 @@
+{% extends "admin/base_site.html" %}
+{% load admin_urls %}
+{% comment %}Résultat de l'action « Créer ou renouveler l'accès à l'espace » (candidats, formateurs).{% endcomment %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Accueil</a> ›
+  <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a> ›
+  Accès aux espaces
+</div>
+{% endblock %}
+
+{% block content %}
+<p>Transmettez à chaque personne son lien personnel (WhatsApp ou email).
+   Il est <strong>valable 7 jours</strong> et ne sert <strong>qu’une seule fois</strong> : la personne y choisit son mot de passe.
+   Ne le partagez avec personne d’autre.</p>
+
+<table style="width:100%">
+  <thead><tr><th>Personne</th><th>Résultat</th><th>Lien d’activation</th><th></th></tr></thead>
+  <tbody>
+  {% for resultat in resultats %}
+    <tr>
+      <td><strong>{{ resultat.personne }}</strong></td>
+      <td>{% if resultat.erreur %}<span style="color:#ba2121">{{ resultat.erreur }}</span>{% else %}{{ resultat.message }}{% endif %}</td>
+      <td>{% if resultat.lien %}<input type="text" value="{{ resultat.lien }}" readonly style="width:100%" id="lien-{{ forloop.counter }}" onclick="this.select()">{% endif %}</td>
+      <td style="white-space:nowrap">
+        {% if resultat.lien %}
+        <button type="button" class="button" onclick="navigator.clipboard.writeText(document.getElementById('lien-{{ forloop.counter }}').value); this.textContent='Copié ✓'">Copier</button>
+        {% if resultat.lien_whatsapp %}<a class="button" href="{{ resultat.lien_whatsapp }}" target="_blank" rel="noopener" style="background:#198754;color:#fff">Envoyer par WhatsApp</a>{% endif %}
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<p style="margin-top:1.5em"><a class="button" href="{% url opts|admin_urlname:'changelist' %}">Retour à la liste</a></p>
+{% endblock %}

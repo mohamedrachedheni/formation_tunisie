@@ -1,7 +1,9 @@
-﻿asgiref==3.12.1
-Django==5.2.18
+asgiref==3.12.1
+charset-normalizer==3.5.2
 django-environ==0.14.0
+Django==5.2.18
 mysqlclient==2.3.0
 pillow==12.3.0
+reportlab==5.1.0
 sqlparse==0.6.0
 tzdata==2026.5

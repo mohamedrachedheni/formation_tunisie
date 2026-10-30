@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'commercial',
     'trainers',
     'enrollments',
+    'certificates',
+    'espaces',  # au sommet des dépendances : utilise toutes les autres applications
 ]
 
 # Modèle utilisateur personnalisé (connexion par email)
@@ -154,6 +156,40 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Fichiers envoyés par les utilisateurs
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Fichiers privés (documents réservés aux inscrits) : stockés HORS de MEDIA_ROOT, jamais servis directement
+# par le serveur web ; ils ne sont téléchargeables que par une vue qui vérifie les droits (application espaces).
+FICHIERS_PRIVES_ROOT = env('FICHIERS_PRIVES_ROOT', default=str(BASE_DIR / 'fichiers_prives'))
+FICHIERS_PRIVES_URL = '/espace/fichiers/'
+
+
+# --- Comptes et connexion ---------------------------------------------------------------------
+
+LOGIN_URL = 'accounts:connexion'
+LOGIN_REDIRECT_URL = 'espaces:tableau'
+LOGOUT_REDIRECT_URL = 'core:accueil'
+
+# Mot de passe oublié : lien valable 1 jour. Lien d'invitation (activation du compte) : 7 jours
+# (voir accounts.jetons). Après 5 échecs de connexion, blocage pendant 15 minutes.
+PASSWORD_RESET_TIMEOUT = 60 * 60 * 24
+DUREE_VALIDITE_INVITATION = 60 * 60 * 24 * 7
+CONNEXION_ECHECS_MAX = 5
+CONNEXION_DUREE_BLOCAGE = 15 * 60
+
+# Cookies de session et CSRF transmis uniquement en HTTPS en production (DEBUG=False).
+SESSION_COOKIE_SECURE = env.bool('COOKIES_SECURISES', default=not DEBUG)
+CSRF_COOKIE_SECURE = env.bool('COOKIES_SECURISES', default=not DEBUG)
+SESSION_COOKIE_HTTPONLY = True
+
+# Envoi des emails (mot de passe oublié). En développement : affichés dans la console.
+# En production : EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend et paramètres SMTP dans .env.
+EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = env('EMAIL_HOST', default='')
+EMAIL_PORT = env.int('EMAIL_PORT', default=587)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='ne-pas-repondre@localhost')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -52,6 +52,11 @@
           <li class="nav-item"><a class="nav-link{% if url_sessions in request.path %} active{% endif %}" href="{{ url_sessions }}"{% if request.path == url_sessions %} aria-current="page"{% endif %}>Sessions</a></li>
           <li class="nav-item"><a class="nav-link{% if request.path == url_a_propos %} active{% endif %}" href="{{ url_a_propos }}"{% if request.path == url_a_propos %} aria-current="page"{% endif %}>À propos</a></li>
           <li class="nav-item"><a class="nav-link{% if request.path == url_contact %} active{% endif %}" href="{{ url_contact }}"{% if request.path == url_contact %} aria-current="page"{% endif %}>Contact</a></li>
+          {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link{% if '/espace/' in request.path %} active{% endif %}" href="{% url 'espaces:tableau' %}"><i class="bi bi-person-circle" aria-hidden="true"></i> Mon espace</a></li>
+          {% else %}
+          <li class="nav-item"><a class="nav-link{% if '/compte/' in request.path %} active{% endif %}" href="{% url 'accounts:connexion' %}"><i class="bi bi-person" aria-hidden="true"></i> Connexion</a></li>
+          {% endif %}
           <li class="nav-item ms-lg-3 mt-2 mt-lg-0"><a class="btn btn-accent" href="{{ url_sessions }}">S’inscrire</a></li>
         </ul>
       </div>

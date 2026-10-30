@@ -1,5 +1,14 @@
 from django.contrib import admin, messages
+from django.core.exceptions import ValidationError
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html
+
+from accounts.invitations import reponse_action_invitation
+from accounts.models import Roles
+from commercial.admin import DemandeContactAdmin
+from commercial.models import DemandeContact
 
 from . import services
 from .forms import InscriptionAjoutForm
@@ -84,6 +93,7 @@ class CandidatAdmin(admin.ModelAdmin):
     search_fields = ('nom', 'prenom', 'telephone', 'email', 'cin')
     readonly_fields = ('uuid', 'date_creation', 'date_modification')
     inlines = (InscriptionsDuCandidatInline,)
+    actions = ('creer_acces_espace',)
     fieldsets = (
         ('Identité', {'fields': ('prenom', 'nom', 'cin', 'date_naissance')}),
         ('Coordonnées', {'fields': ('telephone', 'email', 'gouvernorat')}),
@@ -98,6 +108,10 @@ class CandidatAdmin(admin.ModelAdmin):
         if not request.user.has_perm('accounts.view_utilisateur'):
             champs = (*champs, 'utilisateur')
         return champs
+
+    @admin.action(description='Créer ou renouveler l’accès à l’espace candidat', permissions=['change'])
+    def creer_acces_espace(self, request, queryset):
+        return reponse_action_invitation(self, request, queryset, Roles.CANDIDAT)
 
     @admin.display(description='candidat', ordering='nom')
     def nom_complet(self, obj):
@@ -189,3 +203,45 @@ class InscriptionAdmin(admin.ModelAdmin):
                 raise services.InscriptionImpossible('Seule une inscription annulée peut être remise en attente.')
             services.inscrire(inscription.candidat, inscription.session, source=inscription.source)
         self._appliquer(request, queryset, reinscrire, 'remise(s) en attente')
+
+
+# --- Demandes de contact ---------------------------------------------------------------------
+
+# L'administration des demandes est définie dans « commercial », qui ne connaît pas les candidats
+# (ordre des dépendances). L'action qui crée la fiche candidat est donc ajoutée ici, en remplaçant
+# l'enregistrement d'origine par une version étendue.
+admin.site.unregister(DemandeContact)
+
+
+@admin.register(DemandeContact)
+class DemandeContactAvecCandidatAdmin(DemandeContactAdmin):
+    actions = (*DemandeContactAdmin.actions, 'creer_fiche_candidat')
+
+    def has_creer_candidat_permission(self, request):
+        # Il faut pouvoir modifier la demande (statut, notes) et créer un candidat.
+        return self.has_change_permission(request) and request.user.has_perm('enrollments.add_candidat')
+
+    @admin.action(description='Créer la fiche candidat', permissions=['creer_candidat'])
+    def creer_fiche_candidat(self, request, queryset):
+        fiches = []
+        for demande in queryset.order_by('date_creation'):
+            try:
+                candidat, est_nouveau = services.candidat_depuis_demande(demande, request.user)
+            except ValidationError as erreur:
+                self.message_user(request, f'{demande.nom} : {" ".join(erreur.messages)}', messages.ERROR)
+                continue
+            url = reverse('admin:enrollments_candidat_change', args=[candidat.pk])
+            fiches.append(url)
+            if est_nouveau:
+                self.message_user(request, format_html(
+                    'Fiche candidat créée : <a href="{}">{}</a>. Vérifiez le prénom et le nom, '
+                    'puis envoyez l’invitation depuis la liste des candidats.', url, candidat,
+                ), messages.SUCCESS)
+            else:
+                self.message_user(request, format_html(
+                    'Candidat existant retrouvé : <a href="{}">{}</a> (aucune fiche créée ; '
+                    'différences éventuelles reportées dans les notes de la demande).', url, candidat,
+                ), messages.WARNING)
+        # Une seule demande sélectionnée : on ouvre directement la fiche pour la vérifier ou la compléter.
+        if len(fiches) == 1 and queryset.count() == 1:
+            return redirect(fiches[0])

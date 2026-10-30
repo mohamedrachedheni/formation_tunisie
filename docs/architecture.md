@@ -38,6 +38,7 @@ Document de référence validé le 15/10/2026. Toute évolution de l'architectur
 | `trainers` | Formateurs | 2 |
 | `enrollments` | Sessions, candidats, inscriptions (plus tard : présences) | 2 |
 | `certificates` | Certificats et vérification publique | 3 |
+| `espaces` | Espaces candidat et formateur, téléchargement protégé des documents (sans modèle) | 3 |
 
 Pourquoi ce découpage :
 
@@ -177,13 +178,67 @@ Pourquoi ce découpage :
   qui est inscrit) ; transaction unique (aucun candidat créé si l'inscription est refusée).
 - **Téléphone des candidats** stocké normalisé (`core.validators.normaliser_telephone`) : `98123456`,
   ou `+XXX…` pour un numéro étranger.
+- **Demande de contact → fiche candidat** (`services.candidat_depuis_demande`, action d'administration
+  « Créer la fiche candidat » sur les demandes de contact) : candidat existant retrouvé par téléphone puis email
+  (fiche jamais modifiée, différences reportées dans les notes internes de la demande) ; sinon fiche créée
+  (premier mot du nom = prénom, à vérifier) ; refus si la demande n'a pas de téléphone ou un nom d'un seul mot.
+  La demande passe de « Nouvelle » à « En cours ». L'action est ajoutée par `enrollments/admin.py`, qui
+  ré-enregistre l'administration de `DemandeContact` : `commercial` ne connaît pas les candidats.
+  Droits requis : modifier les demandes et ajouter un candidat.
+
+### Niveau 3 — comptes et espaces personnels
+
+- **Création des comptes par invitation** (`accounts/invitations.py`) : action d'administration
+  « Créer ou renouveler l'accès » sur un candidat ou un formateur actif. Le compte est créé (sans mot de passe),
+  reçoit le rôle et est rattaché à la fiche ; un **lien d'activation personnel, à usage unique, valable 7 jours**
+  est affiché, à copier ou à envoyer par WhatsApp. Pas d'inscription libre : seules les personnes connues du centre
+  ont un compte. Email obligatoire sur la fiche (identifiant de connexion).
+- **Jetons** (`accounts/jetons.py`) : même mécanisme que « mot de passe oublié », avec un sel et une durée propres ;
+  les liens contiennent l'**uuid** du compte (jamais l'id numérique).
+- **Connexion** par email (`/compte/connexion/`), déconnexion en POST uniquement, mot de passe oublié par email
+  (lien valable 24 h ; même réponse que l'email existe ou non). Blocage 15 min après 5 échecs (par IP et par email).
+- **Accès à un espace** = rôle (groupe) **et** fiche rattachée ; un formateur désactivé perd l'accès.
+  `/espace/` dirige chacun vers son espace (personnel du centre : administration).
+- **Espace candidat** (`/espace/candidat/`) : ses inscriptions (statut, prix convenu, résultat), ses documents
+  (formations où il est confirmé ou a terminé), emplacement « Mes certificats ». Il modifie son téléphone et son
+  email (qui est aussi son email de connexion) ; nom et CIN restent gérés par le centre.
+- **Espace formateur** (`/espace/formateur/`) : ses sessions (en cours, à venir, passées), les inscrits confirmés
+  d'une session avec **nom, prénom, téléphone et email uniquement** (jamais CIN, prix, notes internes) ;
+  la session d'un collègue renvoie 404.
+- **Documents de formation en stockage privé** (`core.fichiers.StockagePrive`, dossier `FICHIERS_PRIVES_ROOT`,
+  hors de `media/`) : servis uniquement par `/espace/fichiers/<chemin>` après vérification
+  (`espaces/acces.peut_telecharger`) : document public d'une formation visible → tous ; personnel avec
+  `view_documentformation` ; candidat confirmé ou ayant terminé ; formateur d'une session non annulée.
+  Sans droit : 404.
 
 ### `certificates`
 
-- **Modèle** : `Certificat` : inscription (`OneToOne`), numero, type (attestation de participation /
-  certificat de réussite), date_delivrance, fichier, statut (valide / annulé), delivre_par.
-- **Permissions** : délivrance avec `delivrer_certificat` ; le candidat voit ses certificats ;
-  vérification publique par `uuid` (QR code), données minimales.
+- **Modèle** : `Certificat` : inscription (`OneToOne`, PROTECT), numero (`CERT-AAAA-NNNNN`, unique), type
+  (attestation de participation / certificat de réussite), statut (valide / annulé), date_delivrance, delivre_par,
+  motif_annulation, date_annulation, et le **contenu imprimé recopié à la délivrance** : titulaire, formation_titre,
+  duree_heures, date_debut, date_fin, signataire_nom, signataire_fonction. Le document ne change donc pas si la
+  fiche du candidat, la formation ou le signataire changent ensuite (correction : action « Mettre à jour »).
+- **Pas de fichier stocké** : le PDF (reportlab, A4 paysage, QR code vers la page de vérification) est produit
+  à chaque téléchargement à partir de ce contenu. Écart avec le plan initial (champ `fichier`) : aucun fichier
+  à synchroniser ni à protéger. Seule l'image de signature est lue au moment du téléchargement.
+- **Services** (`certificates/services.py`) : `delivrer` (inscription terminée ; réussi → certificat de réussite,
+  échoué → attestation de participation ; un certificat annulé est remis en vigueur avec le même numéro),
+  `mettre_a_jour`, `annuler` (motif obligatoire, certificat conservé). Numéro suivant lu sous verrou
+  (`select_for_update`) et nouvel essai en cas de conflit d'unicité.
+- **Délivrance manuelle** : action « Délivrer le certificat / l'attestation » sur les inscriptions, ajoutée par
+  `certificates/admin.py` qui ré-enregistre l'administration des inscriptions (`enrollments` ne connaît pas les
+  certificats). Colonne « certificat » dans la liste des inscriptions.
+- **Administration des certificats** : consultation seule pour tous (même superutilisateur) : ni ajout, ni
+  modification, ni suppression ; actions « Mettre à jour » (`delivrer_certificat`) et « Annuler » (page de
+  confirmation avec motif, `annuler_certificat`) ; téléchargement du PDF (`view_certificat`).
+- **Droits** : Administrateur : consulter, délivrer, annuler ; Gestionnaire : consulter, délivrer.
+- **Vérification publique** : `/certificats/verifier/<uuid>/` (adresse du QR code), `noindex`, `no-store` ;
+  numéro, titulaire, formation, durée, dates, type, statut. Jamais CIN, coordonnées, prix ni motif d'annulation.
+  Pas de recherche par numéro (les numéros sont séquentiels, donc devinables).
+- **Espace candidat** : « Mes certificats » liste les certificats **valides** ; PDF par
+  `/espace/candidat/certificats/<uuid>/pdf/`, réservé au titulaire (sinon 404).
+- **Signataire** (`ParametresCentre`) : nom, fonction et image « signature et cachet » en **stockage privé**
+  (jamais servie par une adresse publique), modifiables par l'Administrateur seulement.
 
 ## Diagramme ERD
 
@@ -362,7 +417,9 @@ prises en charge et sont ignorées par Django (avertissement `models.W036`). Le 
 | Un certificat par candidat et par session | Conséquence de `UNIQUE(candidat, session)` + `OneToOne` |
 | Numéro unique (`CERT-AAAA-NNNNN`) | `UNIQUE(numero)` ; nouvel essai en cas de conflit |
 | Délivrance si inscription « terminée » (et « réussie » pour un certificat de réussite) | Validation dans le service métier |
-| Correction ou annulation | Mise à jour du même certificat (statut, PDF régénéré), jamais de doublon |
+| Correction ou annulation | Mise à jour du même certificat (contenu recopié ou statut), jamais de doublon |
+| Certificat annulé : motif et date obligatoires | `CHECK (statut='valide' OR (motif<>'' AND date_annulation IS NOT NULL))` |
+| Type et statut parmi les valeurs prévues ; dates cohérentes | `CHECK` en base |
 | Inscription certifiée non supprimable | `PROTECT` |
 
 ## Ordre de création
@@ -373,8 +430,9 @@ prises en charge et sont ignorées par Django (avertissement `models.W036`). Le 
 3. catalog       → dépend de core
 4. commercial    → dépend de catalog, accounts          ══ Niveau 1
 5. trainers      → dépend de core, accounts
-6. enrollments   → dépend de catalog, trainers, accounts ══ Niveau 2
-7. certificates  → dépend de enrollments                 ══ Niveau 3
+6. enrollments   → dépend de catalog, trainers, commercial, accounts ══ Niveau 2
+7. certificates  → dépend de enrollments, core           ══ Niveau 3
+8. espaces       → dépend de toutes les applications (sommet, aucune n'en dépend)
 ```
 
 Les dépendances vont dans un seul sens ; aucune application n'importe une application de rang supérieur.

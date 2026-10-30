@@ -6,7 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from .champs import ImageCompresseeField, SuppressionFichiersRemplacesMixin
-from .fichiers import CheminAleatoire
+from .fichiers import CheminAleatoire, StockagePrive
 
 
 class ModeleDeBase(models.Model):
@@ -49,6 +49,19 @@ class ParametresCentre(SuppressionFichiersRemplacesMixin, ModeleDeBase):
     facebook = models.URLField(blank=True)
     instagram = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
+    # Signataire des attestations et certificats. Le nom et la fonction sont recopiés dans chaque
+    # certificat à sa délivrance : un changement de signataire ne modifie pas les certificats déjà délivrés.
+    signataire_nom = models.CharField('nom du signataire', max_length=150, blank=True)
+    signataire_fonction = models.CharField(
+        'fonction du signataire', max_length=100, blank=True, help_text='Par exemple : Directeur.',
+    )
+    # Image de la signature et du cachet : stockage privé (jamais accessible par une adresse publique),
+    # elle n'est utilisée que pour produire les PDF des certificats.
+    signature = ImageCompresseeField(
+        'signature et cachet', upload_to=CheminAleatoire('signatures'), storage=StockagePrive(),
+        blank=True, largeur_max=600,
+        help_text='Image sur fond blanc ou transparent, imprimée sur les certificats. Non visible sur le site.',
+    )
 
     class Meta:
         verbose_name = 'paramètres du centre'

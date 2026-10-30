@@ -458,6 +458,14 @@ main:has(> .appel-action:last-child) + .pied-de-page { margin-top: 0 !important;
 /* Les références longues (ex. DEVELOPPEMENT-WEB-PYTHON-2026-11) peuvent passer à la ligne sur mobile */
 .card-body, .card dd { overflow-wrap: anywhere; }
 
+/* --- Espaces personnels : badges de statut (inscriptions et sessions) ------------------------- */
+.statut { font-weight: 600; }
+.statut-en_attente, .statut-planifiee { background: #fff3cd; color: #664d03; }
+.statut-confirmee, .statut-ouverte { background: #d1e7dd; color: #0a3622; }
+.statut-en_cours { background: #cfe2ff; color: #052c65; }
+.statut-terminee { background: #e2e3e5; color: #2b2f32; }
+.statut-annulee { background: #f8d7da; color: #58151c; }
+
 /* --- Formulaires et éléments utilitaires ------------------------------------------------------ */
 
 /* Champ piège anti-spam du formulaire de contact : placé hors de l'écran

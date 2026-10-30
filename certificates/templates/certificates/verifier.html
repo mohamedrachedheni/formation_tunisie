@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block titre %}Vérification d’un certificat{% endblock %}
+{% block description %}Vérification de l’authenticité d’un document délivré par le centre.{% endblock %}
+{% block head %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-9 col-lg-6">
+      <div class="cadre-arguments">
+        <h1 class="h3 mb-4">Vérification d’un document</h1>
+        {% if certificat.est_valide %}
+        <div class="alert alert-success d-flex align-items-center gap-2" role="status">
+          <i class="bi bi-patch-check-fill fs-4" aria-hidden="true"></i>
+          <div><strong>Document authentique et valide.</strong> Il a bien été délivré par {{ centre.nom|default:"le centre" }}.</div>
+        </div>
+        {% else %}
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="status">
+          <i class="bi bi-x-octagon-fill fs-4" aria-hidden="true"></i>
+          <div><strong>Document annulé</strong> le {{ certificat.date_annulation|date:"d/m/Y" }}. Il n’est plus valable.</div>
+        </div>
+        {% endif %}
+        <dl class="row mb-0">
+          <dt class="col-sm-5">Numéro</dt><dd class="col-sm-7">{{ certificat.numero }}</dd>
+          <dt class="col-sm-5">Document</dt><dd class="col-sm-7">{{ certificat.get_type_display }}</dd>
+          <dt class="col-sm-5">Titulaire</dt><dd class="col-sm-7">{{ certificat.titulaire }}</dd>
+          <dt class="col-sm-5">Formation</dt><dd class="col-sm-7">{{ certificat.formation_titre }} ({{ certificat.duree_heures }} heures)</dd>
+          <dt class="col-sm-5">Session</dt><dd class="col-sm-7">du {{ certificat.date_debut|date:"d/m/Y" }} au {{ certificat.date_fin|date:"d/m/Y" }}</dd>
+          <dt class="col-sm-5">Délivré le</dt><dd class="col-sm-7">{{ certificat.date_delivrance|date:"d/m/Y" }}</dd>
+        </dl>
+        <p class="small text-body-secondary mt-4 mb-0">Vérifiez que ces informations correspondent exactement au document présenté.
+          En cas de doute, <a href="{% url 'commercial:contact' %}">contactez le centre</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

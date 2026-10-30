@@ -1,0 +1,22 @@
+{% extends "accounts/_carte_compte.html" %}
+{% block titre %}{{ titre_page }}{% endblock %}
+{% block carte %}
+<h1 class="h3 mb-3">{{ titre_page }}</h1>
+{% if validlink %}
+  {% if activation %}<p class="text-body-secondary">Bienvenue ! Choisissez le mot de passe de votre espace personnel.</p>{% endif %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "core/_champs_formulaire.html" with form=form %}
+    <button type="submit" class="btn btn-primary w-100">Enregistrer le mot de passe</button>
+  </form>
+{% else %}
+  <div class="alert alert-warning mb-3">Ce lien n’est plus valable : il a expiré ou a déjà été utilisé.</div>
+  {% if activation %}
+  <p>Demandez au centre un nouveau lien d’activation. Si vous avez déjà choisi votre mot de passe, connectez-vous directement.</p>
+  {% else %}
+  <p>Vous pouvez demander un nouveau lien.</p>
+  <a href="{% url 'accounts:mot_de_passe_oublie' %}" class="btn btn-outline-primary me-2">Nouveau lien</a>
+  {% endif %}
+  <a href="{% url 'accounts:connexion' %}" class="btn btn-primary">Connexion</a>
+{% endif %}
+{% endblock %}

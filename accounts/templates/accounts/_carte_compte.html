@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% comment %}Mise en page commune des pages de compte : une carte centrée. Bloc à remplir : carte.{% endcomment %}
+{% block contenu %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+      <div class="cadre-arguments">
+        {% block carte %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

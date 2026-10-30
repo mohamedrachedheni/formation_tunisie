@@ -122,12 +122,12 @@ class CompressionDesImagesTests(TestCase):
         from django.db.models import ImageField
         champs = [
             f'{modele._meta.label}.{champ.name}'
-            for modele in apps.get_models() if modele._meta.app_label in ('core', 'catalog', 'trainers', 'commercial', 'enrollments', 'accounts')
+            for modele in apps.get_models() if modele._meta.app_label in ('core', 'catalog', 'trainers', 'commercial', 'enrollments', 'accounts', 'certificates')
             for champ in modele._meta.concrete_fields if isinstance(champ, ImageField)
         ]
         non_compresses = [nom for nom in champs if not isinstance(apps.get_model(nom.rsplit('.', 1)[0])._meta.get_field(nom.rsplit('.', 1)[1]), ImageCompresseeField)]
         self.assertEqual(non_compresses, [])
-        self.assertEqual(len(champs), 6)
+        self.assertEqual(len(champs), 7)
 
 
 class ChampImageCompresseeTests(TestCase):

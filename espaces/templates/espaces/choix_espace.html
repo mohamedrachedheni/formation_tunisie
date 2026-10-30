@@ -1,0 +1,9 @@
+{% extends "accounts/_carte_compte.html" %}
+{% block titre %}Mon espace{% endblock %}
+{% block carte %}
+<h1 class="h3 mb-3">Choisissez votre espace</h1>
+<div class="d-grid gap-2">
+  <a href="{% url 'espaces:candidat' %}" class="btn btn-primary">Espace candidat</a>
+  <a href="{% url 'espaces:formateur' %}" class="btn btn-outline-primary">Espace formateur</a>
+</div>
+{% endblock %}

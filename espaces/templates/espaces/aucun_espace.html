@@ -1,0 +1,9 @@
+{% extends "accounts/_carte_compte.html" %}
+{% block titre %}Mon espace{% endblock %}
+{% block carte %}
+<h1 class="h3 mb-3">Aucun espace disponible</h1>
+<p>Votre compte n’est rattaché à aucun espace candidat ou formateur. Contactez le centre si vous pensez qu’il s’agit d’une erreur.</p>
+<form method="post" action="{% url 'accounts:deconnexion' %}">{% csrf_token %}
+  <button type="submit" class="btn btn-outline-secondary">Se déconnecter</button>
+</form>
+{% endblock %}

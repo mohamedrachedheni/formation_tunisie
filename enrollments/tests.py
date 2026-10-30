@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from accounts.models import Roles
+from commercial.models import DemandeContact
 from catalog.models import Categorie, Formation
 from trainers.models import Formateur
 
@@ -501,3 +502,124 @@ class AdministrationEnrollmentsTests(DonneesMixin, TestCase):
         formateur.groups.add(Group.objects.get(name=Roles.FORMATEUR))
         self.client.force_login(formateur)
         self.assertEqual(self.client.get(reverse('admin:enrollments_inscription_changelist')).status_code, 403)
+
+
+# --- Demande de contact → fiche candidat ----------------------------------------------------
+
+class FicheCandidatDepuisDemandeTests(TestCase):
+    def setUp(self):
+        self.gestionnaire = Utilisateur.objects.create_user(
+            username='gest', email='gest@exemple.tn', password='MotDePasse!2026', is_staff=True,
+        )
+        self.gestionnaire.groups.add(Group.objects.get(name=Roles.GESTIONNAIRE))
+        self.client.force_login(self.gestionnaire)
+
+    def demande(self, nom='Amira Ben Salah', telephone='+216 98 123 456', email='Amira@Exemple.tn', **champs):
+        return DemandeContact.objects.create(nom=nom, telephone=telephone, email=email, message='Infos ?', **champs)
+
+    def lancer_action(self, *demandes):
+        return self.client.post(reverse('admin:commercial_demandecontact_changelist'), {
+            'action': 'creer_fiche_candidat', '_selected_action': [d.pk for d in demandes],
+        })
+
+    def test_creation_de_la_fiche_et_demande_en_cours(self):
+        demande = self.demande()
+        reponse = self.lancer_action(demande)
+        candidat = Candidat.objects.get()
+        self.assertEqual((candidat.prenom, candidat.nom), ('Amira', 'Ben Salah'))
+        self.assertEqual(candidat.telephone, '98123456')
+        self.assertEqual(candidat.email, 'amira@exemple.tn')
+        self.assertIsNone(candidat.utilisateur)
+        # Une seule demande : l'administrateur arrive sur la fiche créée pour la vérifier.
+        self.assertRedirects(reponse, reverse('admin:enrollments_candidat_change', args=[candidat.pk]))
+        demande.refresh_from_db()
+        self.assertEqual(demande.statut, DemandeContact.Statut.EN_COURS)
+        self.assertEqual(demande.traitee_par, self.gestionnaire)
+        self.assertIn('Fiche candidat créée : Amira Ben Salah (98123456)', demande.notes)
+        # Le contenu de la demande n'est pas modifié.
+        self.assertEqual((demande.nom, demande.message), ('Amira Ben Salah', 'Infos ?'))
+
+    def test_candidat_existant_par_telephone_reutilise_sans_modifier_sa_fiche(self):
+        existant = Candidat.objects.create(prenom='Amira', nom='Ben Salah', telephone='98123456', email='ancien@exemple.tn')
+        demande = self.demande(notes='Rappeler lundi')
+        self.lancer_action(demande)
+        self.assertEqual(Candidat.objects.count(), 1)
+        existant.refresh_from_db()
+        self.assertEqual(existant.email, 'ancien@exemple.tn')
+        demande.refresh_from_db()
+        self.assertEqual(demande.statut, DemandeContact.Statut.EN_COURS)
+        self.assertTrue(demande.notes.startswith('Rappeler lundi\n'))
+        self.assertIn('Candidat existant retrouvé', demande.notes)
+        self.assertIn('Email : « Amira@Exemple.tn » (fiche : « ancien@exemple.tn »)', demande.notes)
+
+    def test_candidat_existant_par_email_pour_une_demande_sans_telephone(self):
+        Candidat.objects.create(prenom='Amira', nom='Ben Salah', telephone='98123456', email='amira@exemple.tn')
+        self.lancer_action(self.demande(telephone=''))
+        self.assertEqual(Candidat.objects.count(), 1)
+
+    def test_action_relancee_ne_cree_pas_de_doublon(self):
+        demande = self.demande()
+        self.lancer_action(demande)
+        self.lancer_action(demande)
+        self.assertEqual(Candidat.objects.count(), 1)
+
+    def test_sans_telephone_ni_candidat_existant_rien_n_est_cree(self):
+        demande = self.demande(telephone='')
+        reponse = self.lancer_action(demande)
+        self.assertFalse(Candidat.objects.exists())
+        demande.refresh_from_db()
+        self.assertEqual(demande.statut, DemandeContact.Statut.NOUVELLE)
+        self.assertEqual(demande.notes, '')
+        self.assertContains(self.client.get(reponse.url), 'n’a pas de téléphone')
+
+    def test_nom_en_un_seul_mot_refuse(self):
+        demande = self.demande(nom='Amira')
+        self.lancer_action(demande)
+        self.assertFalse(Candidat.objects.exists())
+        demande.refresh_from_db()
+        self.assertEqual(demande.statut, DemandeContact.Statut.NOUVELLE)
+
+    def test_demande_traitee_garde_son_statut_et_son_responsable(self):
+        collegue = Utilisateur.objects.create_user(username='collegue', email='c@exemple.tn', is_staff=True)
+        demande = self.demande(statut=DemandeContact.Statut.TRAITEE, traitee_par=collegue)
+        self.lancer_action(demande)
+        demande.refresh_from_db()
+        self.assertEqual(demande.statut, DemandeContact.Statut.TRAITEE)
+        self.assertEqual(demande.traitee_par, collegue)
+        self.assertEqual(Candidat.objects.count(), 1)
+
+    def test_plusieurs_demandes_messages_sans_redirection_vers_une_fiche(self):
+        premiere = self.demande()
+        seconde = self.demande(nom='Karim Jaziri', telephone='22333444', email='')
+        sans_telephone = self.demande(nom='Sana Toumi', telephone='', email='sana@exemple.tn')
+        reponse = self.lancer_action(premiere, seconde, sans_telephone)
+        self.assertEqual(reponse.status_code, 302)
+        self.assertEqual(reponse.url, reverse('admin:commercial_demandecontact_changelist'))
+        self.assertEqual(sorted(Candidat.objects.values_list('prenom', flat=True)), ['Amira', 'Karim'])
+        page = self.client.get(reponse.url)
+        self.assertContains(page, 'Fiche candidat créée', count=2)
+        self.assertContains(page, 'Sana Toumi : la demande n’a pas de téléphone')
+
+    def test_action_reservee_a_qui_peut_creer_un_candidat(self):
+        # Droit de modifier les demandes, mais pas de créer un candidat : l'action n'est pas proposée.
+        from django.contrib.auth.models import Permission
+        vendeur = Utilisateur.objects.create_user(username='vendeur', email='v@exemple.tn', is_staff=True)
+        vendeur.user_permissions.add(*Permission.objects.filter(
+            content_type__app_label='commercial', codename__in=['view_demandecontact', 'change_demandecontact'],
+        ))
+        self.client.force_login(vendeur)
+        demande = self.demande()  # liste non vide : sinon Django n'affiche aucune action
+        page = self.client.get(reverse('admin:commercial_demandecontact_changelist'))
+        self.assertContains(page, 'marquer_en_cours')
+        self.assertNotContains(page, 'creer_fiche_candidat')
+        self.lancer_action(demande)
+        self.assertFalse(Candidat.objects.exists())
+        demande.refresh_from_db()
+        self.assertEqual(demande.statut, DemandeContact.Statut.NOUVELLE)
+
+    def test_action_proposee_au_gestionnaire(self):
+        self.demande()  # liste non vide : sinon Django n'affiche aucune action
+        page = self.client.get(reverse('admin:commercial_demandecontact_changelist'))
+        self.assertContains(page, 'Créer la fiche candidat')
+        # Les actions d'origine restent disponibles.
+        self.assertContains(page, 'marquer_en_cours')

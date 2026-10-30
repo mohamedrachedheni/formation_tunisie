@@ -1,0 +1,11 @@
+{% comment %}En-tête commun des espaces. Variable : titre_espace.{% endcomment %}
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div>
+    <p class="section-surtitre mb-1">{{ titre_espace }}</p>
+    <h1 class="h2 mb-0">Bonjour {{ user.first_name|default:user.email }}</h1>
+  </div>
+  <form method="post" action="{% url 'accounts:deconnexion' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-secondary btn-sm"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Se déconnecter</button>
+  </form>
+</div>

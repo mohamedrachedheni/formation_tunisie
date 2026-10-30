@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titre %}Mon espace formateur{% endblock %}
+{% block contenu %}
+<div class="container py-5">
+  {% include "espaces/_entete_espace.html" with titre_espace="Espace formateur" %}
+  <h2 class="h4 mb-3">En cours</h2>
+  {% include "espaces/_tableau_sessions.html" with sessions=en_cours vide="Aucune session en cours." %}
+  <h2 class="h4 mb-3">À venir</h2>
+  {% include "espaces/_tableau_sessions.html" with sessions=a_venir vide="Aucune session programmée." %}
+  <h2 class="h4 mb-3">Passées</h2>
+  {% include "espaces/_tableau_sessions.html" with sessions=passees vide="Aucune session passée." %}
+  <h2 class="h4 mb-3">Documents des formations que j’anime</h2>
+  {% if documents %}
+  <ul class="list-group">{% for document in documents %}{% include "espaces/_document.html" %}{% endfor %}</ul>
+  {% else %}<p class="text-body-secondary">Aucun document pour le moment.</p>{% endif %}
+</div>
+{% endblock %}

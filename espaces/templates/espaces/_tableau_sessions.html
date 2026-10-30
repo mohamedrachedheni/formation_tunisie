@@ -1,0 +1,23 @@
+{% comment %}Tableau des sessions d'un formateur. Variables : sessions, vide (message si aucune session).{% endcomment %}
+{% if sessions %}
+<div class="table-responsive mb-4">
+  <table class="table align-middle">
+    <thead><tr><th>Formation</th><th>Dates</th><th>Horaires</th><th>Lieu</th><th>Inscrits confirmés</th><th>Statut</th></tr></thead>
+    <tbody>
+    {% for session in sessions %}
+      <tr>
+        <td><a href="{% url 'espaces:session' uuid=session.uuid %}">{{ session.formation.titre }}</a>
+          <span class="small text-body-secondary d-block">Réf. {{ session.code }}</span></td>
+        <td>{{ session.date_debut|date:"d/m/Y" }} → {{ session.date_fin|date:"d/m/Y" }}</td>
+        <td>{{ session.horaires|default:"—" }}</td>
+        <td>{{ session.lieu|default:"—" }}</td>
+        <td>{{ session.places_occupees }} / {{ session.places_max }}</td>
+        <td><span class="badge statut statut-{{ session.statut }}">{{ session.get_statut_display }}</span></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="text-body-secondary mb-4">{{ vide }}</p>
+{% endif %}

@@ -10,6 +10,8 @@ __pycache__/
 staticfiles/
 media/*
 !media/.gitkeep
+# Documents réservés aux inscrits (données privées)
+fichiers_prives/
 *.log
 db.sqlite3
 

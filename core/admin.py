@@ -13,6 +13,7 @@ class ParametresCentreAdmin(admin.ModelAdmin):
         ('Identité', {'fields': ('nom', 'slogan', 'presentation', 'logo', 'matricule_fiscal')}),
         ('Coordonnées', {'fields': ('adresse', 'ville', 'telephone', 'whatsapp', 'email')}),
         ('Réseaux sociaux', {'fields': ('facebook', 'instagram', 'linkedin')}),
+        ('Certificats', {'fields': ('signataire_nom', 'signataire_fonction', 'signature')}),
         ('Suivi', {'fields': ('uuid', 'date_creation', 'date_modification')}),
     )
 
