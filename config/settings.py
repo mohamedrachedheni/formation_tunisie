@@ -94,25 +94,88 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST', default='127.0.0.1'),
-        'PORT': env('DB_PORT', default='3307'),
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
-        'TEST': {
-            'NAME': 'test_' + env('DB_NAME'),
-            'CHARSET': 'utf8mb4',
-            'COLLATION': 'utf8mb4_unicode_ci',
-        },
+# =============================================================================
+# CONFIGURATION DE LA BASE DE DONNÉES
+# =============================================================================
+# Le moteur de base de données est sélectionné dans le fichier .env :
+#
+#   DB_ENGINE=mysql  -> Utilisation de MySQL
+#   DB_ENGINE=sqlite -> Utilisation de SQLite
+#
+# Cela permet de changer de base de données sans modifier le code du projet.
+# =============================================================================
+
+# Lecture du moteur choisi dans le fichier .env.
+# Si DB_ENGINE n'est pas défini, MySQL est utilisé par défaut.
+DB_ENGINE = env('DB_ENGINE', default='mysql').strip().lower()
+
+
+# -----------------------------------------------------------------------------
+# OPTION 1 : MYSQL
+# -----------------------------------------------------------------------------
+if DB_ENGINE == 'mysql':
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+
+            # Paramètres de connexion lus depuis le fichier .env
+            'NAME': env('DB_NAME'),
+            'USER': env('DB_USER'),
+            'PASSWORD': env('DB_PASSWORD'),
+            'HOST': env('DB_HOST', default='127.0.0.1'),
+            'PORT': env('DB_PORT', default='3307'),
+
+            # Encodage UTF-8 complet, notamment pour les caractères accentués
+            # et les caractères Unicode.
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+
+            # Configuration de la base utilisée pour les tests automatisés.
+            'TEST': {
+                'NAME': 'test_' + env('DB_NAME'),
+                'CHARSET': 'utf8mb4',
+                'COLLATION': 'utf8mb4_unicode_ci',
+            },
+        }
     }
-}
+
+
+# -----------------------------------------------------------------------------
+# OPTION 2 : SQLITE
+# -----------------------------------------------------------------------------
+elif DB_ENGINE == 'sqlite':
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+
+            # Emplacement du fichier SQLite.
+            # Par défaut, le fichier sera créé à la racine du projet,
+            # au même niveau que manage.py.
+            #
+            # Il est également possible de définir DB_SQLITE_PATH
+            # dans le fichier .env pour choisir un autre emplacement.
+            'NAME': Path(
+                env(
+                    'DB_SQLITE_PATH',
+                    default=str(BASE_DIR / 'db.sqlite3')
+                )
+            ),
+        }
+    }
+
+
+# -----------------------------------------------------------------------------
+# GESTION DES ERREURS DE CONFIGURATION
+# -----------------------------------------------------------------------------
+else:
+    raise ValueError(
+        f"DB_ENGINE='{DB_ENGINE}' n'est pas reconnu. "
+        "Valeurs autorisées : 'mysql' ou 'sqlite'."
+    )
 
 
 # Password validation
