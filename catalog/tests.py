@@ -188,7 +188,8 @@ class PagesCatalogueTests(MediaTemporaireMixin, CatalogueTestCase):
         self.assertEqual(reponse.status_code, 200)
         self.assertEqual(self.publiee.get_absolute_url(), '/formations/python-publiee/')
         self.assertContains(reponse, 'Python Publiée')
-        self.assertContains(reponse, '850,000 DT')
+        self.assertContains(reponse, '850 DT')
+        self.assertNotContains(reponse, '850,000')
 
     def test_detail_formation_non_visible_404(self):
         for formation in (self.brouillon, self.dans_inactive):
@@ -290,3 +291,14 @@ class AdministrationCatalogueTests(TestCase):
         })
         self.formation.refresh_from_db()
         self.assertTrue(self.formation.est_publiee)
+
+
+class FiltreMontantTests(TestCase):
+    """Affichage public des prix : pas de zéros inutiles après la virgule."""
+
+    def test_zeros_supprimes(self):
+        from .templatetags.catalogue_public import montant
+        self.assertEqual(montant(Decimal('850.000')), '850')
+        self.assertEqual(montant(Decimal('850.500')), '850,5')
+        self.assertEqual(montant(Decimal('1250.375')).replace('\u202f', ' ').replace('\xa0', ' '), '1 250,375')
+        self.assertEqual(montant(Decimal('1000.000')).replace('\u202f', ' ').replace('\xa0', ' '), '1 000')

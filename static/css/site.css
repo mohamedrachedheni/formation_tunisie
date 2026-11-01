@@ -9,6 +9,19 @@
   --couleur-titre: #1d2a3f;
   --couleur-texte: #444;
   --couleur-fond-clair: #f5f7fb;
+  /* Jetons de thème (redéfinis plus bas pour le mode sombre) */
+  --couleur-fond: #fff;
+  --couleur-surface: #fff;
+  --couleur-bordure: #e6e9f0;
+  --couleur-bordure-legere: #eef0f5;
+  --couleur-marque: var(--couleur-primaire);   /* logo, liens actifs, icônes */
+  --couleur-nav: #272828;
+  --couleur-teinte: rgba(0, 32, 91, .08);      /* fonds teintés : badges, pastilles d'icônes */
+  --ombre-carte: 0 6px 24px rgba(0, 32, 91, .08);
+  --ombre-carte-survol: 0 14px 36px rgba(0, 32, 91, .15);
+  /* Saumon : pastilles des cartes formation, en contrepoint chaleureux du bleu marine et du jaune */
+  --couleur-saumon: #c4553a;
+  --couleur-saumon-clair: #fdece6;
   --police-titres: 'Poppins', system-ui, sans-serif;
   --police-texte: 'Open Sans', system-ui, sans-serif;
 
@@ -20,9 +33,62 @@
   --bs-link-hover-color: var(--couleur-primaire-fonce);
   --bs-body-font-family: var(--police-texte);
   --bs-body-color: var(--couleur-texte);
+  --bs-body-bg: var(--couleur-fond);
 }
 
-body { background-color: #fff; }
+/* --- Mode sombre (bouton dans l'en-tête ; pages publiques uniquement) ------------------------- */
+[data-bs-theme="dark"] {
+  --couleur-titre: #eef2f9;
+  --couleur-texte: #c3cbd9;
+  --couleur-fond: #0d1524;
+  --couleur-fond-clair: #111b2e;
+  --couleur-surface: #16223a;
+  --couleur-bordure: #26344f;
+  --couleur-bordure-legere: #1f2b44;
+  --couleur-marque: #8fb3ff;
+  --couleur-nav: #d5dcea;
+  --couleur-teinte: rgba(143, 179, 255, .12);
+  --ombre-carte: 0 6px 24px rgba(0, 0, 0, .35);
+  --ombre-carte-survol: 0 14px 36px rgba(0, 0, 0, .5);
+  --couleur-saumon: #f5a48f;
+  --couleur-saumon-clair: rgba(240, 128, 100, .14);
+
+  --bs-body-bg: var(--couleur-fond);
+  --bs-body-color: var(--couleur-texte);
+  --bs-emphasis-color: #fff;
+  --bs-secondary-color: rgba(195, 203, 217, .75);
+  --bs-secondary-bg: #1b2842;
+  --bs-tertiary-bg: #131e33;
+  --bs-border-color: var(--couleur-bordure);
+  --bs-link-color: var(--couleur-marque);
+  --bs-link-color-rgb: 143, 179, 255;
+  --bs-link-hover-color: #b5ccff;
+  --bs-link-hover-color-rgb: 181, 204, 255;
+  --bs-primary-rgb: 143, 179, 255;
+}
+[data-bs-theme="dark"] .btn-primary {
+  --bs-btn-bg: #2f62d6;
+  --bs-btn-border-color: #2f62d6;
+  --bs-btn-hover-bg: #2552b8;
+  --bs-btn-hover-border-color: #2552b8;
+  --bs-btn-active-bg: #2552b8;
+  --bs-btn-active-border-color: #2552b8;
+}
+[data-bs-theme="dark"] .btn-outline-primary {
+  --bs-btn-color: var(--couleur-marque);
+  --bs-btn-border-color: var(--couleur-marque);
+  --bs-btn-hover-color: var(--couleur-fond);
+  --bs-btn-hover-bg: var(--couleur-marque);
+  --bs-btn-hover-border-color: var(--couleur-marque);
+  --bs-btn-active-bg: var(--couleur-marque);
+}
+[data-bs-theme="dark"] .nav-pills { --bs-nav-pills-link-active-bg: #2f62d6; }
+[data-bs-theme="dark"] .pied-de-page { background: #070d18; }
+/* Logos partenaires : pastille claire pour rester lisibles sur fond sombre */
+[data-bs-theme="dark"] .liste-partenaires img { background: #fff; padding: .35rem .6rem; border-radius: .5rem; }
+
+body { background-color: var(--couleur-fond); transition: background-color .25s ease, color .25s ease; }
+.card { --bs-card-bg: var(--couleur-surface); --bs-card-border-color: var(--couleur-bordure); }
 
 h1, h2, h3, h4, h5, h6, .navbar-brand, .btn { font-family: var(--police-titres); }
 h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
@@ -56,7 +122,7 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
 }
 
 /* --- En-tête -------------------------------------------------------------------------------- */
-.lien-evitement { position: absolute; z-index: 1100; padding: .5rem 1rem; background: #fff; }
+.lien-evitement { position: absolute; z-index: 1100; padding: .5rem 1rem; background: var(--couleur-surface); }
 
 .barre-contact {
   background: var(--couleur-primaire);
@@ -67,20 +133,41 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
 .barre-contact a:hover { color: var(--couleur-accent); }
 
 .entete {
-  background: #fff;
+  background: var(--couleur-surface);
   box-shadow: 0 1px 0 rgba(0, 0, 0, .06);
   transition: box-shadow .3s ease, padding .3s ease;
 }
 .entete.est-defile { box-shadow: 0 4px 18px rgba(0, 32, 91, .12); }
-.entete .navbar-brand { font-weight: 700; color: var(--couleur-primaire); }
+.entete .navbar-brand { font-weight: 700; color: var(--couleur-marque); }
 .entete .nav-link {
   font-family: var(--police-titres);
   font-weight: 500;
-  color: #272828;
+  color: var(--couleur-nav);
   position: relative;
 }
 .entete .nav-link:hover,
-.entete .nav-link.active { color: var(--couleur-primaire); }
+.entete .nav-link.active { color: var(--couleur-marque); }
+
+/* Bouton de bascule du thème */
+.bouton-theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 .6rem;
+  border-radius: 2rem;
+  border: 1px solid var(--couleur-bordure);
+  background: transparent;
+  color: var(--couleur-nav);
+  font-size: 1.05rem;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.bouton-theme:hover { background: var(--couleur-teinte); color: var(--couleur-marque); border-color: var(--couleur-marque); }
+.bouton-theme:focus-visible { outline: 3px solid var(--couleur-accent); outline-offset: 2px; }
+@media (max-width: 991.98px) {
+  .bouton-theme { margin-top: .5rem; font-size: .95rem; padding: 0 1rem; }
+}
 @media (min-width: 992px) {
   .entete .nav-link::after {
     content: '';
@@ -222,21 +309,21 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
 
 /* --- Arguments -------------------------------------------------------------------------------- */
 .cadre-arguments {
-  background: #fff;
+  background: var(--couleur-surface);
   border-radius: 1rem;
-  box-shadow: 0 10px 40px rgba(0, 32, 91, .1);
+  box-shadow: var(--ombre-carte);
   padding: 2rem;
 }
 .argument { display: flex; gap: 1rem; }
-.argument + .argument { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eef0f5; }
+.argument + .argument { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--couleur-bordure-legere); }
 .argument i {
   flex: 0 0 3rem;
   height: 3rem;
   display: grid;
   place-items: center;
   border-radius: .75rem;
-  background: rgba(0, 32, 91, .08);
-  color: var(--couleur-primaire);
+  background: var(--couleur-teinte);
+  color: var(--couleur-marque);
   font-size: 1.4rem;
 }
 .argument p { margin: 0; font-size: .95rem; }
@@ -253,8 +340,8 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
   gap: .25rem;
   padding: 1.5rem;
   border-radius: 1rem;
-  background: #fff;
-  border: 1px solid #e6e9f0;
+  background: var(--couleur-surface);
+  border: 1px solid var(--couleur-bordure);
   text-decoration: none;
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
@@ -266,11 +353,103 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
   border: 0;
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 6px 24px rgba(0, 32, 91, .08);
+  box-shadow: var(--ombre-carte);
   transition: transform .25s ease, box-shadow .25s ease;
 }
-.carte-formation:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0, 32, 91, .15); }
-.carte-formation .card-img-top { height: 190px; object-fit: cover; }
+.carte-formation:hover { transform: translateY(-5px); box-shadow: var(--ombre-carte-survol); }
+.carte-formation-media { position: relative; overflow: hidden; }
+.carte-formation .card-img-top { height: 190px; object-fit: cover; transition: transform .4s ease; }
+.carte-formation:hover .card-img-top { transform: scale(1.04); }
+.carte-formation .carte-formation-domaine {
+  position: absolute;
+  top: .85rem;
+  left: .85rem;
+  max-width: calc(100% - 1.7rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(255, 255, 255, .92);
+  color: var(--couleur-primaire);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .12);
+}
+.carte-formation-titre { line-height: 1.35; margin-bottom: 1rem; }
+.carte-formation-titre a { color: var(--couleur-titre); }
+.carte-formation:hover .carte-formation-titre a { color: var(--couleur-marque); }
+
+/* Informations clés de la carte formation : pastilles saumon (durée, modalité, certificat), résumé, prix */
+.carte-formation-pastilles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 .85rem;
+}
+.pastille {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .25rem .65rem;
+  border-radius: 2rem;
+  background: var(--couleur-saumon-clair);
+  color: var(--couleur-saumon);
+  font-family: var(--police-titres);
+  font-size: .8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+/* Résumé masqué derrière « Voir plus de détails » (page d'accueil).
+   Placé au-dessus du lien étendu de la carte (stretched-link) pour rester cliquable. */
+.carte-formation-details { position: relative; z-index: 2; margin-bottom: .85rem; }
+.carte-formation-details summary {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  list-style: none;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--couleur-marque);
+}
+.carte-formation-details summary::-webkit-details-marker { display: none; }
+.carte-formation-details summary:hover { text-decoration: underline; }
+.carte-formation-details summary:focus-visible { outline: 3px solid var(--couleur-accent); outline-offset: 2px; border-radius: .25rem; }
+.carte-formation-details summary .bi { font-size: .75rem; transition: transform .2s ease; }
+.carte-formation-details[open] summary .bi { transform: rotate(180deg); }
+.carte-formation-details .details-moins,
+.carte-formation-details[open] .details-plus { display: none; }
+.carte-formation-details[open] .details-moins { display: inline; }
+.carte-formation-resume { margin: .5rem 0 0; font-size: .92rem; }
+.carte-formation-prix { color: var(--couleur-marque); font-family: var(--police-titres); font-weight: 700; font-size: .95rem; }
+
+/* Carte session (agenda) */
+.carte-session {
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 1rem;
+  box-shadow: var(--ombre-carte);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.carte-session:hover { transform: translateY(-4px); box-shadow: var(--ombre-carte-survol); }
+.carte-session-date {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: .4rem;
+  padding: .3rem .7rem;
+  border-radius: 2rem;
+  background: var(--couleur-teinte);
+  color: var(--couleur-marque);
+  font-family: var(--police-titres);
+  font-weight: 600;
+  font-size: .85rem;
+  margin-bottom: .85rem;
+}
+.carte-session .card-title a { color: var(--couleur-titre); }
+.carte-session .card-title a:hover { color: var(--couleur-marque); }
+.carte-session-details li { margin-bottom: .25rem; }
+.carte-session-details .bi { margin-right: .3rem; color: var(--couleur-accent-fonce); }
+.carte-session-prix { font-family: var(--police-titres); font-weight: 700; font-size: 1.25rem; color: var(--couleur-marque); }
+.carte-session .card-footer { border-top-color: var(--couleur-bordure-legere); padding: .85rem 1rem; }
 .carte-formation-visuel {
   height: 190px;
   display: grid;
@@ -278,7 +457,7 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
   background: linear-gradient(135deg, var(--couleur-primaire), #0b3b8c);
 }
 .carte-formation-visuel span { font-family: var(--police-titres); font-size: 4rem; font-weight: 700; color: var(--couleur-accent); }
-.badge-domaine { background: rgba(0, 32, 91, .08); color: var(--couleur-primaire); font-weight: 600; }
+.badge-domaine { background: var(--couleur-teinte); color: var(--couleur-marque); font-weight: 600; }
 
 .carte-formateur-photo {
   width: 120px;
@@ -286,7 +465,7 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
   border-radius: 50%;
   object-fit: cover;
   margin: 0 auto;
-  border: 4px solid #fff;
+  border: 4px solid var(--couleur-surface);
   box-shadow: 0 6px 20px rgba(0, 32, 91, .15);
 }
 .carte-formateur-initiales {
@@ -306,8 +485,8 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
   margin: 0;
   padding: 2rem;
   border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 6px 24px rgba(0, 32, 91, .08);
+  background: var(--couleur-surface);
+  box-shadow: var(--ombre-carte);
   position: relative;
 }
 .carte-temoignage::before {
@@ -353,9 +532,9 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 50%;
-  border: 1px solid #d5dbe7;
-  background: #fff;
-  color: var(--couleur-primaire);
+  border: 1px solid var(--couleur-bordure);
+  background: var(--couleur-surface);
+  color: var(--couleur-marque);
   font-size: 1.15rem;
   display: grid;
   place-items: center;
@@ -377,7 +556,7 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
   font-weight: 700;
 }
 
-.section-partenaires { padding: 3rem 0; border-top: 1px solid #eef0f5; border-bottom: 1px solid #eef0f5; }
+.section-partenaires { padding: 3rem 0; border-top: 1px solid var(--couleur-bordure-legere); border-bottom: 1px solid var(--couleur-bordure-legere); }
 .liste-partenaires {
   display: flex;
   flex-wrap: wrap;
@@ -401,8 +580,9 @@ h1, h2, h3, h4, h5, h6 { color: var(--couleur-titre); }
 .liste-partenaires img:hover { filter: none; opacity: 1; }
 
 .accordeon-faq {
-  --bs-accordion-active-bg: rgba(0, 32, 91, .06);
-  --bs-accordion-active-color: var(--couleur-primaire);
+  --bs-accordion-active-bg: var(--couleur-teinte);
+  --bs-accordion-active-color: var(--couleur-marque);
+  --bs-accordion-bg: var(--couleur-surface);
   --bs-accordion-btn-focus-box-shadow: 0 0 0 .25rem rgba(247, 200, 0, .35);
 }
 .accordeon-faq .accordion-button { font-family: var(--police-titres); font-weight: 500; }
@@ -452,7 +632,8 @@ main:has(> .appel-action:last-child) + .pied-de-page { margin-top: 0 !important;
   .animations-actives [data-anim] { opacity: 1; transform: none; transition: none; }
   .bandeau-defilant-piste { animation: none; flex-wrap: wrap; width: auto; }
   .bandeau-defilant-liste[aria-hidden="true"] { display: none; }
-  .carte-formation, .carte-domaine { transition: none; }
+  .carte-formation, .carte-domaine, .carte-session, .carte-formation .card-img-top { transition: none; }
+  body, .bouton-theme { transition: none; }
 }
 
 /* Les références longues (ex. DEVELOPPEMENT-WEB-PYTHON-2026-11) peuvent passer à la ligne sur mobile */

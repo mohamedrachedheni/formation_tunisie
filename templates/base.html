@@ -1,8 +1,21 @@
 {% load static %}<!doctype html>
-<html lang="fr">
+<html lang="fr" data-bs-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    // Thème clair / sombre appliqué avant l'affichage (évite un flash blanc) : choix mémorisé du visiteur,
+    // sinon préférence du système. Les pages d'administration Django n'utilisent pas ce gabarit.
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-bs-theme', theme);
+    })();
+  </script>
   <title>{% block titre %}Accueil{% endblock %} | {{ centre.nom|default:"Centre de formation" }}</title>
   <meta name="description" content="{% block description %}{{ centre.slogan|default:'Centre de formation en Tunisie' }}{% endblock %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,6 +70,11 @@
           {% else %}
           <li class="nav-item"><a class="nav-link{% if '/compte/' in request.path %} active{% endif %}" href="{% url 'accounts:connexion' %}"><i class="bi bi-person" aria-hidden="true"></i> Connexion</a></li>
           {% endif %}
+          <li class="nav-item ms-lg-2">
+            <button type="button" class="bouton-theme" data-bouton-theme aria-label="Activer le mode sombre" title="Mode sombre / clair">
+              <i class="bi bi-moon-stars" aria-hidden="true"></i><span class="d-lg-none ms-2">Mode sombre / clair</span>
+            </button>
+          </li>
           <li class="nav-item ms-lg-3 mt-2 mt-lg-0"><a class="btn btn-accent" href="{{ url_sessions }}">S’inscrire</a></li>
         </ul>
       </div>

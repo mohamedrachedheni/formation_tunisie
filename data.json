@@ -1,0 +1,2065 @@
+[
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Administrateur",
+    "permissions": [
+      [
+        "add_categorie",
+        "catalog",
+        "categorie"
+      ],
+      [
+        "change_categorie",
+        "catalog",
+        "categorie"
+      ],
+      [
+        "delete_categorie",
+        "catalog",
+        "categorie"
+      ],
+      [
+        "view_categorie",
+        "catalog",
+        "categorie"
+      ],
+      [
+        "add_documentformation",
+        "catalog",
+        "documentformation"
+      ],
+      [
+        "change_documentformation",
+        "catalog",
+        "documentformation"
+      ],
+      [
+        "delete_documentformation",
+        "catalog",
+        "documentformation"
+      ],
+      [
+        "view_documentformation",
+        "catalog",
+        "documentformation"
+      ],
+      [
+        "add_formation",
+        "catalog",
+        "formation"
+      ],
+      [
+        "change_formation",
+        "catalog",
+        "formation"
+      ],
+      [
+        "delete_formation",
+        "catalog",
+        "formation"
+      ],
+      [
+        "view_formation",
+        "catalog",
+        "formation"
+      ],
+      [
+        "add_moduleprogramme",
+        "catalog",
+        "moduleprogramme"
+      ],
+      [
+        "change_moduleprogramme",
+        "catalog",
+        "moduleprogramme"
+      ],
+      [
+        "delete_moduleprogramme",
+        "catalog",
+        "moduleprogramme"
+      ],
+      [
+        "view_moduleprogramme",
+        "catalog",
+        "moduleprogramme"
+      ],
+      [
+        "annuler_certificat",
+        "certificates",
+        "certificat"
+      ],
+      [
+        "delivrer_certificat",
+        "certificates",
+        "certificat"
+      ],
+      [
+        "view_certificat",
+        "certificates",
+        "certificat"
+      ],
+      [
+        "add_demandecontact",
+        "commercial",
+        "demandecontact"
+      ],
+      [
+        "change_demandecontact",
+        "commercial",
+        "demandecontact"
+      ],
+      [
+        "delete_demandecontact",
+        "commercial",
+        "demandecontact"
+      ],
+      [
+        "view_demandecontact",
+        "commercial",
+        "demandecontact"
+      ],
+      [
+        "change_emplacementphoto",
+        "core",
+        "emplacementphoto"
+      ],
+      [
+        "view_emplacementphoto",
+        "core",
+        "emplacementphoto"
+      ],
+      [
+        "add_parametrescentre",
+        "core",
+        "parametrescentre"
+      ],
+      [
+        "change_parametrescentre",
+        "core",
+        "parametrescentre"
+      ],
+      [
+        "view_parametrescentre",
+        "core",
+        "parametrescentre"
+      ],
+      [
+        "add_partenaire",
+        "core",
+        "partenaire"
+      ],
+      [
+        "change_partenaire",
+        "core",
+        "partenaire"
+      ],
+      [
+        "delete_partenaire",
+        "core",
+        "partenaire"
+      ],
+      [
+        "view_partenaire",
+        "core",
+        "partenaire"
+      ],
+      [
+        "add_questionfrequente",
+        "core",
+        "questionfrequente"
+      ],
+      [
+        "change_questionfrequente",
+        "core",
+        "questionfrequente"
+      ],
+      [
+        "delete_questionfrequente",
+        "core",
+        "questionfrequente"
+      ],
+      [
+        "view_questionfrequente",
+        "core",
+        "questionfrequente"
+      ],
+      [
+        "add_temoignage",
+        "core",
+        "temoignage"
+      ],
+      [
+        "change_temoignage",
+        "core",
+        "temoignage"
+      ],
+      [
+        "delete_temoignage",
+        "core",
+        "temoignage"
+      ],
+      [
+        "view_temoignage",
+        "core",
+        "temoignage"
+      ],
+      [
+        "add_candidat",
+        "enrollments",
+        "candidat"
+      ],
+      [
+        "change_candidat",
+        "enrollments",
+        "candidat"
+      ],
+      [
+        "delete_candidat",
+        "enrollments",
+        "candidat"
+      ],
+      [
+        "view_candidat",
+        "enrollments",
+        "candidat"
+      ],
+      [
+        "add_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "change_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "delete_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "valider_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "view_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "add_session",
+        "enrollments",
+        "session"
+      ],
+      [
+        "change_session",
+        "enrollments",
+        "session"
+      ],
+      [
+        "delete_session",
+        "enrollments",
+        "session"
+      ],
+      [
+        "view_session",
+        "enrollments",
+        "session"
+      ],
+      [
+        "add_formateur",
+        "trainers",
+        "formateur"
+      ],
+      [
+        "change_formateur",
+        "trainers",
+        "formateur"
+      ],
+      [
+        "delete_formateur",
+        "trainers",
+        "formateur"
+      ],
+      [
+        "view_formateur",
+        "trainers",
+        "formateur"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Gestionnaire",
+    "permissions": [
+      [
+        "add_categorie",
+        "catalog",
+        "categorie"
+      ],
+      [
+        "change_categorie",
+        "catalog",
+        "categorie"
+      ],
+      [
+        "view_categorie",
+        "catalog",
+        "categorie"
+      ],
+      [
+        "add_documentformation",
+        "catalog",
+        "documentformation"
+      ],
+      [
+        "change_documentformation",
+        "catalog",
+        "documentformation"
+      ],
+      [
+        "view_documentformation",
+        "catalog",
+        "documentformation"
+      ],
+      [
+        "add_formation",
+        "catalog",
+        "formation"
+      ],
+      [
+        "change_formation",
+        "catalog",
+        "formation"
+      ],
+      [
+        "view_formation",
+        "catalog",
+        "formation"
+      ],
+      [
+        "add_moduleprogramme",
+        "catalog",
+        "moduleprogramme"
+      ],
+      [
+        "change_moduleprogramme",
+        "catalog",
+        "moduleprogramme"
+      ],
+      [
+        "view_moduleprogramme",
+        "catalog",
+        "moduleprogramme"
+      ],
+      [
+        "delivrer_certificat",
+        "certificates",
+        "certificat"
+      ],
+      [
+        "view_certificat",
+        "certificates",
+        "certificat"
+      ],
+      [
+        "add_demandecontact",
+        "commercial",
+        "demandecontact"
+      ],
+      [
+        "change_demandecontact",
+        "commercial",
+        "demandecontact"
+      ],
+      [
+        "view_demandecontact",
+        "commercial",
+        "demandecontact"
+      ],
+      [
+        "view_parametrescentre",
+        "core",
+        "parametrescentre"
+      ],
+      [
+        "add_partenaire",
+        "core",
+        "partenaire"
+      ],
+      [
+        "change_partenaire",
+        "core",
+        "partenaire"
+      ],
+      [
+        "view_partenaire",
+        "core",
+        "partenaire"
+      ],
+      [
+        "add_questionfrequente",
+        "core",
+        "questionfrequente"
+      ],
+      [
+        "change_questionfrequente",
+        "core",
+        "questionfrequente"
+      ],
+      [
+        "view_questionfrequente",
+        "core",
+        "questionfrequente"
+      ],
+      [
+        "add_temoignage",
+        "core",
+        "temoignage"
+      ],
+      [
+        "change_temoignage",
+        "core",
+        "temoignage"
+      ],
+      [
+        "view_temoignage",
+        "core",
+        "temoignage"
+      ],
+      [
+        "add_candidat",
+        "enrollments",
+        "candidat"
+      ],
+      [
+        "change_candidat",
+        "enrollments",
+        "candidat"
+      ],
+      [
+        "view_candidat",
+        "enrollments",
+        "candidat"
+      ],
+      [
+        "add_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "change_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "valider_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "view_inscription",
+        "enrollments",
+        "inscription"
+      ],
+      [
+        "add_session",
+        "enrollments",
+        "session"
+      ],
+      [
+        "change_session",
+        "enrollments",
+        "session"
+      ],
+      [
+        "view_session",
+        "enrollments",
+        "session"
+      ],
+      [
+        "add_formateur",
+        "trainers",
+        "formateur"
+      ],
+      [
+        "change_formateur",
+        "trainers",
+        "formateur"
+      ],
+      [
+        "view_formateur",
+        "trainers",
+        "formateur"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Formateur",
+    "permissions": []
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Candidat",
+    "permissions": []
+  }
+},
+{
+  "model": "core.parametrescentre",
+  "pk": 1,
+  "fields": {
+    "uuid": "2f3b4a1a-4c25-42d3-969b-ba24597c9959",
+    "date_creation": "2026-10-16T07:53:28.223Z",
+    "date_modification": "2026-10-30T10:16:15.508Z",
+    "verrou": true,
+    "nom": "IAD Training Center",
+    "slogan": "Vôtre succès est notre métier",
+    "presentation": "Développement Professionnel et Coaching \r\n\r\nÉcole de formation professionnelle agréée par l’État\r\n\r\nVous souhaitez acquérir un métier d’avenir et développer vos compétences techniques ? Notre école vous propose des formations théoriques et pratiques dans plusieurs spécialités :\r\n\r\n- Fibre optique et télécommunications 4G/5G\r\n- Électricité bâtiment\r\n- Réparation de cartes électroniques\r\n- Caméras de surveillance et systèmes d’alarme\r\n- Énergie photovoltaïque\r\n\r\nUne formation axée sur la pratique: travaux pratiques et stages sur chantier pour acquérir une véritable expérience professionnelle.\r\n\r\nDes débouchés en Tunisie et à l’étranger: préparez-vous aux métiers de technicien, installateur et agent de maintenance dans des secteurs qui offrent des opportunités professionnelles.\r\n\r\nDéveloppez vos compétences, obtenez une qualification et préparez votre avenir professionnel avec nous !",
+    "adresse": "49 Avenue du 14 Janvier 1er étage Appartement A, Ben Arous, Tunisia, 2013",
+    "ville": "Ben Arous",
+    "telephone": "29 003 656",
+    "whatsapp": "21692995254",
+    "email": "iadtrainingcenter@gmail.com.tn",
+    "matricule_fiscal": "",
+    "logo": "centre/49d377e4e1934a1c820cf7393f1abbc2.webp",
+    "facebook": "https://www.facebook.com/p/IAD-Training-Center-100084344989724/",
+    "instagram": "https://www.instagram.com/iad_pole_de_formation/",
+    "linkedin": "https://www.linkedin.com/company/iad-training-center/?originalSubdomain=tn",
+    "signataire_nom": "Mohamed Rached Heni",
+    "signataire_fonction": "Directeur",
+    "signature": "signatures/cbe7a82fee824760988b81e658a9c24c.webp"
+  }
+},
+{
+  "model": "core.temoignage",
+  "pk": 1,
+  "fields": {
+    "uuid": "634e9933-ca2d-41ad-bd14-4e422c51fa3a",
+    "date_creation": "2026-10-17T07:45:13.042Z",
+    "date_modification": "2026-10-17T08:26:09.633Z",
+    "nom": "Noureddine",
+    "fonction": "Technicien en sécurité électronique",
+    "formation_suivie": "Caméras de surveillance et systèmes d’alarme",
+    "texte": "J’ai beaucoup apprécié l’ambiance conviviale et l’environnement d’apprentissage. Les formateurs sont à l’écoute et les travaux pratiques permettent d’apprendre facilement. Grâce à cette formation, j’ai acquis de bonnes compétences en installation de caméras et systèmes d’alarme.",
+    "note": 5,
+    "photo": "",
+    "consentement_obtenu": true,
+    "est_publie": true,
+    "ordre": 5
+  }
+},
+{
+  "model": "core.temoignage",
+  "pk": 2,
+  "fields": {
+    "uuid": "d28e9a65-6fce-46f5-acab-e051aeaaab66",
+    "date_creation": "2026-10-17T07:51:54.148Z",
+    "date_modification": "2026-10-17T08:23:42.381Z",
+    "nom": "Hamdi",
+    "fonction": "Technicien fibre optique",
+    "formation_suivie": "Fibre optique",
+    "texte": "Grâce à cette formation en fibre optique et surtout au stage sur chantier, j’ai acquis une expérience pratique qui m’a beaucoup aidé à trouver un emploi. Le contact avec les professionnels m’a permis d’être rapidement opérationnel et de mieux comprendre les exigences du métier.",
+    "note": 4,
+    "photo": "",
+    "consentement_obtenu": true,
+    "est_publie": true,
+    "ordre": 3
+  }
+},
+{
+  "model": "core.temoignage",
+  "pk": 3,
+  "fields": {
+    "uuid": "db110a1a-edef-48b2-a634-6dbfd683696c",
+    "date_creation": "2026-10-17T07:56:49.967Z",
+    "date_modification": "2026-10-17T08:21:47.895Z",
+    "nom": "Yassine",
+    "fonction": "Technicien électricité batiment",
+    "formation_suivie": "Electricité batiment",
+    "texte": "J’ai beaucoup apprécié l’ambiance conviviale et les bonnes relations avec les formateurs et les autres stagiaires. La formation m’a permis d’acquérir des compétences pratiques en électricité bâtiment et surtout la confiance nécessaire pour me lancer à mon compte. Aujourd’hui, je me sens prêt à démarrer mon propre projet professionnel.",
+    "note": 5,
+    "photo": "",
+    "consentement_obtenu": true,
+    "est_publie": true,
+    "ordre": 1
+  }
+},
+{
+  "model": "core.temoignage",
+  "pk": 4,
+  "fields": {
+    "uuid": "734e8e79-af3c-424e-80b4-879b9fe995b8",
+    "date_creation": "2026-10-17T08:08:53.740Z",
+    "date_modification": "2026-10-17T08:23:42.383Z",
+    "nom": "Nejmeddine",
+    "fonction": "Technicien chaud froid et plomberie sanitaire",
+    "formation_suivie": "Chaud froid et plomberie sanitaire",
+    "texte": "J’ai particulièrement apprécié l’esprit d’équipe, la disponibilité des formateurs et les échanges enrichissants avec les autres stagiaires.. La formation m’a permis de découvrir des techniques modernes et innovantes en chauffage, climatisation et plomberie sanitaire. Grâce aux explications claires et aux travaux pratiques, j’ai acquis des compétences utiles pour évoluer dans ce métier.",
+    "note": 5,
+    "photo": "",
+    "consentement_obtenu": true,
+    "est_publie": true,
+    "ordre": 4
+  }
+},
+{
+  "model": "core.temoignage",
+  "pk": 5,
+  "fields": {
+    "uuid": "e5067e6c-82ba-40e3-8fd1-cdabd056c27d",
+    "date_creation": "2026-10-17T08:18:19.892Z",
+    "date_modification": "2026-10-17T08:23:42.379Z",
+    "nom": "Lilia",
+    "fonction": "Comptable",
+    "formation_suivie": "Comptabilité fiscalité",
+    "texte": "J’ai été particulièrement satisfait du sérieux des formateurs et de leur manière simple et efficace de transmettre leurs connaissances.  la pédagogie des formateurs et la richesse des cours en comptabilité et fiscalité. Les explications sont claires, les exemples concrets et l’ambiance favorise les échanges et l’entraide. Cette formation m’a permis de renforcer mes compétences et de mieux me préparer à la vie professionnelle.",
+    "note": 5,
+    "photo": "",
+    "consentement_obtenu": true,
+    "est_publie": true,
+    "ordre": 2
+  }
+},
+{
+  "model": "core.temoignage",
+  "pk": 6,
+  "fields": {
+    "uuid": "33752b91-fc6c-4d76-8123-805f2e2f4b76",
+    "date_creation": "2026-10-17T08:33:02.529Z",
+    "date_modification": "2026-10-17T08:33:02.529Z",
+    "nom": "Rami",
+    "fonction": "Technicien photovoltaïque",
+    "formation_suivie": "Photovoltaïque",
+    "texte": "Le stage sur chantier a été une expérience très enrichissante qui m’a permis de mettre en pratique les connaissances acquises en formation. J’ai appris les techniques d’installation des panneaux solaires et gagné en confiance pour me lancer à mon compte. Aujourd’hui, je me sens mieux préparé pour démarrer mon propre projet dans le photovoltaïque.",
+    "note": 4,
+    "photo": "",
+    "consentement_obtenu": true,
+    "est_publie": true,
+    "ordre": 6
+  }
+},
+{
+  "model": "core.partenaire",
+  "pk": 1,
+  "fields": {
+    "uuid": "7fbb1508-dbea-412a-aed4-481ee5c12802",
+    "date_creation": "2026-10-17T07:01:47.144Z",
+    "date_modification": "2026-10-17T07:01:47.144Z",
+    "nom": "Carrefour",
+    "logo": "partenaires/0aef6fff1fe949acbd98498d69d29e39.webp",
+    "site_web": "https://www.carrefour.tn/",
+    "est_publie": true,
+    "ordre": 1
+  }
+},
+{
+  "model": "core.partenaire",
+  "pk": 2,
+  "fields": {
+    "uuid": "edc8a8c4-bf93-4de2-b689-0e962faf4e39",
+    "date_creation": "2026-10-17T07:11:11.429Z",
+    "date_modification": "2026-10-17T07:11:11.429Z",
+    "nom": "Monoprix",
+    "logo": "partenaires/4a83648698a64480bc0f091fd312317a.webp",
+    "site_web": "https://www.monoprix.tn/",
+    "est_publie": true,
+    "ordre": 2
+  }
+},
+{
+  "model": "core.partenaire",
+  "pk": 3,
+  "fields": {
+    "uuid": "b93005dd-07ab-45d4-b8a7-e840a51a1277",
+    "date_creation": "2026-10-17T07:13:17.689Z",
+    "date_modification": "2026-10-17T07:13:17.689Z",
+    "nom": "Magasin Général",
+    "logo": "partenaires/bb7186b7a1354068ae3818b1fcd46fc6.webp",
+    "site_web": "https://mg.tn/",
+    "est_publie": true,
+    "ordre": 3
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 1,
+  "fields": {
+    "uuid": "47b1754d-bac1-4f5e-8bf0-2796ebecb2f1",
+    "date_creation": "2026-10-17T11:14:46.549Z",
+    "date_modification": "2026-10-17T11:49:37.530Z",
+    "question": "À qui s’adresse la formation en fibre optique ?",
+    "reponse": "Cette formation s’adresse aux débutants ainsi qu’aux personnes souhaitant acquérir ou développer des compétences dans les télécommunications. Aucun niveau d’expérience spécifique n’est nécessaire, sous réserve des conditions d’admission de l’école.",
+    "est_publie": true,
+    "ordre": 2
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 2,
+  "fields": {
+    "uuid": "14b48664-acf7-4942-8e55-05bf2ddde047",
+    "date_creation": "2026-10-17T11:15:49.168Z",
+    "date_modification": "2026-10-17T11:49:37.553Z",
+    "question": "La formation comprend-elle des travaux pratiques et un stage sur chantier ?",
+    "reponse": "Oui, la formation associe théorie et pratique pour apprendre les techniques de câblage, de raccordement, d’épissurage et de test des réseaux en fibre optique. Le stage sur chantier permet de découvrir les conditions réelles du métier et de développer une première expérience professionnelle.",
+    "est_publie": true,
+    "ordre": 8
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 3,
+  "fields": {
+    "uuid": "824fbf14-ffaa-462b-bb83-abd9c95c7bf8",
+    "date_creation": "2026-10-17T11:16:18.121Z",
+    "date_modification": "2026-10-17T11:49:37.588Z",
+    "question": "Quels sont les débouchés professionnels après cette formation de Cartes électroniques?",
+    "reponse": "Cette formation prépare aux métiers de technicien en fibre optique, d’installateur et de technicien de maintenance des réseaux de télécommunications. Les compétences acquises peuvent faciliter la recherche d’emploi auprès des opérateurs télécoms et des entreprises spécialisées, en Tunisie comme à l’étranger, selon le niveau de qualification et l’expérience.",
+    "est_publie": true,
+    "ordre": 18
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 4,
+  "fields": {
+    "uuid": "a9593e16-9ea6-44ed-ada3-fd7aa0426e63",
+    "date_creation": "2026-10-17T11:20:03.681Z",
+    "date_modification": "2026-10-17T11:49:37.528Z",
+    "question": "À qui s’adresse la formation en électricité bâtiment ?",
+    "reponse": "Cette formation s’adresse aux débutants souhaitant apprendre un métier technique ainsi qu’aux personnes désirant développer leurs compétences en électricité. Elle permet d’acquérir les bases nécessaires pour réaliser des installations électriques en toute sécurité.",
+    "est_publie": true,
+    "ordre": 1
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 5,
+  "fields": {
+    "uuid": "dec23722-bbec-4190-aaa8-e03d048b1c4e",
+    "date_creation": "2026-10-17T11:21:00.734Z",
+    "date_modification": "2026-10-17T11:49:37.551Z",
+    "question": "La formation comprend-elle des travaux pratiques ?",
+    "reponse": "Oui, la formation associe théorie et pratique pour apprendre le câblage, le raccordement des tableaux électriques, la lecture des schémas et le diagnostic des pannes. Les exercices pratiques et les stages sur chantier permettent de se familiariser avec les conditions réelles du métier.",
+    "est_publie": true,
+    "ordre": 7
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 6,
+  "fields": {
+    "uuid": "65ed47ec-5919-4221-830e-18a8f5b6c59f",
+    "date_creation": "2026-10-17T11:24:36.234Z",
+    "date_modification": "2026-10-17T11:49:37.582Z",
+    "question": "Quelles compétences peut-on acquérir en chauffage, climatisation et plomberie sanitaire ?",
+    "reponse": "Vous apprendrez à installer et entretenir les équipements de chauffage et de climatisation, à réaliser des installations sanitaires, à détecter les fuites et à diagnostiquer les pannes. Les cours pratiques vous permettront de vous familiariser avec les outils et les techniques utilisés par les professionnels.",
+    "est_publie": true,
+    "ordre": 15
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 7,
+  "fields": {
+    "uuid": "f2bb7c1f-a625-48a0-8459-ee81da7296cb",
+    "date_creation": "2026-10-17T11:24:59.677Z",
+    "date_modification": "2026-10-17T11:49:37.538Z",
+    "question": "Est-il possible de suivre cette formation sans expérience préalable ?",
+    "reponse": "Oui, elle peut être accessible aux débutants selon les conditions d’admission de l’école. L’apprentissage progressif, les démonstrations techniques et les exercices pratiques permettent d’acquérir les connaissances nécessaires pour évoluer dans ces métiers.",
+    "est_publie": true,
+    "ordre": 5
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 8,
+  "fields": {
+    "uuid": "d5a60fbb-cd82-41a4-9211-42a290811034",
+    "date_creation": "2026-10-17T11:26:42.950Z",
+    "date_modification": "2026-10-17T11:49:37.560Z",
+    "question": "Peut-on créer sa propre entreprise après cette formation ?",
+    "reponse": "Cette formation peut constituer une première étape vers la création d’une activité dans le chauffage, la climatisation ou la plomberie sanitaire. Avec de la pratique, de l’expérience et les autorisations nécessaires, vous pourrez envisager de travailler à votre compte ou de rejoindre une entreprise spécialisée.",
+    "est_publie": true,
+    "ordre": 12
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 9,
+  "fields": {
+    "uuid": "72184930-e17a-4128-afa5-a4595354c724",
+    "date_creation": "2026-10-17T11:29:13.589Z",
+    "date_modification": "2026-10-17T11:49:37.562Z",
+    "question": "Que pourrai-je réparer à l’issue de cette formation ?",
+    "reponse": "Vous apprendrez à diagnostiquer les pannes des smartphones et des ordinateurs, à remplacer les composants défectueux et à résoudre différents problèmes matériels et logiciels. Vous découvrirez également les outils et les méthodes utilisés dans les ateliers de réparation.",
+    "est_publie": true,
+    "ordre": 13
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 10,
+  "fields": {
+    "uuid": "d01e6b74-4a1c-4b65-91eb-ed9e1f371746",
+    "date_creation": "2026-10-17T11:29:45.140Z",
+    "date_modification": "2026-10-17T11:49:37.555Z",
+    "question": "La formation permet-elle de s’exercer sur de véritables appareils ?",
+    "reponse": "Les travaux pratiques permettent de se familiariser avec les équipements, les outils de diagnostic et les techniques de démontage et de réparation. Cette approche aide à développer progressivement les compétences nécessaires pour intervenir sur des appareils réels, selon le programme proposé.",
+    "est_publie": true,
+    "ordre": 9
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 11,
+  "fields": {
+    "uuid": "b9efee2d-63c1-43ee-98e7-7ab4289bdda4",
+    "date_creation": "2026-10-17T11:30:22.939Z",
+    "date_modification": "2026-10-17T11:49:37.584Z",
+    "question": "Quelles possibilités de carrière offre la réparation GSM et PC ?",
+    "reponse": "Vous pourrez envisager de travailler dans un atelier de réparation, un magasin de matériel informatique ou un service de maintenance. Avec de l’expérience et une bonne maîtrise technique, vous pourrez également envisager de créer votre propre atelier et de proposer des services de dépannage aux particuliers et aux entreprises.",
+    "est_publie": true,
+    "ordre": 16
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 12,
+  "fields": {
+    "uuid": "a797bafb-3873-4588-8ea1-b19636edf1e7",
+    "date_creation": "2026-10-17T11:33:07.544Z",
+    "date_modification": "2026-10-17T11:49:37.578Z",
+    "question": "Que vais-je apprendre à maîtriser pendant la formation en cartes électroniques ?",
+    "reponse": "Vous découvrirez le rôle des composants électroniques, la lecture des circuits, l’utilisation des appareils de mesure et les techniques de soudage et de dessoudage. Vous apprendrez également à identifier les composants défectueux et à diagnostiquer les pannes sur différentes cartes électroniques.",
+    "est_publie": true,
+    "ordre": 14
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 13,
+  "fields": {
+    "uuid": "c2c63e5a-18df-451f-ae09-e4275de936d3",
+    "date_creation": "2026-10-17T11:34:30.070Z",
+    "date_modification": "2026-10-17T11:49:37.549Z",
+    "question": "Faut-il déjà connaître l’électronique pour commencer cette formation ?",
+    "reponse": "Pas nécessairement. Les notions fondamentales peuvent être abordées progressivement, selon le programme de formation. Les démonstrations et les exercices pratiques vous aideront à comprendre le fonctionnement des circuits et à développer vos compétences en réparation.",
+    "est_publie": true,
+    "ordre": 6
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 14,
+  "fields": {
+    "uuid": "0abec320-5c64-4fca-9f83-501dcbd1b9cf",
+    "date_creation": "2026-10-17T11:37:33.307Z",
+    "date_modification": "2026-10-17T11:49:37.536Z",
+    "question": "Dans quels secteurs pourrai-je utiliser mes compétences en réparation électronique ?",
+    "reponse": "Les compétences acquises pourront être utiles dans les ateliers de réparation électronique, les services de maintenance industrielle et les entreprises spécialisées dans les équipements électroniques. Avec de l’expérience, vous pourrez également envisager de proposer vos propres services de diagnostic et de réparation.",
+    "est_publie": true,
+    "ordre": 4
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 15,
+  "fields": {
+    "uuid": "17047a7c-7f3c-48a4-bfb4-a5085112b40f",
+    "date_creation": "2026-10-17T11:41:42.959Z",
+    "date_modification": "2026-10-17T11:49:37.535Z",
+    "question": "Combien de temps dure une formation ?",
+    "reponse": "La durée varie selon la spécialité, le niveau visé et le contenu du programme. Contactez-nous pour obtenir les dates de début, le calendrier et la durée de la formation qui vous intéresse.",
+    "est_publie": true,
+    "ordre": 3
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 16,
+  "fields": {
+    "uuid": "3b20d415-00f7-4eca-898d-10e2410ae18d",
+    "date_creation": "2026-10-17T11:42:19.763Z",
+    "date_modification": "2026-10-17T11:49:37.559Z",
+    "question": "Le centre délivre-t-il un certificat à la fin de la formation ?",
+    "reponse": "Les modalités de certification dépendent du programme suivi et de l'autorisation correspondante. Notre équipe pourra vous préciser la nature du document délivré à la fin de votre formation.",
+    "est_publie": true,
+    "ordre": 11
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 17,
+  "fields": {
+    "uuid": "130cc973-c136-48aa-b004-f975be424246",
+    "date_creation": "2026-10-17T11:42:56.469Z",
+    "date_modification": "2026-10-17T11:49:37.586Z",
+    "question": "Quels sont les débouchés après la formation ?",
+    "reponse": "Selon la spécialité choisie, vous pourrez viser des postes de technicien, d’installateur, de réparateur ou d’agent de maintenance. Les compétences acquises peuvent également servir de base à un projet professionnel indépendant.",
+    "est_publie": true,
+    "ordre": 17
+  }
+},
+{
+  "model": "core.questionfrequente",
+  "pk": 18,
+  "fields": {
+    "uuid": "2beea66e-8453-4c59-8c9c-db60b7806cb0",
+    "date_creation": "2026-10-17T11:48:08.445Z",
+    "date_modification": "2026-10-17T11:49:37.556Z",
+    "question": "La formation photovoltaïque permet-elle de participer à des projets d’énergie solaire ?",
+    "reponse": "Oui, elle vise à vous préparer à participer à l’installation et à la maintenance de systèmes photovoltaïques. Les possibilités d’emploi dépendent de votre niveau de qualification, de votre expérience et des exigences des employeurs.",
+    "est_publie": true,
+    "ordre": 10
+  }
+},
+{
+  "model": "core.emplacementphoto",
+  "pk": 1,
+  "fields": {
+    "uuid": "108480a4-7cd7-45d0-938f-32808637a4d2",
+    "date_creation": "2026-10-15T22:44:40.165Z",
+    "date_modification": "2026-10-15T23:51:46.961Z",
+    "cle": "accueil_bandeau",
+    "page": "accueil",
+    "libelle": "Accueil — bandeau principal (fond derrière le slogan)",
+    "format_conseille": "Paysage, 1920 × 1080",
+    "largeur_max": 1920,
+    "fichier": "emplacements/1adb3f6f579d49debcd6140f099c4762.webp",
+    "texte_alternatif": "Etudiante 01"
+  }
+},
+{
+  "model": "core.emplacementphoto",
+  "pk": 2,
+  "fields": {
+    "uuid": "1537c363-d2d4-4848-990b-44caa8ec6309",
+    "date_creation": "2026-10-15T22:44:40.170Z",
+    "date_modification": "2026-10-16T11:22:28.642Z",
+    "cle": "accueil_presentation",
+    "page": "accueil",
+    "libelle": "Accueil — « Un centre à taille humaine » (à côté du texte)",
+    "format_conseille": "Paysage, 1200 × 800",
+    "largeur_max": 1200,
+    "fichier": "emplacements/779b9cd75dd146ccbf982a857326ad8b.webp",
+    "texte_alternatif": "Défis"
+  }
+},
+{
+  "model": "core.emplacementphoto",
+  "pk": 3,
+  "fields": {
+    "uuid": "1c1c7f14-c76e-431b-b1b9-51714b3c7219",
+    "date_creation": "2026-10-15T22:44:40.172Z",
+    "date_modification": "2026-10-16T09:44:50.869Z",
+    "cle": "accueil_etapes",
+    "page": "accueil",
+    "libelle": "Accueil — « S’inscrire en trois étapes » (illustration)",
+    "format_conseille": "Paysage large, 1200 × 500",
+    "largeur_max": 1200,
+    "fichier": "",
+    "texte_alternatif": "Etape"
+  }
+},
+{
+  "model": "core.emplacementphoto",
+  "pk": 4,
+  "fields": {
+    "uuid": "c686a1fa-f459-491a-b708-e89db44e843f",
+    "date_creation": "2026-10-15T22:44:40.174Z",
+    "date_modification": "2026-10-16T00:00:28.556Z",
+    "cle": "accueil_appel_action",
+    "page": "accueil",
+    "libelle": "Accueil — « Un projet de formation ? » (fond)",
+    "format_conseille": "Paysage, 1920 × 800",
+    "largeur_max": 1920,
+    "fichier": "emplacements/394f133982334a94a43c0747613b96c7.webp",
+    "texte_alternatif": "Ingénieurs"
+  }
+},
+{
+  "model": "core.emplacementphoto",
+  "pk": 5,
+  "fields": {
+    "uuid": "a44aec7c-bd18-4189-b035-887968ef76d2",
+    "date_creation": "2026-10-15T22:44:40.176Z",
+    "date_modification": "2026-10-16T09:50:55.096Z",
+    "cle": "a_propos_principale",
+    "page": "a_propos",
+    "libelle": "À propos — photo principale",
+    "format_conseille": "Paysage, 1400 × 800",
+    "largeur_max": 1400,
+    "fichier": "emplacements/0ab9d8974a2d4087b324a3e620cd9375.webp",
+    "texte_alternatif": "formations"
+  }
+},
+{
+  "model": "accounts.utilisateur",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$K6OiDrdQfm30Wdzc5HjPtq$IlqQi6Hw25QfNWQ0VwgZiImqrZWodU4iF3UNxbdfx1M=",
+    "last_login": "2026-10-30T08:34:44.216Z",
+    "is_superuser": true,
+    "username": "heni",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-10-15T09:49:13.783Z",
+    "uuid": "4871f1cd-6cf3-48c6-80fe-eeb3ac46cc36",
+    "email": "prosib25@gmail.com",
+    "telephone": "",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.utilisateur",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$2vSS3Bo1q8ILBpu5XHtIZM$88F7xtsHWV/us2Gj1JeBnCCHCFGO0C/bH5jlnTnWLzQ=",
+    "last_login": "2026-10-30T10:44:18.489Z",
+    "is_superuser": false,
+    "username": "rached",
+    "first_name": "Rached",
+    "last_name": "Heni",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-26T21:51:40.463Z",
+    "uuid": "a6b585ff-d30d-409d-901a-f069873a4095",
+    "email": "appligne01@gmail.com",
+    "telephone": "",
+    "groups": [
+      [
+        "Candidat"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.utilisateur",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$EGUQpa5CgZXUTgNbkOYYmJ$c14B7dOhb6aSrA0abDnEWaOJ6PEFubsN8MsKIDRtH8g=",
+    "last_login": "2026-10-28T13:17:46.290Z",
+    "is_superuser": false,
+    "username": "Samir",
+    "first_name": "Bahri",
+    "last_name": "Samir",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-28T11:46:04.977Z",
+    "uuid": "6253c5d9-5517-47a5-878a-1b5c27ae7a02",
+    "email": "ezzahra2024@gmail.com",
+    "telephone": "",
+    "groups": [
+      [
+        "Formateur"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.utilisateur",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$QxfUu76h7MyyPsOSJEe8Z7$XrXuQVxSdMpUh2Wb1HY5/YEqDVG1y9/BPncXBonXhXc=",
+    "last_login": "2026-10-29T08:09:18.292Z",
+    "is_superuser": false,
+    "username": "prosib25",
+    "first_name": "Salwa",
+    "last_name": "Bou Lares",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T08:06:36.193Z",
+    "uuid": "e9991271-ed73-4069-9ab2-1b457f54da61",
+    "email": "prosib24@gmail.com",
+    "telephone": "",
+    "groups": [
+      [
+        "Candidat"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.utilisateur",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$I3YfYHWbkC65d0HK6XmqFI$+Av7GqwduAes1l3I4AOZFQaFJv6hbHhHPQ/9U1sh2YA=",
+    "last_login": "2026-10-29T09:18:27.091Z",
+    "is_superuser": false,
+    "username": "appligne",
+    "first_name": "Houda",
+    "last_name": "Ben Dhafer",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T08:31:51.790Z",
+    "uuid": "3d7ea751-ca6a-4a6e-9dc1-b5598d308c68",
+    "email": "appligne@gmail.com",
+    "telephone": "",
+    "groups": [
+      [
+        "Candidat"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.utilisateur",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$0mQjkZ2mNlCE62tZVm20Z9$2SkdLx4VwZw+ETENlaGz1o5Dc+Zk9WJN8ir6bG2InIM=",
+    "last_login": "2026-10-29T09:14:55.341Z",
+    "is_superuser": false,
+    "username": "prosib252",
+    "first_name": "Raoudha",
+    "last_name": "Heni",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T08:54:35.154Z",
+    "uuid": "00720098-892d-4955-bb86-4d97db6144f3",
+    "email": "prosib26@gmail.com",
+    "telephone": "",
+    "groups": [
+      [
+        "Candidat"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "catalog.categorie",
+  "pk": 1,
+  "fields": {
+    "uuid": "5baa41ba-b435-465c-9442-c7e7f9353724",
+    "date_creation": "2026-10-16T08:08:26.871Z",
+    "date_modification": "2026-10-16T08:14:08.480Z",
+    "nom": "Télécommunications et réseaux",
+    "slug": "telecommunications-et-reseaux",
+    "description": "Fibre optique\r\n\r\nFormation 4G/5G",
+    "ordre": 1,
+    "est_active": true
+  }
+},
+{
+  "model": "catalog.categorie",
+  "pk": 2,
+  "fields": {
+    "uuid": "28da95a8-5323-411d-adb7-af47a88ac2eb",
+    "date_creation": "2026-10-16T08:09:23.116Z",
+    "date_modification": "2026-10-16T08:13:22.939Z",
+    "nom": "Électricité et énergies renouvelables",
+    "slug": "electricite-et-energies-renouvelables",
+    "description": "Électricité bâtiment\r\n\r\nPhotovoltaïque",
+    "ordre": 3,
+    "est_active": true
+  }
+},
+{
+  "model": "catalog.categorie",
+  "pk": 3,
+  "fields": {
+    "uuid": "070c241d-d9df-40da-ab3b-2e9b28c85863",
+    "date_creation": "2026-10-16T08:10:13.604Z",
+    "date_modification": "2026-10-16T08:14:40.523Z",
+    "nom": "Génie climatique et plomberie",
+    "slug": "genie-climatique-et-plomberie",
+    "description": "Chaud et froid\r\n\r\nPlomberie sanitaire",
+    "ordre": 5,
+    "est_active": true
+  }
+},
+{
+  "model": "catalog.categorie",
+  "pk": 4,
+  "fields": {
+    "uuid": "be5612ff-c997-48ee-afad-12379a3c79d6",
+    "date_creation": "2026-10-16T08:10:57.269Z",
+    "date_modification": "2026-10-16T08:13:53.565Z",
+    "nom": "Maintenance informatique et électronique",
+    "slug": "maintenance-informatique-et-electronique",
+    "description": "Réparation GSM et PC\r\n\r\nCartes électroniques",
+    "ordre": 4,
+    "est_active": true
+  }
+},
+{
+  "model": "catalog.categorie",
+  "pk": 5,
+  "fields": {
+    "uuid": "c184a684-0dea-4cb5-b25f-3a89af029b3a",
+    "date_creation": "2026-10-16T08:11:59.457Z",
+    "date_modification": "2026-10-16T08:14:26.192Z",
+    "nom": "Sécurité électronique",
+    "slug": "securite-electronique",
+    "description": "Caméras de surveillance et systèmes d’alarme",
+    "ordre": 2,
+    "est_active": true
+  }
+},
+{
+  "model": "catalog.categorie",
+  "pk": 6,
+  "fields": {
+    "uuid": "5b120721-3a4d-47a9-9872-9acfbb7d698e",
+    "date_creation": "2026-10-16T08:12:18.174Z",
+    "date_modification": "2026-10-16T08:14:56.064Z",
+    "nom": "Gestion, comptabilité et fiscalité",
+    "slug": "gestion-comptabilite-et-fiscalite",
+    "description": "Comptabilité et fiscalité",
+    "ordre": 6,
+    "est_active": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 1,
+  "fields": {
+    "uuid": "0c8ff8ad-291e-4f66-8210-d079ea4f57e0",
+    "date_creation": "2026-10-16T08:26:10.613Z",
+    "date_modification": "2026-10-16T09:23:09.594Z",
+    "categorie": 1,
+    "titre": "Fibre optique",
+    "slug": "fibre-optique",
+    "resume": "Découvrez les techniques d’installation, de raccordement et de maintenance des réseaux en fibre optique. Cette formation théorique et pratique vous permettra de maîtriser le câblage, l’épissurage, les mesures de performance et le diagnostic des pannes pour intervenir efficacement sur les réseaux de",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/2d58bb0d43204d7ab144abfc43afbdf6.webp",
+    "est_publiee": true,
+    "est_certifiante": true,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 2,
+  "fields": {
+    "uuid": "f3202cd7-35c8-46aa-a097-d7a41c6700da",
+    "date_creation": "2026-10-16T08:28:04.017Z",
+    "date_modification": "2026-10-16T09:26:06.273Z",
+    "categorie": 1,
+    "titre": "Formation 4G/5G",
+    "slug": "formation-4g5g",
+    "resume": "Découvrez les technologies de télécommunication mobile 4G et 5G, leur fonctionnement et leurs équipements. Cette formation théorique et pratique vous permettra de comprendre l’architecture des réseaux mobiles, les antennes, les équipements de transmission et les techniques de maintenance et de diagn",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/c998b82d91ae4d35b4938fe4c0e87a69.webp",
+    "est_publiee": true,
+    "est_certifiante": true,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 3,
+  "fields": {
+    "uuid": "03b76505-69a9-4328-9f74-bd9bdee3429f",
+    "date_creation": "2026-10-16T08:30:21.461Z",
+    "date_modification": "2026-10-16T09:22:06.110Z",
+    "categorie": 2,
+    "titre": "Électricité bâtiment",
+    "slug": "electricite-batiment",
+    "resume": "Apprenez à réaliser, installer et entretenir les installations électriques des bâtiments. Cette formation théorique et pratique vous permettra de maîtriser le câblage électrique, le raccordement des tableaux, la lecture des schémas électriques, ainsi que le diagnostic des pannes et les règles de séc",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/8d4d38d8e7b947508ac04db82879901f.webp",
+    "est_publiee": true,
+    "est_certifiante": true,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 4,
+  "fields": {
+    "uuid": "ffdeb146-f220-42a5-ae67-cd50e20958dd",
+    "date_creation": "2026-10-16T08:34:05.072Z",
+    "date_modification": "2026-10-16T09:34:46.034Z",
+    "categorie": 2,
+    "titre": "Photovoltaïque",
+    "slug": "photovoltaique",
+    "resume": "Apprenez à installer, raccorder et entretenir des systèmes photovoltaïques grâce à une formation théorique et pratique. Maîtrisez les panneaux solaires, les onduleurs, le dimensionnement des installations et les règles de sécurité.",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/5dbe789eea084abbbad089a569e5ebf9.webp",
+    "est_publiee": true,
+    "est_certifiante": false,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 5,
+  "fields": {
+    "uuid": "e3da795a-9bde-4a62-9194-f4ba5a39f7bb",
+    "date_creation": "2026-10-16T08:36:56.505Z",
+    "date_modification": "2026-10-30T08:47:10.189Z",
+    "categorie": 3,
+    "titre": "Chaud et froid",
+    "slug": "chaud-et-froid",
+    "resume": "Apprenez à installer, entretenir et réparer les équipements de chauffage, de climatisation et de réfrigération. Cette formation théorique et pratique vous permettra de maîtriser les techniques de diagnostic des pannes, la maintenance des installations et les principes de fonctionnement des systèmes",
+    "description": "Formation théorique et pratique en installation, entretien et réparation des équipements de chauffage, de climatisation et de réfrigération.",
+    "objectifs": "Acquérir les compétences nécessaires pour installer, entretenir et diagnostiquer les pannes des équipements de chaud et de froid, tout en respectant les règles de sécurité.",
+    "public_vise": "Débutants souhaitant apprendre un métier technique, jeunes en recherche de qualification professionnelle et personnes souhaitant développer leurs compétences dans le domaine du chaud et du froid.",
+    "prerequis": "Aucun diplôme spécifique n'est nécessaire pour débuter. Une bonne motivation, un intérêt pour les travaux techniques et des connaissances de base en électricité constituent des atouts.",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/8f57e9cb705847dba07869fb291b79fe.webp",
+    "est_publiee": true,
+    "est_certifiante": true,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 6,
+  "fields": {
+    "uuid": "71f421eb-216f-42b4-a5ce-619e023eb476",
+    "date_creation": "2026-10-16T08:38:57.926Z",
+    "date_modification": "2026-10-16T09:35:39.611Z",
+    "categorie": 3,
+    "titre": "Plomberie sanitaire",
+    "slug": "plomberie-sanitaire",
+    "resume": "Apprenez à installer, raccorder, entretenir et réparer les réseaux d’alimentation en eau et d’évacuation. Grâce à une formation théorique et pratique, maîtrisez la pose des équipements sanitaires, la lecture des plans, la détection des fuites et le diagnostic des pannes.",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/3c4850e1a8614e53bfe936bed8d46564.webp",
+    "est_publiee": true,
+    "est_certifiante": true,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 7,
+  "fields": {
+    "uuid": "dd321252-7c84-4364-81c7-13b4fd79182d",
+    "date_creation": "2026-10-16T08:40:48.831Z",
+    "date_modification": "2026-10-16T09:36:57.656Z",
+    "categorie": 4,
+    "titre": "Réparation GSM et PC",
+    "slug": "reparation-gsm-et-pc",
+    "resume": "📱💻 **Devenez spécialiste en réparation de smartphones et d’ordinateurs !**  Apprenez à diagnostiquer les pannes, réparer les smartphones (GSM) et les ordinateurs, remplacer les composants défectueux et résoudre les problèmes matériels et logiciels. Grâce à une formation théorique et pratique, déve",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/f4629151d3dc4ff8bc683cc1e1d69350.webp",
+    "est_publiee": true,
+    "est_certifiante": false,
+    "est_a_la_une": false
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 8,
+  "fields": {
+    "uuid": "ff1025f6-617e-4fb3-aaab-b7282d3abfd1",
+    "date_creation": "2026-10-16T08:41:50.982Z",
+    "date_modification": "2026-10-16T09:18:28.600Z",
+    "categorie": 4,
+    "titre": "Cartes électroniques",
+    "slug": "cartes-electroniques",
+    "resume": "Apprenez à comprendre, diagnostiquer et réparer les cartes électroniques. Cette formation théorique et pratique vous permettra d’identifier les composants électroniques, d’utiliser les instruments de mesure, de détecter les pannes et de maîtriser les techniques de réparation et de maintenance.",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/81d0636f640a44368583b9531eb77f9a.webp",
+    "est_publiee": true,
+    "est_certifiante": true,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 9,
+  "fields": {
+    "uuid": "e40e3dce-ca09-47d3-82a8-31ad047f8132",
+    "date_creation": "2026-10-16T08:43:55.888Z",
+    "date_modification": "2026-10-16T09:14:29.609Z",
+    "categorie": 5,
+    "titre": "Caméras de surveillance et systèmes d’alarme",
+    "slug": "cameras-de-surveillance-et-systemes-dalarme",
+    "resume": "Apprenez à installer, configurer et maintenir les caméras de vidéosurveillance et les systèmes d’alarme. Cette formation théorique et pratique vous permettra de maîtriser les équipements de sécurité, le câblage, la configuration à distance et le diagnostic des pannes.",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 30,
+    "prix": "300.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/7d72f6af9fb143a8acee8f905166c49a.webp",
+    "est_publiee": true,
+    "est_certifiante": true,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.formation",
+  "pk": 10,
+  "fields": {
+    "uuid": "e8e61bbb-3960-4d0b-aaf2-40de1fb4735e",
+    "date_creation": "2026-10-16T08:46:25.354Z",
+    "date_modification": "2026-10-16T09:20:58.409Z",
+    "categorie": 6,
+    "titre": "Comptabilité et fiscalité",
+    "slug": "comptabilite-et-fiscalite",
+    "resume": "Maîtrisez les bases de la comptabilité et de la fiscalité pour gérer efficacement les opérations financières d’une entreprise. Cette formation vous permettra d’apprendre la saisie comptable, l’établissement des états financiers, la préparation des déclarations fiscales et l’application des principal",
+    "description": "",
+    "objectifs": "",
+    "public_vise": "",
+    "prerequis": "",
+    "duree_heures": 120,
+    "prix": "1200.000",
+    "niveau": "debutant",
+    "modalite": "presentiel",
+    "image": "formations/images/7b019519eeb04d17ae97d2c2250eda40.webp",
+    "est_publiee": true,
+    "est_certifiante": true,
+    "est_a_la_une": true
+  }
+},
+{
+  "model": "catalog.moduleprogramme",
+  "pk": 1,
+  "fields": {
+    "uuid": "a84568d6-7a77-4618-b84c-acead0d6ab6f",
+    "date_creation": "2026-10-28T12:46:09.916Z",
+    "date_modification": "2026-10-28T12:46:09.916Z",
+    "formation": 5,
+    "ordre": 1,
+    "titre": "Fondamentaux du chaud et du froid",
+    "contenu": "_ Notions de base en thermique et en réfrigération.\r\n\r\n_ Découverte des équipements de chauffage, de climatisation et de réfrigération.\r\n\r\n_ Identification des principaux composants et de leur fonctionnement.\r\n\r\n_ Règles de sécurité et utilisation des outils de base.",
+    "duree_heures": 4
+  }
+},
+{
+  "model": "catalog.moduleprogramme",
+  "pk": 2,
+  "fields": {
+    "uuid": "bc664517-d776-4423-a0ca-f3aaa02cbe91",
+    "date_creation": "2026-10-28T12:46:09.917Z",
+    "date_modification": "2026-10-28T12:46:09.917Z",
+    "formation": 5,
+    "ordre": 2,
+    "titre": "Installation et mise en service des équipements",
+    "contenu": "_ Installation des climatiseurs et des équipements frigorifiques.\r\n\r\n_ Raccordements électriques et liaisons frigorifiques.\r\n\r\n_ Présentation des circuits frigorifiques et de leurs composants.\r\n\r\n_ Contrôles et vérifications avant la mise en service.",
+    "duree_heures": 16
+  }
+},
+{
+  "model": "catalog.moduleprogramme",
+  "pk": 3,
+  "fields": {
+    "uuid": "39c6a593-9621-4a06-bf21-0f59834afe4d",
+    "date_creation": "2026-10-28T12:46:09.917Z",
+    "date_modification": "2026-10-28T12:46:09.917Z",
+    "formation": 5,
+    "ordre": 3,
+    "titre": "Entretien, maintenance et dépannage",
+    "contenu": "_ Entretien préventif des équipements de chaud et de froid.\r\n\r\n_ Diagnostic des pannes électriques et frigorifiques.\r\n\r\n_ Utilisation des instruments de mesure et de contrôle.\r\n\r\n_ Travaux pratiques de maintenance et de réparation.",
+    "duree_heures": 10
+  }
+},
+{
+  "model": "catalog.documentformation",
+  "pk": 1,
+  "fields": {
+    "uuid": "0384e16f-330f-44e7-8a30-d2f231ac207f",
+    "date_creation": "2026-10-28T12:46:09.918Z",
+    "date_modification": "2026-10-30T08:46:40.523Z",
+    "formation": 5,
+    "titre": "Guide technique des installations de production de froid",
+    "fichier": "formations/documents/33158d4da2e24339b83380cf352ac649.pdf",
+    "est_public": true
+  }
+},
+{
+  "model": "catalog.documentformation",
+  "pk": 2,
+  "fields": {
+    "uuid": "4ab64b1c-f9c0-4380-a500-2e08a089a286",
+    "date_creation": "2026-10-28T12:46:09.969Z",
+    "date_modification": "2026-10-30T08:47:10.189Z",
+    "formation": 5,
+    "titre": "Notions de base en chauffage, climatisation et ventilation",
+    "fichier": "formations/documents/c72593ceadce40d7a821bce1106aeb6a.pdf",
+    "est_public": false
+  }
+},
+{
+  "model": "commercial.demandecontact",
+  "pk": 1,
+  "fields": {
+    "uuid": "8edad33c-c20b-416d-8033-335cbc11aa27",
+    "date_creation": "2026-10-17T06:53:33.934Z",
+    "date_modification": "2026-10-26T22:14:44.300Z",
+    "nom": "Rached Heni",
+    "email": "rached@gmail.com",
+    "telephone": "22578338",
+    "message": "cours accéléré",
+    "formation": 9,
+    "source": "formulaire",
+    "statut": "traitee",
+    "traitee_par": [
+      "appligne01@gmail.com"
+    ],
+    "notes": ""
+  }
+},
+{
+  "model": "commercial.demandecontact",
+  "pk": 2,
+  "fields": {
+    "uuid": "deb3ccdf-ab0f-49f2-be8d-dd864be651d6",
+    "date_creation": "2026-10-28T13:39:43.421Z",
+    "date_modification": "2026-10-28T13:39:43.421Z",
+    "nom": "MRH",
+    "email": "prosib25@gmail.com",
+    "telephone": "22578338",
+    "message": "merci",
+    "formation": 3,
+    "source": "formulaire",
+    "statut": "nouvelle",
+    "traitee_par": null,
+    "notes": ""
+  }
+},
+{
+  "model": "commercial.demandecontact",
+  "pk": 6,
+  "fields": {
+    "uuid": "910005b2-cc93-4fa7-97e5-cbc9a6128c47",
+    "date_creation": "2026-10-29T08:02:52.297Z",
+    "date_modification": "2026-10-29T08:03:24.667Z",
+    "nom": "Salwa Bou Lares",
+    "email": "prosib25@gmail.com",
+    "telephone": "92995254",
+    "message": "m'inscrire",
+    "formation": 5,
+    "source": "formulaire",
+    "statut": "en_cours",
+    "traitee_par": [
+      "prosib25@gmail.com"
+    ],
+    "notes": "[29/10/2026 09:03] Fiche candidat créée : Salwa Bou Lares (92995254)."
+  }
+},
+{
+  "model": "commercial.demandecontact",
+  "pk": 8,
+  "fields": {
+    "uuid": "1f38a0cc-4f9b-494b-8c21-597270daf484",
+    "date_creation": "2026-10-29T08:28:00.135Z",
+    "date_modification": "2026-10-29T08:28:53.149Z",
+    "nom": "Houda Ben Dhafer",
+    "email": "appligne@gmail.com",
+    "telephone": "96505383",
+    "message": "M'inscrire",
+    "formation": 5,
+    "source": "formulaire",
+    "statut": "en_cours",
+    "traitee_par": [
+      "prosib25@gmail.com"
+    ],
+    "notes": "[29/10/2026 09:28] Fiche candidat créée : Houda Ben Dhafer (96505383)."
+  }
+},
+{
+  "model": "commercial.demandecontact",
+  "pk": 9,
+  "fields": {
+    "uuid": "d165cb0e-3f92-4787-86a5-26f4bfce1088",
+    "date_creation": "2026-10-29T08:49:21.408Z",
+    "date_modification": "2026-10-29T08:51:02.115Z",
+    "nom": "Raoudha Heni",
+    "email": "prosib25@gmail.com",
+    "telephone": "99394297",
+    "message": "m'inscrire",
+    "formation": 5,
+    "source": "formulaire",
+    "statut": "en_cours",
+    "traitee_par": [
+      "prosib25@gmail.com"
+    ],
+    "notes": "[29/10/2026 09:51] Fiche candidat créée : Raoudha Heni (99394297)."
+  }
+},
+{
+  "model": "trainers.formateur",
+  "pk": 1,
+  "fields": {
+    "uuid": "279cb76f-aec7-4ccd-b01d-102a9f584a35",
+    "date_creation": "2026-10-16T10:35:45.100Z",
+    "date_modification": "2026-10-16T10:35:45.100Z",
+    "utilisateur": null,
+    "nom": "Heni",
+    "prenom": "Mohamed",
+    "email": "prosib25@gmail.com",
+    "telephone": "22578338",
+    "specialite": "Fibre optique",
+    "biographie": "**Spécialiste en fibre optique**\r\n\r\nTechnicien spécialisé en fibre optique, doté de compétences en installation, raccordement, épissurage et maintenance des réseaux de télécommunications. Maîtrise des équipements de mesure, du diagnostic des pannes et des tests de performance. Rigoureux et autonome, il intervient sur des chantiers résidentiels et professionnels pour garantir la qualité et la fiabilité des installations. Son objectif est de contribuer au déploiement des réseaux très haut débit en Tunisie et à l’étranger.",
+    "photo": "formateurs/photos/267b4bb6833c4d6caf90e52d5e98377d.webp",
+    "cv": "",
+    "est_actif": true,
+    "est_visible_site": true
+  }
+},
+{
+  "model": "trainers.formateur",
+  "pk": 2,
+  "fields": {
+    "uuid": "70605aea-968e-49b3-a9d9-8eeddfb66a06",
+    "date_creation": "2026-10-16T10:38:18.328Z",
+    "date_modification": "2026-10-16T10:38:18.328Z",
+    "utilisateur": null,
+    "nom": "Baraket",
+    "prenom": "Ridha",
+    "email": null,
+    "telephone": "24585858",
+    "specialite": "électricité batiment",
+    "biographie": "Spécialiste en électricité bâtiment\r\n\r\nTechnicien spécialisé en électricité bâtiment, maîtrisant l’installation, le câblage, le raccordement et la maintenance des installations électriques. Compétent en lecture de schémas électriques, installation de tableaux de distribution, diagnostic des pannes et application des normes de sécurité. Sérieux et méthodique, il intervient sur des chantiers résidentiels et professionnels pour garantir des installations fiables et sécurisées, en Tunisie et à l’étranger.",
+    "photo": "formateurs/photos/44d66996f04f4bbd8b188a9451ae0358.webp",
+    "cv": "",
+    "est_actif": true,
+    "est_visible_site": true
+  }
+},
+{
+  "model": "trainers.formateur",
+  "pk": 3,
+  "fields": {
+    "uuid": "18a03e8c-5e03-4aed-aa77-194ecb431bc0",
+    "date_creation": "2026-10-16T10:40:01.236Z",
+    "date_modification": "2026-10-28T11:46:37.637Z",
+    "utilisateur": [
+      "ezzahra2024@gmail.com"
+    ],
+    "nom": "Bahri",
+    "prenom": "Samir",
+    "email": null,
+    "telephone": "98212121",
+    "specialite": "chaud froid et plomberie sanitaire",
+    "biographie": "**Spécialiste en chaud, froid et plomberie sanitaire**\r\n\r\nTechnicien spécialisé en chauffage, climatisation, réfrigération et plomberie sanitaire, maîtrisant l’installation, la mise en service, l’entretien et la réparation des équipements. Compétent en diagnostic des pannes, détection des fuites et maintenance des installations thermiques et sanitaires. Rigoureux et polyvalent, il intervient auprès des particuliers et des entreprises pour garantir le bon fonctionnement des équipements, en Tunisie et à l’étranger.",
+    "photo": "formateurs/photos/967dfcd50c734faca739bffe23defa42.webp",
+    "cv": "",
+    "est_actif": true,
+    "est_visible_site": true
+  }
+},
+{
+  "model": "trainers.formateur",
+  "pk": 4,
+  "fields": {
+    "uuid": "5c3444aa-04aa-44dc-aa20-683a9687ad7e",
+    "date_creation": "2026-10-16T10:42:03.023Z",
+    "date_modification": "2026-10-16T10:42:03.023Z",
+    "utilisateur": null,
+    "nom": "Annabi",
+    "prenom": "Nabil",
+    "email": null,
+    "telephone": "32323232",
+    "specialite": "Réparation GSM et PC",
+    "biographie": "Spécialiste en chaud, froid, réparation GSM et PC\r\n\r\nTechnicien polyvalent spécialisé en chauffage, climatisation, réfrigération et réparation de smartphones et d’ordinateurs. Compétent en installation, maintenance, diagnostic des pannes et remplacement des composants défectueux, il maîtrise les techniques de dépannage des équipements thermiques, électroniques et informatiques. Méthodique et doté d’un bon esprit d’analyse, il intervient auprès des particuliers et des entreprises pour assurer des réparations fiables et un service de qualité, en Tunisie et à l’étranger.",
+    "photo": "formateurs/photos/44d81520a0c542f395cb4fccb0f35477.webp",
+    "cv": "",
+    "est_actif": true,
+    "est_visible_site": true
+  }
+},
+{
+  "model": "trainers.formateur",
+  "pk": 5,
+  "fields": {
+    "uuid": "e0c73d13-9c14-4f33-939f-5ff3c56612f4",
+    "date_creation": "2026-10-16T10:44:10.749Z",
+    "date_modification": "2026-10-16T10:44:10.749Z",
+    "utilisateur": null,
+    "nom": "Karoui",
+    "prenom": "Anis",
+    "email": null,
+    "telephone": "33221144",
+    "specialite": "Cartes électroniques",
+    "biographie": "Spécialiste en cartes électroniques\r\n\r\nTechnicien spécialisé dans le diagnostic, la réparation et la maintenance des cartes électroniques. Maîtrisant l’identification des composants, l’utilisation des instruments de mesure, le soudage et le remplacement des composants défectueux, il intervient sur différents équipements électroniques. Rigoureux et méthodique, il met ses compétences au service des entreprises et des particuliers pour assurer des réparations fiables et durables, en Tunisie et à l’étranger.",
+    "photo": "formateurs/photos/e07610aece8845dea385c12b60411336.webp",
+    "cv": "",
+    "est_actif": true,
+    "est_visible_site": true
+  }
+},
+{
+  "model": "trainers.formateur",
+  "pk": 6,
+  "fields": {
+    "uuid": "6ad6380f-f889-4d1f-9c3d-6b763c9389d5",
+    "date_creation": "2026-10-16T10:46:31.821Z",
+    "date_modification": "2026-10-16T10:46:31.821Z",
+    "utilisateur": null,
+    "nom": "Draoui",
+    "prenom": "Salwa",
+    "email": null,
+    "telephone": "33669988",
+    "specialite": "Comptabilité fiscalité",
+    "biographie": "**Spécialiste en comptabilité et fiscalité**\r\n\r\nProfessionnel spécialisé en comptabilité et fiscalité, maîtrisant la saisie des opérations comptables, la préparation des états financiers et l’établissement des déclarations fiscales. Compétent dans le suivi des factures, la gestion des opérations financières et l’application de la réglementation comptable et fiscale. Organisé et rigoureux, il accompagne les entreprises dans la gestion de leur comptabilité et le respect de leurs obligations fiscales, en Tunisie.",
+    "photo": "formateurs/photos/01564becb38a409fb50514c664bc7630.webp",
+    "cv": "",
+    "est_actif": true,
+    "est_visible_site": true
+  }
+},
+{
+  "model": "trainers.formateur",
+  "pk": 7,
+  "fields": {
+    "uuid": "63f0206e-f449-42bf-82bb-2d05615361dd",
+    "date_creation": "2026-10-16T10:55:02.044Z",
+    "date_modification": "2026-10-16T10:55:02.044Z",
+    "utilisateur": null,
+    "nom": "Rourou",
+    "prenom": "Sami",
+    "email": null,
+    "telephone": "55441122",
+    "specialite": "Photovoltaïque",
+    "biographie": "**Spécialiste en énergie photovoltaïque**\r\n\r\nTechnicien spécialisé en énergie solaire photovoltaïque, maîtrisant l’installation, le raccordement, la mise en service et la maintenance des systèmes solaires. Compétent en dimensionnement des installations, configuration des onduleurs, diagnostic des pannes et respect des normes de sécurité électrique. Rigoureux et motivé par les énergies renouvelables, il accompagne les particuliers et les entreprises dans la réalisation d’installations solaires performantes et durables, en Tunisie et à l’étranger.",
+    "photo": "formateurs/photos/8b49f6059ae049b2bc62c252792432df.webp",
+    "cv": "",
+    "est_actif": true,
+    "est_visible_site": true
+  }
+},
+{
+  "model": "trainers.formateur",
+  "pk": 8,
+  "fields": {
+    "uuid": "6659eaf1-bd4c-407e-898f-7f2a24ff27b4",
+    "date_creation": "2026-10-16T11:00:18.548Z",
+    "date_modification": "2026-10-16T11:00:18.548Z",
+    "utilisateur": null,
+    "nom": "Majoul",
+    "prenom": "Imed",
+    "email": null,
+    "telephone": "56231245",
+    "specialite": "Formation 4G/5G",
+    "biographie": "**Spécialiste en télécommunications 4G/5G**\r\n\r\nTechnicien spécialisé dans les réseaux mobiles 4G et 5G, maîtrisant les équipements de télécommunication, les antennes-relais et les systèmes de transmission. Compétent en installation, configuration, maintenance et diagnostic des infrastructures réseau, il contribue à l’amélioration de la couverture et de la qualité des communications mobiles. Rigoureux et passionné par les nouvelles technologies, il peut évoluer auprès des opérateurs télécoms et des entreprises spécialisées, en Tunisie et à l’étranger.",
+    "photo": "formateurs/photos/abc6fc961c404e758a1891d21f7b5e5a.webp",
+    "cv": "",
+    "est_actif": true,
+    "est_visible_site": true
+  }
+},
+{
+  "model": "enrollments.session",
+  "pk": 1,
+  "fields": {
+    "uuid": "6e476da6-d8cb-4374-9dbf-f7ab53bd82a0",
+    "date_creation": "2026-10-26T19:17:07.319Z",
+    "date_modification": "2026-10-28T13:16:55.175Z",
+    "formation": 10,
+    "formateur": 6,
+    "code": "COMPTABILITE-ET-FISCALITE-2026-12",
+    "date_debut": "2026-12-07",
+    "date_fin": "2027-06-30",
+    "horaires": "Du lundi au Jeudi 9h-113h",
+    "lieu": "49 Avenue du 14 Janvier 1er étage Appartement A, Ben Arous, Tunisia, 2013, Ben Arous",
+    "modalite": "presentiel",
+    "places_max": 15,
+    "prix": "600.000",
+    "statut": "ouverte",
+    "est_publiee": true
+  }
+},
+{
+  "model": "enrollments.session",
+  "pk": 2,
+  "fields": {
+    "uuid": "44f8a946-e76f-4c50-8ad2-ac62b42e24ef",
+    "date_creation": "2026-10-26T19:18:30.183Z",
+    "date_modification": "2026-10-28T13:16:26.075Z",
+    "formation": 3,
+    "formateur": 2,
+    "code": "ELECTRICITE-BATIMENT-2026-11",
+    "date_debut": "2026-11-30",
+    "date_fin": "2026-12-31",
+    "horaires": "Du lundi au Jeudi 9h-113h",
+    "lieu": "49 Avenue du 14 Janvier 1er étage Appartement A, Ben Arous, Tunisia, 2013, Ben Arous",
+    "modalite": "presentiel",
+    "places_max": 15,
+    "prix": "400.000",
+    "statut": "ouverte",
+    "est_publiee": true
+  }
+},
+{
+  "model": "enrollments.session",
+  "pk": 3,
+  "fields": {
+    "uuid": "5610a2f6-3d77-43e0-bc5e-fab698d88168",
+    "date_creation": "2026-10-26T19:20:03.000Z",
+    "date_modification": "2026-10-28T13:13:52.407Z",
+    "formation": 5,
+    "formateur": 3,
+    "code": "CHAUD-ET-FROID-2026-11",
+    "date_debut": "2026-11-30",
+    "date_fin": "2026-12-16",
+    "horaires": "Du lundi au Jeudi 9h-113h",
+    "lieu": "49 Avenue du 14 Janvier 1er étage Appartement A, Ben Arous, Tunisia, 2013, Ben Arous",
+    "modalite": "presentiel",
+    "places_max": 10,
+    "prix": "350.000",
+    "statut": "ouverte",
+    "est_publiee": true
+  }
+},
+{
+  "model": "enrollments.session",
+  "pk": 4,
+  "fields": {
+    "uuid": "b34456a2-09c1-49fc-a519-8d0410ade9a5",
+    "date_creation": "2026-10-26T19:21:37.559Z",
+    "date_modification": "2026-10-26T19:21:37.559Z",
+    "formation": 1,
+    "formateur": 1,
+    "code": "FIBRE-OPTIQUE-2026-11",
+    "date_debut": "2026-11-30",
+    "date_fin": "2026-12-16",
+    "horaires": "Du lundi au Jeudi 9h-113h",
+    "lieu": "49 Avenue du 14 Janvier 1er étage Appartement A, Ben Arous, Tunisia, 2013, Ben Arous",
+    "modalite": "presentiel",
+    "places_max": 15,
+    "prix": "400.000",
+    "statut": "ouverte",
+    "est_publiee": true
+  }
+},
+{
+  "model": "enrollments.candidat",
+  "pk": 1,
+  "fields": {
+    "uuid": "6f76c8ac-def1-4c45-91ff-3c7c20267c08",
+    "date_creation": "2026-10-26T22:20:06.730Z",
+    "date_modification": "2026-10-29T08:19:09.337Z",
+    "utilisateur": [
+      "appligne01@gmail.com"
+    ],
+    "nom": "Rached",
+    "prenom": "Heni",
+    "telephone": "225783380",
+    "email": "appligne01@gmail.com",
+    "cin": "00768520",
+    "date_naissance": "1964-07-25",
+    "gouvernorat": "ben_arous",
+    "niveau_etudes": "master",
+    "profession": "Commerce"
+  }
+},
+{
+  "model": "enrollments.candidat",
+  "pk": 3,
+  "fields": {
+    "uuid": "973e1123-20ab-44ef-af8e-1bf0c818eea0",
+    "date_creation": "2026-10-29T08:03:24.666Z",
+    "date_modification": "2026-10-29T08:19:32.617Z",
+    "utilisateur": [
+      "prosib24@gmail.com"
+    ],
+    "nom": "Bou Lares",
+    "prenom": "Salwa",
+    "telephone": "92995254",
+    "email": "prosib24@gmail.com",
+    "cin": null,
+    "date_naissance": null,
+    "gouvernorat": "",
+    "niveau_etudes": "",
+    "profession": ""
+  }
+},
+{
+  "model": "enrollments.candidat",
+  "pk": 4,
+  "fields": {
+    "uuid": "b75941dd-d94e-4352-b42d-61ee19f02c71",
+    "date_creation": "2026-10-29T08:28:53.149Z",
+    "date_modification": "2026-10-29T08:31:51.790Z",
+    "utilisateur": [
+      "appligne@gmail.com"
+    ],
+    "nom": "Ben Dhafer",
+    "prenom": "Houda",
+    "telephone": "96505383",
+    "email": "appligne@gmail.com",
+    "cin": null,
+    "date_naissance": null,
+    "gouvernorat": "",
+    "niveau_etudes": "",
+    "profession": ""
+  }
+},
+{
+  "model": "enrollments.candidat",
+  "pk": 5,
+  "fields": {
+    "uuid": "111d11ce-b5c9-429d-90c9-9fa2fcba6c01",
+    "date_creation": "2026-10-29T08:51:02.115Z",
+    "date_modification": "2026-10-29T08:54:35.158Z",
+    "utilisateur": [
+      "prosib26@gmail.com"
+    ],
+    "nom": "Heni",
+    "prenom": "Raoudha",
+    "telephone": "99394297",
+    "email": "prosib25@gmail.com",
+    "cin": null,
+    "date_naissance": null,
+    "gouvernorat": "",
+    "niveau_etudes": "",
+    "profession": ""
+  }
+},
+{
+  "model": "enrollments.inscription",
+  "pk": 1,
+  "fields": {
+    "uuid": "a1a82cf6-0b5c-426e-8746-037c5427186f",
+    "date_creation": "2026-10-26T22:21:54.352Z",
+    "date_modification": "2026-10-28T11:13:24.538Z",
+    "candidat": 1,
+    "session": 3,
+    "statut": "terminee",
+    "resultat": "reussi",
+    "prix_convenu": "400.000",
+    "source": "site",
+    "date_confirmation": "2026-10-28T11:09:02.951Z",
+    "notes": "OK"
+  }
+},
+{
+  "model": "enrollments.inscription",
+  "pk": 3,
+  "fields": {
+    "uuid": "9f985b92-90a9-43b7-9edf-5f1cd21a8322",
+    "date_creation": "2026-10-29T08:05:19.587Z",
+    "date_modification": "2026-10-29T09:47:08.604Z",
+    "candidat": 3,
+    "session": 3,
+    "statut": "confirmee",
+    "resultat": "",
+    "prix_convenu": "350.000",
+    "source": "site",
+    "date_confirmation": "2026-10-29T09:47:08.604Z",
+    "notes": ""
+  }
+},
+{
+  "model": "enrollments.inscription",
+  "pk": 4,
+  "fields": {
+    "uuid": "11809609-7b82-42e5-8ca9-a4156e519dcd",
+    "date_creation": "2026-10-29T08:30:48.047Z",
+    "date_modification": "2026-10-29T09:47:08.615Z",
+    "candidat": 4,
+    "session": 3,
+    "statut": "confirmee",
+    "resultat": "",
+    "prix_convenu": "350.000",
+    "source": "site",
+    "date_confirmation": "2026-10-29T09:47:08.615Z",
+    "notes": ""
+  }
+},
+{
+  "model": "enrollments.inscription",
+  "pk": 5,
+  "fields": {
+    "uuid": "ce3c5f0b-6f07-47bd-ba5a-f556d049abdb",
+    "date_creation": "2026-10-29T08:51:38.520Z",
+    "date_modification": "2026-10-29T08:54:10.393Z",
+    "candidat": 5,
+    "session": 3,
+    "statut": "confirmee",
+    "resultat": "",
+    "prix_convenu": "350.000",
+    "source": "telephone",
+    "date_confirmation": "2026-10-29T08:54:10.393Z",
+    "notes": ""
+  }
+},
+{
+  "model": "certificates.certificat",
+  "pk": 1,
+  "fields": {
+    "uuid": "7fbe43c7-cca8-46a1-85a9-927c9e7563bc",
+    "date_creation": "2026-10-30T10:18:00.707Z",
+    "date_modification": "2026-10-30T10:39:02.176Z",
+    "inscription": 1,
+    "numero": "CERT-2026-00001",
+    "type": "reussite",
+    "statut": "valide",
+    "date_delivrance": "2026-10-30",
+    "delivre_par": [
+      "prosib25@gmail.com"
+    ],
+    "titulaire": "Heni Rached",
+    "formation_titre": "Chaud et froid",
+    "duree_heures": 30,
+    "date_debut": "2026-11-30",
+    "date_fin": "2026-12-16",
+    "signataire_nom": "Mohamed Rached Heni",
+    "signataire_fonction": "Directeur",
+    "motif_annulation": "",
+    "date_annulation": null
+  }
+}
+]

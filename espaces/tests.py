@@ -127,7 +127,7 @@ class EspaceCandidatTests(EspacesTestCase):
         self.assertContains(reponse, 'Python')
         self.assertContains(reponse, 'PY-1')
         self.assertContains(reponse, 'Confirmée')
-        self.assertContains(reponse, '500,000 DT')
+        self.assertContains(reponse, '500 DT')
         self.assertNotContains(reponse, 'XL-1')
         self.assertNotContains(reponse, 'Karim')
 
@@ -206,7 +206,7 @@ class EspaceFormateurTests(EspacesTestCase):
         self.assertEqual([i.candidat for i in reponse.context['inscrits']], [self.amira])
         for visible in ('Ben Salah', 'Amira', '98123456', 'amira@exemple.tn'):
             self.assertContains(reponse, visible)
-        for cache in ('01234567', '500,000', 'Paiera en 2 fois', 'Karim'):
+        for cache in ('01234567', '500 DT', 'Paiera en 2 fois', 'Karim'):
             self.assertNotContains(reponse, cache)
 
     def test_session_d_un_collegue_introuvable(self):

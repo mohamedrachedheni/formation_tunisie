@@ -106,7 +106,9 @@ class AccueilAvecDonneesTests(TestCase):
         services.terminer(services.confirmer(services.inscrire(candidat, session)), 'reussi')
 
         reponse = self.client.get(URL_ACCUEIL)
-        self.assertContains(reponse, 'PY-NOV')
+        self.assertEqual([s.code for s in reponse.context['sessions']], ['PY-NOV'])
+        # Agenda compact : ni référence, ni lieu, ni formateur sur la page d'accueil.
+        self.assertNotContains(reponse, 'Référence :')
         self.assertNotContains(reponse, 'XL-CACHEE')
         self.assertContains(reponse, reverse('enrollments:inscription', kwargs={'uuid': session.uuid}))
         self.assertContains(reponse, 'Sessions ouvertes')
@@ -123,6 +125,26 @@ class AccueilAvecDonneesTests(TestCase):
         self.assertNotContains(reponse, 'Nadia Discret')
         self.assertNotContains(reponse, 'sami@exemple.tn')
         self.assertNotContains(reponse, '98111222')
+
+    def test_cartes_formation_compactes(self):
+        # Page d'accueil : durée, modalité et certificat en pastilles, résumé masqué (« Voir plus de détails »),
+        # prix sans zéros inutiles.
+        Formation.objects.filter(pk=self.python.pk).update(est_certifiante=True)
+        reponse = self.client.get(URL_ACCUEIL)
+        for contenu in ('20 h', 'bi-building', 'Présentiel', 'bi-patch-check-fill', '300 DT',
+                        'Voir plus de détails', 'carte-formation-resume">Résumé Python Débutant'):
+            self.assertContains(reponse, contenu)
+        self.assertContains(reponse, 'bi-patch-check-fill', count=1)  # seule la formation certifiante
+        self.assertNotContains(reponse, '300,000')
+        # Le catalogue complet affiche le résumé en entier.
+        reponse = self.client.get(reverse('catalog:liste'))
+        self.assertContains(reponse, 'Résumé Python Débutant')
+        self.assertNotContains(reponse, 'carte-formation-resume')
+
+    def test_bascule_mode_sombre(self):
+        reponse = self.client.get(URL_ACCUEIL)
+        self.assertContains(reponse, 'data-bs-theme')
+        self.assertContains(reponse, 'data-bouton-theme')
 
     def test_aucun_id_numerique_dans_les_liens(self):
         reponse = self.client.get(URL_ACCUEIL)

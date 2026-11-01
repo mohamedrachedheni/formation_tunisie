@@ -2,7 +2,7 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
   {% for session in sessions %}
   <div class="col" data-anim="fade-up" style="--delai: {{ forloop.counter0 }}">
-    {% include "enrollments/_carte_session.html" with session=session afficher_formation=True %}
+    {% include "enrollments/_carte_session.html" with session=session afficher_formation=True compact=True %}
   </div>
   {% endfor %}
 </div>

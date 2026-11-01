@@ -13,6 +13,40 @@
     majEntete();
   }
 
+  // Thème clair / sombre : le thème initial est appliqué par le script du <head> (base.html).
+  // Le bouton bascule et mémorise le choix ; sans choix mémorisé, on suit la préférence du système.
+  var racine = document.documentElement;
+  var boutonsTheme = document.querySelectorAll('[data-bouton-theme]');
+  var majBoutonsTheme = function () {
+    var sombre = racine.getAttribute('data-bs-theme') === 'dark';
+    boutonsTheme.forEach(function (bouton) {
+      bouton.setAttribute('aria-label', sombre ? 'Activer le mode clair' : 'Activer le mode sombre');
+      bouton.setAttribute('aria-pressed', sombre ? 'true' : 'false');
+      var icone = bouton.querySelector('.bi');
+      if (icone) { icone.className = 'bi ' + (sombre ? 'bi-sun' : 'bi-moon-stars'); }
+    });
+  };
+  var appliquerTheme = function (theme, memoriser) {
+    racine.setAttribute('data-bs-theme', theme);
+    if (memoriser) {
+      try { localStorage.setItem('theme', theme); } catch (e) { /* stockage indisponible : choix non mémorisé */ }
+    }
+    majBoutonsTheme();
+  };
+  boutonsTheme.forEach(function (bouton) {
+    bouton.addEventListener('click', function () {
+      appliquerTheme(racine.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark', true);
+    });
+  });
+  var preferenceSombre = window.matchMedia('(prefers-color-scheme: dark)');
+  var suivrePreference = function (evenement) {
+    var memorise = null;
+    try { memorise = localStorage.getItem('theme'); } catch (e) { /* ignoré */ }
+    if (!memorise) { appliquerTheme(evenement.matches ? 'dark' : 'light', false); }
+  };
+  if (preferenceSombre.addEventListener) { preferenceSombre.addEventListener('change', suivrePreference); }
+  majBoutonsTheme();
+
   // Carrousels ([data-carrousel]) : défilement automatique d'une carte toutes les 5 secondes,
   // retour au début en fin de ligne, boutons précédent / suivant / pause.
   // Le défilement s'arrête au survol, au toucher et quand le carrousel a le focus clavier ;

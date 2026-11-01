@@ -1,9 +1,27 @@
+from decimal import Decimal, InvalidOperation
+
 from django import template
 from django.db.models import Count, Q
+from django.template.defaultfilters import floatformat
 
 from ..models import Categorie, Formation
 
 register = template.Library()
+
+
+@register.filter
+def montant(valeur):
+    """Montant affiché sans zéros inutiles après la virgule (pages publiques uniquement).
+
+    Les prix sont stockés avec 3 décimales (millimes) : 850.000 → « 850 », 1250.500 → « 1 250,5 »,
+    1250.375 → « 1 250,375 ». L'administration Django conserve l'affichage complet.
+    """
+    try:
+        nombre = Decimal(str(valeur))
+    except (InvalidOperation, TypeError, ValueError):
+        return valeur
+    decimales = max(-nombre.normalize().as_tuple().exponent, 0)
+    return floatformat(nombre, f'{decimales}g')
 
 
 def categories_visibles():

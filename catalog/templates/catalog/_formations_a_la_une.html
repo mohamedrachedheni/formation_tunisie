@@ -2,7 +2,7 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
   {% for formation in formations %}
   <div class="col" data-anim="fade-up" style="--delai: {{ forloop.counter0 }}">
-    {% include "catalog/_carte_formation.html" %}
+    {% include "catalog/_carte_formation.html" with compact=True %}
   </div>
   {% endfor %}
 </div>
